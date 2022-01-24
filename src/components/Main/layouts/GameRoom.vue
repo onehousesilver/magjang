@@ -9,7 +9,7 @@
   <div v-else>
     <Buttons btn-text="방 개설" />
     <Buttons
-      btn-text="뒤로가기"
+      btn-text="방 참가"
       @click="roomEnterFlag = true" />
   </div>
 </template>
