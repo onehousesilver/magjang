@@ -1,6 +1,6 @@
 <template>
   <div class="naver-login">
-    <a href="/api/naverloginrequest">
+    <a href="/redirect?accesstoken=true&refreshtoken=true">
       <img 
         src="src/assets/naver_login.png"
         alt="login" />
@@ -10,6 +10,9 @@
 
 <script>
 export default {
+
+// /api/naverloginrequest
+
   methods: {
   }
 }

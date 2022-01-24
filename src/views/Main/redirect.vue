@@ -21,7 +21,7 @@ export default {
       })
       this.setUser({
         "user": 1,
-        "nickname": "",
+        "nickname": "김주호",
         "score": 1000,
       })
     }

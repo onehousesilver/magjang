@@ -8,7 +8,6 @@
       aria-label="Sizing example input"
       aria-describedby="inputGroup-sizing-lg"
       :placeholder="placeText" />
-    {{ placeText }}
   </div>
 </template>
 
