@@ -1,8 +1,10 @@
 <template>
   <div id="main">
-    <MainTheme />
-    <MainText />
-    <IsLogined />
+    <div class="container">
+      <MainTheme />
+      <MainText />
+      <IsLogined />
+    </div>
   </div>
 </template>
 
@@ -24,13 +26,14 @@ export default {
 
 
 <style>
+
  #main {
    position: relative;
-
-   height: 1020px;
+   width: 100%;
+   height: 940px;
    background-image: url('/src/assets/money_bg1.jpg');
    background-repeat: no-repeat;
-   background-size: cover;
+   background-size: cover; 
    background-attachment: fixed;
 
  }
