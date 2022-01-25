@@ -16,10 +16,6 @@
       btn-text="방 참가"
       @click="roomEnterFlag = true" />
   </div>
-  <!-- <RouterLink
-    to="/game">
-    game참가
-  </RouterLink> -->
 </template>
 
 <script>

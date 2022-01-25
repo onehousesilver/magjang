@@ -1,80 +1,63 @@
 <template>
   <div id="game-main">
-    <span class="price-box">
-      <b>￦</b>
-      <input
-        class="price"
-        type="text"
-        dir="rtl"
-        placeholder="Price"
-        v-model="price"
-        readonly />
-      <b> 원</b>
-    </span>
-    <div class="game-table"></div>
-    <div class="game-box">
-      <div class="game-log">
-        <div class="log-title">
-          게임로그
+    <div class="container">
+      <InputPrice />
+      <div class="start-btn">
+        <Buttons
+          btn-text="게임시작" />
+        <div>
+          <div class="game-table"></div>
+          <div class="game-box">
+            <div class="game-log">
+              <div class="log-title">
+                게임로그
+              </div>
+            </div>
+            <div class="cheat">
+              <div class="cheat-view"></div>
+              <!--채팅 보여지는 곳 -->
+              <div>
+                <input
+                  class="cheat-input"
+                  type="text"
+                  placeholder="채팅쳐라." />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="cheat">
-        <textarea
-          name="cheat-view"
-          class="cheat-view"
-          cols="30"
-          rows="10"></textarea> <!--채팅 보여지는 곳 -->
-        <input
-          class="cheat-input"
-          type="text"
-          placeholder="채팅쳐라." />
-          <!--ㄷㄷㄷ개무서움 -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import InputPrice from '../../components/GameMain/layouts/InputPrice.vue'
+import Buttons from '../../components/Main/modules/Buttons.vue'
+
 export default {
-    data() {
-        return {
-            price : 5000,
-        };
-    },
+  components: { 
+    InputPrice,
+    Buttons 
+  },
 }
 </script>
 <style scoped>
 #game-main {
   position: relative;
   width: 100%;
-  height: 1000px;
+  height: 940px;
   background-color: #1f1f1f;
-}
-.price-box {
-    /* border: 1px solid black;*/
-    width: 200px;
-}
-.price {
-    font-size: 2rem;
-    color : white;
-    border : none;
-    background-color: #1f1f1f;
-}
-.price-box b {
-    font-size: 2rem; 
-    color : white;
 }
 
 .game-table {
     display: inline-block;
-    width:500px;
-    height:500px;
+    width:1000px;
+    height:400px;
     position:absolute;
     left:50%;
     top:50%;
-    margin-left: calc(500px/-2);
+    margin-left: calc(1000px/-2);
     margin-top:-150px;
-    border-radius: 50%;
     background-color: rgb(180, 180, 180);
 }
 
@@ -116,5 +99,10 @@ export default {
     position: absolute;
     bottom: 10px;
     left: 10px;
+}
+.game-box .cheat .cheat-view {
+  width: 100%; 
+  height: 90%;
+  border: 1px solid white;
 }
 </style>
