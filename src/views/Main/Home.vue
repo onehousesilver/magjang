@@ -19,14 +19,12 @@ export default {
     MainText,
     IsLogined, 
   },
-  
 }
 
 </script>
 
 
 <style>
-
  #main {
    position: relative;
    width: 100%;

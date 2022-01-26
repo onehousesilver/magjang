@@ -1,29 +1,41 @@
 <template>
   <div id="game-main">
-    <div class="container">
-      <InputPrice />
-      <div class="start-btn">
-        <Buttons
-          btn-text="게임시작" />
-        <div>
-          <div class="game-table"></div>
-          <div class="game-box">
-            <div class="game-log">
-              <div class="log-title">
-                게임로그
+    <div class="container-fluid">
+      <!-- gamePossible=ture일 때 금액 화면 -->
+      <div class="row">
+        <div class="nav-top col">
+          <div v-if="gamePossible">
+            <InputPrice />
+          </div>
+        </div>
+      </div>
+      <!-- 게임 대기 화면 -->
+      <div class="row">
+        <div class="game-table-layout col-10">
+          <div class="row ">
+            <div class="game-table-el">
+              <div v-if="gamePossible">
+                <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
+                <GameStartInfo />
               </div>
-            </div>
-            <div class="cheat">
-              <div class="cheat-view"></div>
-              <!--채팅 보여지는 곳 -->
-              <div>
-                <input
-                  class="cheat-input"
-                  type="text"
-                  placeholder="채팅쳐라." />
+              <div v-else>
+                <!-- gamePossible=false일 때 대기화면 -->
+                <GameWatingBtns />
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-2">
+          <div class="row">
+            <div class="game-log">
+              게임로그
+            </div>
+          </div>
+          <div class="row ">
+            <div class="game-chatting">
+              게임채팅
+            </div>
+          </div>  
         </div>
       </div>
     </div>
@@ -31,78 +43,74 @@
 </template>
 
 <script>
-import InputPrice from '../../components/GameMain/layouts/InputPrice.vue'
-import Buttons from '../../components/Main/modules/Buttons.vue'
+import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
+import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
+import GameStartInfo from './GameStartInfo.vue'
+
 
 export default {
-  components: { 
+  components: {
+    GameWatingBtns,
+    GameStartInfo,
     InputPrice,
-    Buttons 
   },
+
+  data(){
+    return{
+      gamePossible: true
+    }
+  }
 }
 </script>
-<style scoped>
-#game-main {
-  position: relative;
-  width: 100%;
-  height: 940px;
+
+<style>
+:root {
+  height: 100%;
   background-color: #1f1f1f;
 }
 
-.game-table {
-    display: inline-block;
-    width:1000px;
-    height:400px;
-    position:absolute;
-    left:50%;
-    top:50%;
-    margin-left: calc(1000px/-2);
-    margin-top:-150px;
-    background-color: rgb(180, 180, 180);
+#game-main {
+  width: 100%;
+  background-color: #1f1f1f;
 }
 
-.game-box {
-    width: 300px;
-    height: 100%;
-    /*border : 1px solid white;*/
-    float: right;
+.nav-top {
+  height: 50px;
 }
-.game-box .game-log {
-    width: 100%;
-    height: 500px;
-    border-radius: 20px;
-    background-color: gray;
-    margin : 50px 0px 10px 0px;
+
+.game-table-layout {
+  position: relative;
 }
-.game-box .game-log .log-title {
-    background-color: #1f1f1f;
-    border-radius: 30px;
-    color: white;
-    width: 100px;
-    margin: 0 auto;
-    text-align: center;
+
+.game-table-layout .game-table-el {
+  display: block;
+  position: absolute;
+  width: 80%;
+  height: 33%;
+  margin: 0 auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(180, 180, 180);
+  font-size: 30px;
 }
-.game-box .cheat {
-    width: 100%;
-    height: 400px;
-    margin: 0 0 50px 0;
-    border: 1px solid white;
-    border-radius: 10px;
-    position: relative;
+
+.game-log {
+  width: 100%;
+  height: 400px;
+  background-color: black;
+  margin-bottom: 20px;
+  color: white;
+  font-size: 30px;
 }
-.game-box .cheat .cheat-input {
-    border: 1px solid white;
-    color: white;
-    background-color: transparent;
-    width: 280px;
-    border-radius: 10px;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
+
+.game-chatting {
+  width: 100%;
+  height: 400px;
+  background-color: rgb(42, 106, 165);
+  margin-top: 20px;
+  color: white;
+  font-size: 30px;
 }
-.game-box .cheat .cheat-view {
-  width: 100%; 
-  height: 90%;
-  border: 1px solid white;
-}
+
 </style>
