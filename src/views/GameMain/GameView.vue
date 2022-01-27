@@ -86,13 +86,14 @@ export default {
   display: block;
   position: absolute;
   width: 80%;
-  height: 33%;
+  height: 40%;
   margin: 0 auto;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: rgb(180, 180, 180);
   font-size: 30px;
+  border-radius: 20px;
 }
 
 .game-log {
@@ -102,6 +103,7 @@ export default {
   margin-bottom: 20px;
   color: white;
   font-size: 30px;
+  border-radius: 20px;
 }
 
 .game-chatting {
@@ -111,6 +113,7 @@ export default {
   margin-top: 20px;
   color: white;
   font-size: 30px;
+  border-radius: 20px;
 }
 
 </style>
