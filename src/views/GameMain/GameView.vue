@@ -21,7 +21,7 @@
               <div v-else>
                 <!-- gamePossible=false일 때 대기화면 -->
                 <GameWatingBtns 
-                  @gamePossible="gamestart" />
+                  @gamePossible="gamestart"/>
               </div>
             </div>
           </div>
@@ -58,7 +58,7 @@ export default {
 
   data(){
     return{
-      gamePossible: true,
+      gamePossible: false,
     }
   },
   methods: {
