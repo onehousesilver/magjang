@@ -1,9 +1,9 @@
 <template>
-  <p class="desc"> 
-    조건에 맞는<br />
-    플레이어를 <br />
+  <span class="text"> 
+    조건에 맞는
+    플레이어를 
     선택하세요.
-  </p>
+  </span>
 </template>
 
 <script>
@@ -13,9 +13,11 @@ export default {
 </script>
 
 <style scoped>
-.desc {
-    color: black;
-    font-size: 1.5em;
-    margin-left: 30px;
+.text {
+  display: flex;
+  color: black;
+  font-size: 20px;
+  margin-left: 30px;
+  align-items: center;
 }
 </style>

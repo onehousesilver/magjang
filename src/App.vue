@@ -3,7 +3,3 @@
     <RouterView />
   </div>
 </template>
-
-<style>
-
-</style>

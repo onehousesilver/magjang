@@ -1,7 +1,7 @@
 <template>
   <!--수정 필요 -->
   <div id="timer">
-    <div class="time">
+    <div class="clock">
       <span class="minutes">{{ minutes }}</span>
       <span class="middle"> : </span>
       <span class="seconds">{{ seconds }}</span>
@@ -77,11 +77,13 @@ export default {
 
 <style>
 #timer {
-	width: 120px;
-	height: 120px;
+	width: 100px;
+	height: 100px;
 	border-radius: 50%;
 	background-color: rgb(236, 186, 0);
-	padding: 10px;
 	text-align: center;
+	padding: 10px;
+	font-size: 20px;
+	margin-top: 20px;
 }
 </style>

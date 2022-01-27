@@ -12,7 +12,7 @@
       type="button"
       class="btn btn-secondary btn-lg"
       :disabled="userCount < 4"
-      @click="gamePossible=true">
+      @click="gamePossible">
       게임시작
     </button>
     <button
@@ -33,6 +33,11 @@ export default {
       gameStartFlag: false,
       gameCode: '2D3201',
       userCount: 4,
+    }
+  },
+  methods: {
+    gamePossible(){
+      this.$emit('game-possible')
     }
   }
 }

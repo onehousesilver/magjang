@@ -19,10 +19,15 @@
           
     <!-- 설명 -->
     <div
-      class="col"
-      style="display: flex; align-items: center;">
-      <GameText />
-      <GameTimer />
+      class="col">
+      <div class="row">
+        <div class="col">
+          <GameText />
+        </div>
+        <div class="col">
+          <GameTimer />
+        </div>
+      </div>
     </div>
   </div>
 </template>
