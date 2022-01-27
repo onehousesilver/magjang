@@ -8,7 +8,7 @@
 
 환경설정에서 값 바꾸고 root에 ip 모두 허용
 
-![image-20220127140708151](C:\Users\eora2\AppData\Roaming\Typora\typora-user-images\image-20220127140708151.png)
+![image-20220127140708151](README_0127.assets/image-20220127140708151.png)
 
 접근 확인
 
@@ -16,7 +16,7 @@
 
 ## 팀 회의
 
-![image-20220127140811153](C:\Users\eora2\AppData\Roaming\Typora\typora-user-images\image-20220127140811153.png)
+![image-20220127140811153](README_0127.assets/image-20220127140811153.png)
 
 
 
