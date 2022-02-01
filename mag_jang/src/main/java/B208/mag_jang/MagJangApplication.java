@@ -1,13 +1,13 @@
-package magjang.backend;
+package B208.mag_jang;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendApplication {
+public class MagJangApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendApplication.class, args);
+		SpringApplication.run(MagJangApplication.class, args);
 	}
 
 }
