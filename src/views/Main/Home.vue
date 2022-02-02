@@ -34,8 +34,8 @@ export default {
    background-size: cover; 
    background-attachment: fixed;
 
- }
-  #main::before {
+ } 
+   #main::before {
     content: '';
     opacity: 0.5;
     position: absolute;
