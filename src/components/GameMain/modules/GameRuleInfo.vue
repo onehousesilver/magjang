@@ -94,6 +94,10 @@ export default {
   left: 300px;
 }
 
+.rule-info .material-icons {
+  font-size: 40px;
+}
+
 .modal-backdrop {
   z-index: -1;
 }
