@@ -48,7 +48,7 @@ export default {
 .button-flex {
   display: flex;
   justify-content: space-evenly;
-  margin-top: 120px;
+  margin-top: 50px;
 }
 
 
