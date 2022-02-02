@@ -7,36 +7,39 @@
           <div v-if="gamePossible">
             <InputPrice />
           </div>
+          <div v-else>
+            <GameRuleInfo />
+          </div>
         </div>
-      </div>
-      <!-- 게임 대기 화면 -->
-      <div class="row">
-        <div class="game-table-layout col-10">
-          <div class="row ">
-            <div class="game-table-el">
-              <div v-if="gamePossible">
-                <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
-                <GameStartInfo />
-              </div>
-              <div v-else>
-                <!-- gamePossible=false일 때 대기화면 -->
-                <GameWatingBtns 
-                  @gamePossible="gamestart"/>
+        <!-- 게임 대기 화면 -->
+        <div class="row">
+          <div class="game-table-layout col-10">
+            <div class="row ">
+              <div class="game-table-el">
+                <div v-if="gamePossible">
+                  <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
+                  <GameStartInfo />
+                </div>
+                <div v-else>
+                  <!-- gamePossible=false일 때 대기화면 -->
+                  <GameWatingBtns 
+                    @gamePossible="gamestart" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-2">
-          <div class="row">
-            <div class="game-log">
-              게임로그
+          <div class="col-2">
+            <div class="row">
+              <div class="game-log">
+                게임로그
+              </div>
             </div>
+            <div class="row ">
+              <div class="game-chatting">
+                게임채팅
+              </div>
+            </div>  
           </div>
-          <div class="row ">
-            <div class="game-chatting">
-              게임채팅
-            </div>
-          </div>  
         </div>
       </div>
     </div>
@@ -47,6 +50,7 @@
 import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from './GameStartInfo.vue'
+import GameRuleInfo from '@/components/GameMain/modules/GameRuleInfo.vue'
 
 
 export default {
@@ -54,6 +58,7 @@ export default {
     GameWatingBtns,
     GameStartInfo,
     InputPrice,
+    GameRuleInfo
   },
 
   data(){
@@ -64,7 +69,7 @@ export default {
   methods: {
     gamestart() {
       this.gamePossible=true
-    }
+    },
   }
 }
 </script>
