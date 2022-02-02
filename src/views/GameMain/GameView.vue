@@ -77,6 +77,7 @@ export default {
 <style>
 :root {
   height: 100%;
+  overflow: hidden;
   background-color: #1f1f1f;
 }
 
@@ -97,7 +98,7 @@ export default {
   display: block;
   position: absolute;
   width: 80%;
-  height: 40%;
+  height: 35vh;
   margin: 0 auto;
   left: 50%;
   top: 50%;
@@ -109,7 +110,7 @@ export default {
 
 .game-log {
   width: 100%;
-  height: 400px;
+  height: 50vh;
   background-color: black;
   margin-bottom: 20px;
   color: white;
@@ -119,7 +120,7 @@ export default {
 
 .game-chatting {
   width: 100%;
-  height: 400px;
+  height: 50vh;
   background-color: rgb(42, 106, 165);
   margin-top: 20px;
   color: white;
