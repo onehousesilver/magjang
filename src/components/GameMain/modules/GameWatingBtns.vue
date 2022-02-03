@@ -3,21 +3,21 @@
     class="button-flex">
     <button
       type="button"
-      class="btn btn-outline-dark btn-lg"
+      class="btn mj-btn"
       disabled>
       게임 코드 <hr />
       {{ gameCode }}
     </button>
     <button
       type="button"
-      class="btn btn-secondary btn-lg"
+      class="btn mj-btn"
       :disabled="userCount < 4"
       @click="gamePossible">
       게임시작
     </button>
     <button
       type="button"
-      class="btn btn-secondary btn-lg"
+      class="btn mj-btn"
       @click=" this.$router.push({ name: 'Home' })">
       메인화면으로
     </button>
@@ -48,8 +48,7 @@ export default {
 .button-flex {
   display: flex;
   justify-content: space-evenly;
-  margin-top: 100px;
-
+  margin-top: 6vh;
 }
 
 

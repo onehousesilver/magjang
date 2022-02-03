@@ -1,5 +1,7 @@
 <template>
-  <div id="main">
+  <div
+    id="main"
+    style="overflow: hidden">
     <div class="container">
       <MainTheme />
       <MainText />
@@ -25,17 +27,21 @@ export default {
 
 
 <style>
+  :root {
+    height: 100%;
+    overflow: hidden;
+    background-color: #1f1f1f;
+  }
  #main {
    position: relative;
-   width: 100%;
-   height: 940px;
+   height: 100vh;
    background-image: url('/src/assets/money_bg1.jpg');
    background-repeat: no-repeat;
-   background-size: cover; 
+   background-size: 100%; 
    background-attachment: fixed;
 
- }
-  #main::before {
+ } 
+   #main::before {
     content: '';
     opacity: 0.5;
     position: absolute;

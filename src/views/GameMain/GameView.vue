@@ -2,17 +2,36 @@
   <div id="game-main">
     <div class="container-fluid">
       <!-- gamePossible=ture일 때 금액 화면 -->
-      <div class="row">
-        <div class="nav-top col">
-          <div v-if="gamePossible">
-            <InputPrice />
-          </div>
+      <div class="nav-top">
+        <div v-if="gamePossible">
+          <InputPrice />
+        </div>
+        <div v-else>
+          <GameRuleInfo />
         </div>
       </div>
       <!-- 게임 대기 화면 -->
       <div class="row">
-        <div class="game-table-layout col-10">
-          <div class="row ">
+        <div class="game-layout col-10">
+          <!-- user-video1 -->
+          <div class="row user-video1 row-cols-3 g-2 g-lg-3">
+            <div class="col">
+              <div class="p-3 bg-light">
+                Row column
+              </div>
+            </div>
+            <div class="col">
+              <div class="p-3 bg-light">
+                Row column
+              </div>
+            </div>
+            <div class="col">
+              <div class="p-3 bg-light">
+                Row column
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="game-table-el">
               <div v-if="gamePossible">
                 <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
@@ -21,7 +40,26 @@
               <div v-else>
                 <!-- gamePossible=false일 때 대기화면 -->
                 <GameWatingBtns 
-                  @gamePossible="gamestart"/>
+                  @gamePossible="gamestart" />
+              </div>
+            </div>
+          </div>
+          <!-- user-video2 -->
+          <div class="row user-video2 row-cols-3 g-2 g-lg-3">
+            <div
+              class="col">
+              <div class="p-3 bg-light first">
+                Row column
+              </div>
+            </div>
+            <div class="col">
+              <div class="p-3 bg-light">
+                Row column
+              </div>
+            </div>
+            <div class="col">
+              <div class="p-3 bg-light">
+                Row column
               </div>
             </div>
           </div>
@@ -32,7 +70,7 @@
               게임로그
             </div>
           </div>
-          <div class="row ">
+          <div class="row">
             <div class="game-chatting">
               게임채팅
             </div>
@@ -47,6 +85,7 @@
 import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from './GameStartInfo.vue'
+import GameRuleInfo from '@/components/GameMain/modules/GameRuleInfo.vue'
 
 
 export default {
@@ -54,6 +93,7 @@ export default {
     GameWatingBtns,
     GameStartInfo,
     InputPrice,
+    GameRuleInfo
   },
 
   data(){
@@ -64,7 +104,7 @@ export default {
   methods: {
     gamestart() {
       this.gamePossible=true
-    }
+    },
   }
 }
 </script>
@@ -72,6 +112,7 @@ export default {
 <style>
 :root {
   height: 100%;
+  overflow: hidden;
   background-color: #1f1f1f;
 }
 
@@ -81,18 +122,18 @@ export default {
 }
 
 .nav-top {
-  height: 50px;
+  height: 40px;
 }
 
-.game-table-layout {
+.game-layout {
   position: relative;
 }
 
-.game-table-layout .game-table-el {
+.game-layout .game-table-el {
   display: block;
   position: absolute;
   width: 80%;
-  height: 40%;
+  height: 35vh;
   margin: 0 auto;
   left: 50%;
   top: 50%;
@@ -101,10 +142,36 @@ export default {
   font-size: 30px;
   border-radius: 20px;
 }
+.game-layout .user-video1 {
+  position: relative;
+  top: 10px;
+}
+
+.game-layout .user-video1 .col .p-3 {
+  height: 180px;
+  border-radius: 20px;
+  border: solid black 2px;
+}
+
+.game-layout .user-video1 .col .p-3:hover {
+  cursor: pointer;
+  border-color: tomato;
+}
+
+.game-layout .user-video2 {
+  position: relative;
+  top: 48vh;
+}
+
+.game-layout .user-video2 .col .p-3 {
+  height: 180px;
+  border-radius: 20px;
+}
 
 .game-log {
   width: 100%;
-  height: 400px;
+  height: 45vh;
+  margin-right: 20px;
   background-color: black;
   margin-bottom: 20px;
   color: white;
@@ -114,7 +181,7 @@ export default {
 
 .game-chatting {
   width: 100%;
-  height: 400px;
+  height: 45vh;
   background-color: rgb(42, 106, 165);
   margin-top: 20px;
   color: white;
