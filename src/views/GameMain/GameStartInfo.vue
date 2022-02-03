@@ -1,33 +1,31 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col">
-        <div> 
-          인원 조건
-        </div>
-        <div> 
-          능력 조건
-        </div>
+  <div class="row">
+    <div class="col">
+      <div> 
+        인원 조건
       </div>
+      <div> 
+        능력 조건
+      </div>
+    </div>
 
-      <!-- 거래 금액 -->
-      <div class="col">
-        <img
-          src="@/assets/money.png"
-          alt="money.png" />
-        <div> {{ money }} 만원</div>
-      </div>
+    <!-- 거래 금액 -->
+    <div class="col">
+      <img
+        src="@/assets/money.png"
+        alt="money.png" />
+      <div> {{ money }} 만원</div>
+    </div>
           
-      <!-- 설명 -->
-      <div
-        class="col">
-        <div class="row">
-          <div class="col">
-            <GameText />
-          </div>
-          <div class="col">
-            <GameTimer />
-          </div>
+    <!-- 설명 -->
+    <div
+      class="col">
+      <div class="row">
+        <div class="col">
+          <GameText />
+        </div>
+        <div class="col">
+          <GameTimer />
         </div>
       </div>
     </div>

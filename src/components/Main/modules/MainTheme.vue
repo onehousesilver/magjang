@@ -7,7 +7,7 @@
         alt="logo" />
     </div>
     <div class="title">
-      <span class="mag">막?</span>      
+      <span class="mag">막?</span>
       <span>나가는</span>
       <span class="jang">장!</span>
       <span>사꾼</span>
@@ -26,9 +26,6 @@ export default {
 </script>
 
 <style scoped>
-  .main {
-    position: relative;
-  }
   .main .logo {
     text-align: center;
   }

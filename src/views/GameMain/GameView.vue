@@ -3,11 +3,9 @@
     <div class="container-fluid">
       <!-- gamePossible=ture일 때 금액 화면 -->
       <div class="nav-top">
+        <GameRuleInfo />
         <div v-if="gamePossible">
           <InputPrice />
-        </div>
-        <div v-else>
-          <GameRuleInfo />
         </div>
       </div>
       <!-- 게임 대기 화면 -->

@@ -89,12 +89,14 @@ export default {
 .rule-info {
   position: fixed;
   z-index: 10;
-  top: 250px;
-  left: 300px;
+  right: 330px;
+  padding: 0;
+  height: 0;
 }
 
 .rule-info .material-icons {
-  font-size: 40px;
+  font-size: 30px;
+  color: white;
 }
 
 
