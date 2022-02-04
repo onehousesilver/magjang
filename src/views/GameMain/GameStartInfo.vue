@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       money : 2000,
-      timeLimit: 10,
+      timeLimit: 30,
       timePassed: 0,
       timerInterval: null,
     };

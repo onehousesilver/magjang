@@ -59,6 +59,7 @@
                   <user-video
                     :stream-manager="publisher"
                     @click="updateMainVideoStreamManager(publisher)" />
+                  <UserAbility />
                 </div>
               </div>
               <div
@@ -73,6 +74,7 @@
                   <user-video
                     :stream-manager="this.subscribers[3]"
                     @click="updateMainVideoStreamManager(sub)" />
+                  <UserAbility />
                 </div>
               </div>
               <div class="col">
@@ -80,6 +82,7 @@
                   <user-video
                     :stream-manager="this.subscribers[0]"
                     @click="updateMainVideoStreamManager(sub)" />
+                  <UserAbility />
                 </div>
               </div>
             </div>
@@ -104,6 +107,7 @@
                   <user-video
                     :stream-manager="this.subscribers[1]"
                     @click="updateMainVideoStreamManager(sub)" />
+                  <UserAbility />
                 </div>
               </div>
               <div class="col">
@@ -111,6 +115,7 @@
                   <user-video
                     :stream-manager="this.subscribers[4]"
                     @click="updateMainVideoStreamManager(sub)" />
+                  <UserAbility />
                 </div>
               </div>
               <div class="col">
@@ -118,6 +123,7 @@
                   <user-video
                     :stream-manager="this.subscribers[2]"
                     @click="updateMainVideoStreamManager(sub)" />
+                  <UserAbility />
                 </div>
               </div>
             </div>
@@ -145,10 +151,12 @@ import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from './GameStartInfo.vue'
 import GameRuleInfo from '@/components/GameMain/modules/GameRuleInfo.vue'
+import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import UserVideo from '@/components/camera/UserVideo';
+import UserVideo from '@/components/camera/UserVideo'; 
+
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -163,6 +171,7 @@ export default {
     InputPrice,
     GameRuleInfo,
     UserVideo,
+    UserAbility,
   },
 
   data(){
