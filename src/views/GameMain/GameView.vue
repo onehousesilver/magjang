@@ -354,7 +354,7 @@ export default {
 }
 
 .game-layout .user-video1 .col .p-3 {
-  height: 180px;
+  height: 25vh;
   border-radius: 20px;
   border: solid black 2px;
 }

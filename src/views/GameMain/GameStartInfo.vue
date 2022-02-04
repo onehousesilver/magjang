@@ -26,6 +26,8 @@
         </div>
         <div class="col">
           <GameTimer />
+          <BaseTimer
+            :time-left="timeLeft" />
         </div>
       </div>
     </div>
@@ -35,18 +37,50 @@
 <script>
 import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText'
+import BaseTimer from '@/components/GameMain/modules/BaseTimer'
 
 
 export default {
   components: {
     GameTimer,
-    GameText
+    GameText,
+    BaseTimer
   },
   data() {
     return {
       money : 2000,
+      timeLimit: 20,
+      timePassed: 0,
+      timerInterval: null,
     };
-  }
+  },
+  computed: {
+    timeLeft() {
+      return this.timeLimit - this.timePassed
+    },
+    formattedTimeLeft() {
+      const timeLeft = this.timeLeft
+			
+      const minutes = Math.floor(timeLeft / 60)
+			
+      let seconds = timeLeft % 60
+			
+      if (seconds < 10) {
+        seconds = `0${seconds}`
+      }
+			
+      // The output in MM:SS format
+      return `${minutes}:${seconds}`
+    }
+  },
+  methods: {
+    startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    }
+  },
+  mounted() {
+    this.startTimer();
+  },
 }
 </script>
 
