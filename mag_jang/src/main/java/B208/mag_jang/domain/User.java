@@ -1,21 +1,40 @@
 package B208.mag_jang.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
+    @Column(columnDefinition = "varchar(255)")
     private String nickName;
+
+    @Column(columnDefinition = "varchar(255)")
     private String email;
+
+    @Column(columnDefinition = "bigint(20) default 0")
     private Long rankPoint;
+
+    @Column(columnDefinition = "bigint(20) default 0")
     private Long winAmount;
+
+    @Column(columnDefinition = "bigint(20) default 0")
     private Long gangAmount;
+
+    @Column(columnDefinition = "bigint(20) default 0")
     private Long proGangAmount;
+
+    @Column(columnDefinition = "bigint(20)")
     private Long lastGenRoom;
+
+    public User(String email) {
+        this.email = email;
+    }
+
+    public User() {
+
+    }
 
     public Long getUserId() {
         return userId;
