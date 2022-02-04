@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Integer join(User user){
+    public Long join(User user){
         validateDuplicateUser(user);
 
         userRepository.save(user);

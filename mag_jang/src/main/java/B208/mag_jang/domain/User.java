@@ -8,29 +8,29 @@ import javax.persistence.Id;
 @Entity
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
-    private String NickName;
+    private Long userId;
+    private String nickName;
     private String email;
-    private Integer rankPoint;
-    private Integer winAmount;
-    private Integer gangAmount;
-    private Integer proGangAmount;
-    private Integer lastGenRoom;
+    private Long rankPoint;
+    private Long winAmount;
+    private Long gangAmount;
+    private Long proGangAmount;
+    private Long lastGenRoom;
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
     public String getNickName() {
-        return NickName;
+        return nickName;
     }
 
     public void setNickName(String nickName) {
-        NickName = nickName;
+        this.nickName = nickName;
     }
 
     public String getEmail() {
@@ -41,43 +41,43 @@ public class User {
         this.email = email;
     }
 
-    public Integer getRankPoint() {
+    public Long getRankPoint() {
         return rankPoint;
     }
 
-    public void setRankPoint(Integer rankPoint) {
+    public void setRankPoint(Long rankPoint) {
         this.rankPoint = rankPoint;
     }
 
-    public Integer getWinAmount() {
+    public Long getWinAmount() {
         return winAmount;
     }
 
-    public void setWinAmount(Integer winAmount) {
+    public void setWinAmount(Long winAmount) {
         this.winAmount = winAmount;
     }
 
-    public Integer getGangAmount() {
+    public Long getGangAmount() {
         return gangAmount;
     }
 
-    public void setGangAmount(Integer gangAmount) {
+    public void setGangAmount(Long gangAmount) {
         this.gangAmount = gangAmount;
     }
 
-    public Integer getProGangAmount() {
+    public Long getProGangAmount() {
         return proGangAmount;
     }
 
-    public void setProGangAmount(Integer proGangAmount) {
+    public void setProGangAmount(Long proGangAmount) {
         this.proGangAmount = proGangAmount;
     }
 
-    public Integer getLastGenRoom() {
+    public Long getLastGenRoom() {
         return lastGenRoom;
     }
 
-    public void setLastGenRoom(Integer lastGenRoom) {
+    public void setLastGenRoom(Long lastGenRoom) {
         this.lastGenRoom = lastGenRoom;
     }
 }

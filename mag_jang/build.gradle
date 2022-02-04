@@ -23,6 +23,7 @@ dependencies {
 	///////////////////////////////////////////////////////////////////////
 	// https://mvnrepository.com/artifact/org.webjars/stomp-websocket
 	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 tasks.named('test') {
