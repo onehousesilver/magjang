@@ -1,15 +1,13 @@
 <template>
-  <div v-bind="getAbilities()">
-    <h2>
-      <span class="badge bg-secondary">
-        {{ abilities[0] }}
-      </span>
-    </h2>
-    <h2>
-      <span class="badge bg-secondary"> 
-        {{ abilities[1] }}
-      </span>
-    </h2>
+  <div
+    class="ability"
+    v-bind="getAbilities()">
+    <span class="badge bg-secondary">
+      {{ abilities[0] }}
+    </span>
+    <span class="badge bg-secondary">
+      {{ abilities[1] }}
+    </span>
   </div>
 </template>
 
@@ -32,5 +30,21 @@ export default {
 </script>
 
 <style>
+.ability {
+  /* display : flex; */
+  text-align: center;
+  bottom: -3rem;
+  width: 100%;
+  z-index: 1;
+  margin-top: 10px;
+}
 
-</style>
+.ability .badge {
+  margin: 0.5rem;
+  top: 30px;
+  justify-content: center;
+  display: inline-block;
+  width: 45%;
+  font-size: 30px;
+}
+</style> 
