@@ -48,11 +48,7 @@ export default {
 .button-flex {
   display: flex;
   justify-content: space-evenly;
-<<<<<<< HEAD:frontend/src/components/GameMain/modules/GameWatingBtns.vue
-  margin-top: 50px;
-=======
   margin-top: 6vh;
->>>>>>> FE-game-main:src/components/GameMain/modules/GameWatingBtns.vue
 }
 
 

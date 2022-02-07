@@ -2,38 +2,6 @@
   <div id="game-main">
     <div class="container-fluid">
       <!-- gamePossible=ture일 때 금액 화면 -->
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-      <div class="row">
-        <div class="nav-top col">
-          <div v-if="gamePossible">
-            <InputPrice />
-          </div>
-          <div v-else>
-            <GameRuleInfo />
-          </div>
-        </div>
-        <!-- 게임 대기 화면 -->
-        <div class="row">
-          <div class="game-table-layout col-10">
-            <div class="row ">
-              <div class="game-table-el">
-                <div v-if="gamePossible">
-                  <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
-                  <GameStartInfo />
-                </div>
-                <div v-else>
-                  <!-- gamePossible=false일 때 대기화면 -->
-                  <GameWatingBtns 
-                    @gamePossible="gamestart" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="row">
-              <div class="game-log">
-                게임로그
-=======
       <div class="nav-top">
         <GameRuleInfo />
         <div v-if="gamePossible">
@@ -157,7 +125,6 @@
                     @click="updateMainVideoStreamManager(sub)" />
                   <UserAbility />
                 </div>
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
               </div>
             </div>
             <div class="row ">
@@ -166,8 +133,6 @@
               </div>
             </div>  
           </div>
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-=======
           <div class="col-2">
             <div class="row">
               <div class="game-log">
@@ -180,7 +145,6 @@
               </div>
             </div>  
           </div>
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
         </div>
       </div>
     </div>
@@ -192,14 +156,11 @@ import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from './GameStartInfo.vue'
 import GameRuleInfo from '@/components/GameMain/modules/GameRuleInfo.vue'
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-=======
 import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/camera/UserVideo'; 
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -213,13 +174,9 @@ export default {
     GameWatingBtns,
     GameStartInfo,
     InputPrice,
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-    GameRuleInfo
-=======
     GameRuleInfo,
     UserVideo,
     UserAbility,
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
   },
 
   data(){
@@ -239,8 +196,6 @@ export default {
     gamestart() {
       this.gamePossible=true
     },
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-=======
 
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -370,7 +325,6 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
   }
 }
 </script>
@@ -436,12 +390,8 @@ export default {
 
 .game-log {
   width: 100%;
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-  height: 50vh;
-=======
   height: 45vh;
   margin-right: 20px;
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
   background-color: black;
   margin-bottom: 20px;
   color: white;
@@ -451,11 +401,7 @@ export default {
 
 .game-chatting {
   width: 100%;
-<<<<<<< HEAD:frontend/src/views/GameMain/GameView.vue
-  height: 50vh;
-=======
   height: 45vh;
->>>>>>> FE-game-main:src/views/GameMain/GameView.vue
   background-color: rgb(42, 106, 165);
   margin-top: 20px;
   color: white;
