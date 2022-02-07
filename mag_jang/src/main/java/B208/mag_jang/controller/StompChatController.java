@@ -21,13 +21,35 @@ public class StompChatController {
     // stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     // "/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
+//    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     public void enter(ChatMessageDTO message){
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
+        System.out.println(message.getWriter()+ "님이 채팅방에 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        System.out.println(template.getMessageChannel());
     }
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatMessageDTO message){
+        System.out.println(message.getWriter() + " : " + message.getMessage());
+        System.out.println("/sub/chat/room/" + message.getRoomId());
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
+
+    // 귓속말 기능
+    @MessageMapping(value = "/chat/whisper")
+    public void whisper(ChatMessageDTO message){
+        System.out.println("귓속말 : " + message);
+//        template.convertAndSendToUser(message.getReader()
+//                , "/sub/chat/room/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId() + "/" + message.getReader(), message);
+    }
+
+    // stomp.disconnect 시 quit 메세지 발송 - front 구현 필요
+    @MessageMapping(value = "/chat/quit")
+    public void quit(ChatMessageDTO message){
+        message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+    }
+
 }
