@@ -25,7 +25,7 @@
           <GameText />
         </div>
         <div class="col">
-          <GameTimer />
+          <!-- <GameTimer /> -->
           <BaseTimer
             :time-left="timeLeft" />
         </div>
@@ -35,14 +35,14 @@
 </template>
 
 <script>
-import GameTimer from '@/components/GameMain/modules/GameTimer'
+// import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText'
 import BaseTimer from '@/components/GameMain/modules/BaseTimer'
 
 
 export default {
   components: {
-    GameTimer,
+    // GameTimer,
     GameText,
     BaseTimer
   },

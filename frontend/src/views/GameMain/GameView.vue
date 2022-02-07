@@ -127,11 +127,6 @@
                 </div>
               </div>
             </div>
-            <div class="row ">
-              <div class="game-chatting">
-                게임채팅
-              </div>
-            </div>  
           </div>
           <div class="col-2">
             <div class="row">
@@ -143,7 +138,7 @@
               <div class="game-chatting">
                 게임채팅
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -380,11 +375,11 @@ export default {
 
 .game-layout .user-video2 {
   position: relative;
-  top: 48vh;
+  top: 40vh;
 }
 
 .game-layout .user-video2 .col .p-3 {
-  height: 180px;
+  height: 25vh;
   border-radius: 20px;
 }
 
