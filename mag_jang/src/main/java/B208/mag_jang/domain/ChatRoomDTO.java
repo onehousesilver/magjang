@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+
 public class ChatRoomDTO {
     private String roomId;
     private String name;
