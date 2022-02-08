@@ -15,10 +15,11 @@
       @click="gamePossible">
       게임시작
     </button>
+    <!-- @click=" this.$router.push({ name: 'Home' })" -->
     <button
       type="button"
       class="btn mj-btn"
-      @click=" this.$router.push({ name: 'Home' })">
+      @click="$emit('go-to-main')">
       메인화면으로
     </button>
   </div>
@@ -28,17 +29,19 @@
 <script>
 
 export default {
+emits: ['game-possible', 'go-to-main'],
   data() {
     return {
       gameStartFlag: false,
-      gameCode: '2D3201',
+      gameCode: this.$route.params.code,
       userCount: 4,
     }
   },
   methods: {
     gamePossible(){
       this.$emit('game-possible')
-    }
+    },
+    
   }
 }
 

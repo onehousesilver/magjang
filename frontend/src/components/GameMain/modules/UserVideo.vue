@@ -1,6 +1,8 @@
 <template>
   <div class="ov-video-wrap">
-    <div v-if="streamManager">
+    <div 
+      v-if="streamManager"
+      :key="streamManager.stream.connection.connectionId">
       <ov-video :stream-manager="streamManager" />
       <div><p>{{ clientData }}</p></div>
     </div>
@@ -18,7 +20,10 @@ export default {
 	},
 
 	props: {
-		streamManager: Object,
+		streamManager: {
+      type: Object,
+      default: null,
+    }
 	},
 
 	computed: {
@@ -38,11 +43,11 @@ export default {
 </script>
 
 <style>
-	.ov-video-wrap {
+.ov-video-wrap {
     position: relative;
     height: 90%;
     width: 100%;
-    top: 50%;  /* 화면 수직정렬 위치 조정 */
+    top: 50%;  
     left: 50%;
     transform: translate(-50%, -52%);
 }
