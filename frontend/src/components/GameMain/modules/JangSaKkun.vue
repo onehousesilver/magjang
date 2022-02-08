@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="col p-3 bg-light"
-    @click="selectPriceShow">
-    <UserVideo
-      :stream-manager="streamManager"
-      @click="updateMainVideoStreamManager(streamManager)" />
-    <UserAbility />
+  <div>
+    <div
+      class="col p-3 bg-light"
+      @click="selectPriceShow">
+      <UserVideo
+        :stream-manager="streamManager"
+        @click="updateMainVideoStreamManager(streamManager)" />
+      <UserAbility />
+    </div>
     <div v-if="selectedUser">
       <SelectPrice />
     </div>

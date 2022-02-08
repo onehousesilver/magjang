@@ -38,7 +38,7 @@
       </div>
       <div class="row">
         <div class="game-chatting">
-          게임채팅
+          <GameChat/>
         </div>
       </div>
     </div>
@@ -49,6 +49,7 @@
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from '@/components/GameMain/modules/GameStartInfo.vue'
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun'; 
+import GameChat from '@/components/GameMain/modules/GameChat'; 
 
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
@@ -65,6 +66,7 @@ export default {
     GameWatingBtns,
     GameStartInfo,
     JangSaKkun,
+		GameChat
   },
   // props: {
   //   publisher:{
@@ -237,8 +239,8 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-      mySessionId: this.$route.params.code,
-			myUserName: this.$store.getters.nickName,
+      mySessionId: "20",
+			myUserName: "gaeun",
     }
   }
 }

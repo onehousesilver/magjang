@@ -7,7 +7,6 @@
       placeholder="금액을 입력하세요."
       v-model="price" 
       @input="showPrice" />
-    {{ price }}
     <b> 만원</b>
   </span>
 </template>
@@ -35,8 +34,8 @@ export default {
 .price-box .price {
     font-size: 2rem;
     color : white;
-    border : 3px solid red;
     background-color: #1f1f1f;
+    text-align:right;
 }
 .price-box b {
     font-size: 2rem; 
@@ -49,4 +48,6 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
 </style>
