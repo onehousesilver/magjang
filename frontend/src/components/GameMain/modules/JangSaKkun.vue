@@ -1,8 +1,10 @@
 <template>
-  <UserVideo
-    :stream-manager="streamManager"
-    @click="updateMainVideoStreamManager(streamManager)" />
-  <UserAbility />
+  <div class="col p-3 bg-light">
+    <UserVideo
+      :stream-manager="streamManager"
+      @click="updateMainVideoStreamManager(streamManager)" />
+    <UserAbility />
+  </div>
 </template>
 
 <script>

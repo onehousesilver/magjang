@@ -1,91 +1,44 @@
 <template>
-  <div class="video-container">
-    <div
-      class="row"
-      id="session">
-      <div class="game-layout col-10">
-        <!-- user-video1 -->
-        <div class="row user-video1 row-cols-3 g-2 g-lg-3">
-          <div class="col">
-            <div class="p-3 bg-light">
-              <JangSaKkun :stream-manager="publisher" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="p-3 bg-light">
-              <!-- <user-video
-                v-for="sub in subscribers"
-                :key="sub.stream.connection.connectionId"
-                :stream-manager="sub"
-                @click="updateMainVideoStreamManager(sub)" /> -->
-              <user-video
-                :stream-manager="this.subscribers[3]"
-                @click="updateMainVideoStreamManager(sub)" />
-              <UserAbility />
-            </div>
-          </div>
-          <div class="col">
-            <div class="p-3 bg-light">
-              <user-video
-                :stream-manager="this.subscribers[0]"
-                @click="updateMainVideoStreamManager(sub)" />
-              <UserAbility />
-            </div>
-          </div>
+  <div
+    class="row"
+    id="session">
+    <div class="game-layout col-10">
+      <!-- 위쪽 유저 -->
+      <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
+        <JangSaKkun :stream-manager="publisher" />
+        <JangSaKkun :stream-manager="this.subscribers[3]" />
+        <JangSaKkun :stream-manager="this.subscribers[0]" />
+      </div>
+      
+      <!-- 테이블 -->
+      <div class="row h-30 game-table-el">
+        <div v-if="gamePossible">
+          <GameStartInfo />
         </div>
-        <div class="row">
-          <div class="game-table-el">
-            <div v-if="gamePossible">
-              <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
-              <GameStartInfo />
-            </div>
-            <div v-else>
-              <!-- gamePossible=false일 때 대기화면 -->
-              <GameWatingBtns 
-                @gamePossible="gamestart"
-                @go-to-main="leaveSession" />
-            </div>
-          </div>
-        </div>
-        <!-- user-video2 -->
-        <div class="row user-video2 row-cols-3 g-2 g-lg-3">
-          <div
-            class="col">
-            <div class="p-3 bg-light first">
-              <user-video
-                :stream-manager="this.subscribers[1]"
-                @click="updateMainVideoStreamManager(sub)" />
-              <UserAbility />
-            </div>
-          </div>
-          <div class="col">
-            <div class="p-3 bg-light">
-              <user-video
-                :stream-manager="this.subscribers[4]"
-                @click="updateMainVideoStreamManager(sub)" />
-              <UserAbility />
-            </div>
-          </div>
-          <div class="col">
-            <div class="p-3 bg-light">
-              <user-video
-                :stream-manager="this.subscribers[2]"
-                @click="updateMainVideoStreamManager(sub)" />
-              <UserAbility />
-            </div>
-          </div>
+        <div v-else>
+          <GameWatingBtns 
+            @gamePossible="gamestart"
+            @go-to-main="leaveSession" />
         </div>
       </div>
-      <div class="col-2">
-        <div class="row">
-          <div class="game-log">
-            게임로그
-          </div>
+
+      <!-- 아래쪽 유저 -->
+      <div class="row h-30 user-video user-video-foot row-cols-3 g-2 g-lg-3">
+        <JangSaKkun :stream-manager="this.subscribers[1]" />
+        <JangSaKkun :stream-manager="this.subscribers[4]" />
+        <JangSaKkun :stream-manager="this.subscribers[2]" />
+      </div>
+    </div>
+
+    <div class="col-2">
+      <div class="row">
+        <div class="game-log">
+          게임로그
         </div>
-        <div class="row">
-          <div class="game-chatting">
-            게임채팅
-          </div>
+      </div>
+      <div class="row">
+        <div class="game-chatting">
+          게임채팅
         </div>
       </div>
     </div>
@@ -95,8 +48,6 @@
 <script>
 import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from '@/components/GameMain/modules/GameStartInfo.vue'
-import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
-import UserVideo from '@/components/GameMain/modules/UserVideo'; 
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun'; 
 
 import axios from 'axios';
@@ -113,8 +64,6 @@ export default {
   components: {
     GameWatingBtns,
     GameStartInfo,
-    UserVideo,
-    UserAbility,
     JangSaKkun,
   },
   // props: {

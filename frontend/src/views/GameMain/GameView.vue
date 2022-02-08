@@ -61,30 +61,25 @@ export default {
   font-size: 30px;
   border-radius: 20px;
 }
-.game-layout .user-video1 {
+.game-layout .user-video-head {
   position: relative;
   top: 10px;
 }
 
-.game-layout .user-video1 .col .p-3 {
+.game-layout .user-video .col {
   height: 25vh;
   border-radius: 20px;
   border: solid black 2px;
 }
 
-.game-layout .user-video1 .col .p-3:hover {
+.game-layout .user-video .col:hover {
   cursor: pointer;
   border-color: tomato;
 }
 
-.game-layout .user-video2 {
+.game-layout .user-video-foot {
   position: relative;
   top: 40vh;
-}
-
-.game-layout .user-video2 .col .p-3 {
-  height: 25vh;
-  border-radius: 20px;
 }
 
 .game-log {
