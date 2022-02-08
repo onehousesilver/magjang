@@ -23,14 +23,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // @Controller 객체의 @MessageMapping 메서드로 라우팅
         registry.setApplicationDestinationPrefixes("/pub");
 
-        // 특정 유저에게 보내는 사용자 path 설정
-        // 현재 /whisper를 받는 컨트롤러가 없음 > 없어도 되는듯??
-        registry.setUserDestinationPrefix("/whisper");
-
         // 내장된 메세지 브로커를 사용해 Client에게 Subscriptions, Broadcasting 기능을 제공
         // "/sub", "/queue"로 시작하는 destination 헤더를 가진 메세지를 브로커로 라우팅
-         registry.enableSimpleBroker("/sub", "queue");
-
-//        registry.enableSimpleBroker("/sub");
+        registry.enableSimpleBroker("/sub");
     }
 }

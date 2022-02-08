@@ -12,23 +12,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/chat")
 public class RoomController {
 
     private final ChatRoomRepository repository;
-
-    public RoomController(ChatRoomRepository repository) {
-        this.repository = repository;
-    }
-
-    //채팅방 목록 조회
-//    @GetMapping(value = "/rooms")
-//    public ModelAndView rooms(){
-//        ModelAndView mv = new ModelAndView("chat/rooms");
-//        mv.addObject("list", repository.findAllRooms());
-//
-//        return mv;
-//    }
 
     //채팅방 목록 조회 - rest
     @GetMapping(value = "/rooms")
@@ -41,12 +29,6 @@ public class RoomController {
         }
     }
 
-    //채팅방 개설
-//    @PostMapping(value = "/room")
-//    public String create(@RequestParam String name, RedirectAttributes rttr){
-//        rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
-//        return "redirect:/chat/rooms";
-//    }
 
     //채팅방 개설 - rest
     @PostMapping(value = "/room")
@@ -58,12 +40,6 @@ public class RoomController {
             return ResponseEntity.ok(room);
         }
     }
-
-    //채팅방 조회
-//    @GetMapping("/room")
-//    public void getRoom(String roomId, Model model){
-//        model.addAttribute("room", repository.findRoomById(roomId));
-//    }
 
     //채팅방 조회 - rest
     @GetMapping("/room")
