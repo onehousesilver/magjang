@@ -1,6 +1,7 @@
 package B208.mag_jang.controller;
 
 import B208.mag_jang.domain.ChatMessageDTO;
+import B208.mag_jang.domain.ChatRoomDTO;
 import B208.mag_jang.domain.GameDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -9,6 +10,7 @@ import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 
+import java.util.Map;
 import java.util.Set;
 
 @Controller

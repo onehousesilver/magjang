@@ -2,16 +2,27 @@ package B208.mag_jang.domain;
 
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 public class ChatRoomDTO {
     private String roomId;
     private String name;
-    // WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
-    private Set<WebSocketSession> sessions = new HashSet<>();
+
+    private List<String> nicknames;
+
+    public void setNicknames(List<String> nicknames) {
+        this.nicknames = nicknames;
+    }
+
+    public List<String> getNicknames() {
+        return nicknames;
+    }
+
+    public void addNickname(String nickname){
+        if(this.nicknames==null) nicknames = new ArrayList<>();
+        this.nicknames.add(nickname);
+    }
 
     public static ChatRoomDTO create(String name){
         ChatRoomDTO room = new ChatRoomDTO();
@@ -36,20 +47,12 @@ public class ChatRoomDTO {
         this.name = name;
     }
 
-    public Set<WebSocketSession> getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(Set<WebSocketSession> sessions) {
-        this.sessions = sessions;
-    }
 
     @Override
     public String toString() {
         return "ChatRoomDTO{" +
                 "roomId='" + roomId + '\'' +
                 ", name='" + name + '\'' +
-                ", sessions=" + sessions +
                 '}';
     }
 }
