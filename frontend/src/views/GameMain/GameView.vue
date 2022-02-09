@@ -96,7 +96,6 @@ export default {
 .game-chatting {
   width: 100%;
   height: 45vh;
-  background-color: rgb(42, 106, 165);
   margin-top: 20px;
   color: white;
   font-size: 30px;

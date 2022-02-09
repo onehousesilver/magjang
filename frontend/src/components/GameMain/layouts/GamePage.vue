@@ -2,7 +2,7 @@
   <div
     class="row"
     id="session">
-    <div class="game-layout col-10">
+    <div class="game-layout col-9">
       <!-- 위쪽 유저 -->
       <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
         <JangSaKkun :stream-manager="publisher" />
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
       <div class="row">
         <div class="game-log">
           게임로그
@@ -86,7 +86,7 @@ export default {
     gamestart() {
       this.gamePossible=true
     },
-
+		// openVidu system
     joinSession() {
       // --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -133,7 +133,7 @@ export default {
 							resolution: '320x240',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
+							mirror: true       	// Whether to mirror your local video or not
 						});
 
 						this.mainStreamManager = publisher;
@@ -239,10 +239,10 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-			mySessionId: this.$route.params.code,
-			myUserName: this.$store.getters.nickName,
-      // mySessionId: "20",
-			// myUserName: "gaeun",
+			// mySessionId: this.$route.params.code,
+			// myUserName: this.$store.getters.nickName,
+      mySessionId: "20",
+			myUserName: "gaeun",
     }
   }
 }

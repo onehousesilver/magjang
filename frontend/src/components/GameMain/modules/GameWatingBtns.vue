@@ -23,13 +23,12 @@
       메인화면으로
     </button>
   </div>
-  <div></div>
 </template>
 
 <script>
 
 export default {
-emits: ['game-possible', 'go-to-main'],
+  emits: ['game-possible', 'go-to-main'],
   data() {
     return {
       gameStartFlag: false,

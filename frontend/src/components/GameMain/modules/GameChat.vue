@@ -1,15 +1,47 @@
 <template>
   <div>
-    <button @click="connect">연결</button>
-    <button @click="disconnect">해제</button>
-    유저이름:
-    <input v-model="writer" type="text" />
-    내용: <input v-model="message" type="text" @keyup="sendMessage" />
-    귓속말:
-    <input v-model="reader" type="text" />
-    <div v-for="(item, idx) in recvList" :key="idx">
-      <h3>유저이름: {{ item.writer }}</h3>
-      <h3>내용: {{ item.message }}</h3>
+    <div class="game-chat-log">
+      <div
+        v-for="(item, idx) in recvList"
+        :key="idx">
+        <div v-if="item.reader!=''">
+          {{ item.writer }} 님이 {{ item.reader }} 님에게
+        </div>
+        <div v-else>
+          {{ item.writer }} 님이 모두에게
+        </div>
+        <h3> 내용: {{ item.message }} </h3>
+      </div>
+    </div>
+    <div class="game-chat-write">
+      <!-- <button @click="connect">
+        연결
+      </button>
+      <button @click="disconnect">
+        해제
+      </button>
+      유저이름:
+      <input  
+        v-model="writer"
+        type="text" /> -->
+      귓속말을 보낼 유저 이름:
+      <input
+        id="msg"
+        v-model="reader"
+        type="text" />
+      <div class="mb-3">
+        내용:  <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          v-model="message"
+          type="text"
+          @keyup="sendMessage"></textarea>
+      </div>
+      <!-- 내용: <input
+        id="msg"
+        v-model="message"
+        type="text"
+        @keyup="sendMessage" /> -->
     </div>
   </div>
 </template>
@@ -21,16 +53,19 @@ import SockJS from "sockjs-client";
 export default {
   data() {
     return {
-      writer: "",
+      // writer: "",
+      writer: this.$store.getters.nickName,
       reader: "",
       message: "",
       recvList: [],
       roomId: "room1",
     };
   },
+  
+  //stomp Chat system
   created() {
     // 여기서 connect()하면 페이지 접속 시 연결 - 사전에 사용자 id 저장 필요
-    // this.connect();
+    this.connect();
   },
   methods: {
     // 엔터를 눌러 메세지 전송
@@ -86,10 +121,10 @@ export default {
           });
 
           // 처음 연결 시 접속 메세지 전송
-          this.stompClient.send(
-            "/pub/chat/enter",
-            JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
-          );
+          // this.stompClient.send(
+          //   "/pub/chat/enter",
+          //   JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
+          // );
         },
         (error) => {
           // 소켓 연결 실패
@@ -111,5 +146,45 @@ export default {
       }
     },
   },
+  // chat_on_scroll() {
+  //   const log = document.getElementById(".game-chat-log");
+  //   log.isScrollBottom = true;
+  //   log.addEventListener("scroll", (e) => {
+  //     if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+  //       log.isScrollBottom = true;
+  //     } else {
+  //       log.isScrollBottom = false;
+  //     }
+  //   });
+
+  //   const addLog = () => {
+  //     const msg = document.getElementById("msg").value;
+  //     log.innerHTML += `${msg}`
+
+  //     if(log.isScrollBottom) {
+  //       log.scrollTop = log.scrollHeight
+  //     }
+  //   };
+  //}
 };
 </script>
+
+<style>
+h3 {
+  font-size: small;
+}
+
+.game-chat-log {
+  font-size: small;
+  width: 100%;
+  height: 30vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+/* .game-chat-log::-webkit-scrollbar {
+  display: none;
+} */
+.game-chat-write {
+  font-size: small;
+}
+</style>
