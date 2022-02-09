@@ -38,7 +38,7 @@
       </div>
       <div class="row">
         <div class="game-chatting">
-          <GameChat/>
+          <GameChat />
         </div>
       </div>
     </div>
@@ -239,8 +239,10 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-      mySessionId: "20",
-			myUserName: "gaeun",
+			mySessionId: this.$route.params.code,
+			myUserName: this.$store.getters.nickName,
+      // mySessionId: "20",
+			// myUserName: "gaeun",
     }
   }
 }
