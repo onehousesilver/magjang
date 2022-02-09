@@ -1,17 +1,25 @@
 package B208.mag_jang.controller;
 
 import B208.mag_jang.domain.ChatMessageDTO;
+import com.sun.corba.se.spi.orbutil.fsm.FSMImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
 public class StompChatController {
 
     private final SimpMessagingTemplate template;
+
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
 
     // Client가 SEND할 수 있는 경로
     // stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
@@ -22,6 +30,10 @@ public class StompChatController {
         System.out.println(message.getWriter()+ "님이 채팅방에 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         System.out.println(template.getMessageChannel());
+        // map으로 room이랑 game관리하고
+        // room에 유저아이디를 넣고
+        // game시작시에 room에 있는 유저아이디를 game으로 넘겨주며 roommap 삭제
+
     }
 
     @MessageMapping(value = "/chat/message")
