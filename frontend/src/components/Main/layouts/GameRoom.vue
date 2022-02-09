@@ -1,12 +1,14 @@
 <template>
   <div v-if="roomEnterFlag">
-    <InputText place-text="초대 코드를 입력해 주세요" />
+    <InputText
+      place-text="초대 코드를 입력해 주세요"
+      @child-input-change="enterCodeChanged" />
     <Buttons
       btn-text="게임 시작"
       @click="gameview" />
     <Buttons
       btn-text="뒤로가기"
-      @click="roomEnterFlag = false" />
+      @click="roomEnterFlag = false, enterCode = Math.floor(Math.random() * 100)" />
   </div>
   <div v-else>
     <Buttons
@@ -28,16 +30,19 @@ export default {
     Buttons,
   },
   methods: {
-  gameview: function() {
-    this.$router.push({ name: 'GameView' })
-    }
+    gameview: function() {
+      this.$router.push({ name: 'GameView', params: {code: this.enterCode} })
+    },
+    enterCodeChanged(inputData) {
+      this.enterCode = inputData
+    },
   },
   data(){
     return {
-      roomEnterFlag: false
+      roomEnterFlag: false,
+      enterCode: Math.floor(Math.random() * 100),
     }
   },
-
 }
 </script>
 

@@ -1,70 +1,29 @@
 <template>
   <div id="game-main">
     <div class="container-fluid">
-      <!-- gamePossible=ture일 때 금액 화면 -->
-      <div class="row">
-        <div class="nav-top col">
-          <div v-if="gamePossible">
-            <InputPrice />
-          </div>
-        </div>
-      </div>
-      <!-- 게임 대기 화면 -->
-      <div class="row">
-        <div class="game-table-layout col-10">
-          <div class="row ">
-            <div class="game-table-el">
-              <div v-if="gamePossible">
-                <!-- gamePossible=ture일 때 게임 정보 테이블 화면 -->
-                <GameStartInfo />
-              </div>
-              <div v-else>
-                <!-- gamePossible=false일 때 대기화면 -->
-                <GameWatingBtns 
-                  @gamePossible="gamestart"/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-2">
-          <div class="row">
-            <div class="game-log">
-              게임로그
-            </div>
-          </div>
-          <div class="row ">
-            <div class="game-chatting">
-              게임채팅
-            </div>
-          </div>  
-        </div>
-      </div>
+      <GameHeader />
+      <GamePage />
     </div>
   </div>
 </template>
 
 <script>
-import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
-import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
-import GameStartInfo from './GameStartInfo.vue'
-
+import GameHeader from '../../components/GameMain/layouts/GameHeader.vue';
+import GamePage from '../../components/GameMain/layouts/GamePage.vue';
 
 export default {
   components: {
-    GameWatingBtns,
-    GameStartInfo,
-    InputPrice,
+    GameHeader,
+    GamePage,
   },
 
   data(){
     return{
-      gamePossible: false,
+      
     }
   },
   methods: {
-    gamestart() {
-      this.gamePossible=true
-    }
+    
   }
 }
 </script>
@@ -72,6 +31,7 @@ export default {
 <style>
 :root {
   height: 100%;
+  overflow: hidden;
   background-color: #1f1f1f;
 }
 
@@ -81,18 +41,18 @@ export default {
 }
 
 .nav-top {
-  height: 50px;
+  height: 40px;
 }
 
-.game-table-layout {
+.game-layout {
   position: relative;
 }
 
-.game-table-layout .game-table-el {
+.game-layout .game-table-el {
   display: block;
   position: absolute;
   width: 80%;
-  height: 40%;
+  height: 35vh;
   margin: 0 auto;
   left: 50%;
   top: 50%;
@@ -101,10 +61,31 @@ export default {
   font-size: 30px;
   border-radius: 20px;
 }
+.game-layout .user-video-head {
+  position: relative;
+  top: 10px;
+}
+
+.game-layout .user-video .col {
+  height: 25vh;
+  border-radius: 20px;
+  border: solid black 2px;
+}
+
+.game-layout .user-video .col:hover {
+  cursor: pointer;
+  border-color: tomato;
+}
+
+.game-layout .user-video-foot {
+  position: relative;
+  top: 40vh;
+}
 
 .game-log {
   width: 100%;
-  height: 400px;
+  height: 45vh;
+  margin-right: 20px;
   background-color: black;
   margin-bottom: 20px;
   color: white;
@@ -114,7 +95,7 @@ export default {
 
 .game-chatting {
   width: 100%;
-  height: 400px;
+  height: 45vh;
   background-color: rgb(42, 106, 165);
   margin-top: 20px;
   color: white;
