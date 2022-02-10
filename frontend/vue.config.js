@@ -24,7 +24,7 @@ module.exports = {
   //   'element-plus'
   // ],
   // lintOnSave: false,
-  outputDir: '../backend-java/src/main/resources/dist',
+  outputDir: '/var/www/html/dist',
 
   
    
