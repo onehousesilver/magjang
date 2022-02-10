@@ -3,21 +3,19 @@ package B208.mag_jang.controller;
 import B208.mag_jang.domain.ChatMessageDTO;
 import B208.mag_jang.domain.ChatRoomDTO;
 import B208.mag_jang.domain.GameDTO;
-import com.sun.corba.se.spi.orbutil.fsm.FSMImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(value="/pub")
 public class StompChatController {
 
     private final SimpMessagingTemplate template;

@@ -1,25 +1,22 @@
 package B208.mag_jang.controller;
 
 import B208.mag_jang.domain.ChatMessageDTO;
-import B208.mag_jang.domain.ChatRoomDTO;
 import B208.mag_jang.domain.GameDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUser;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(value="/game")
 public class GameController {
     private final SimpMessagingTemplate template;
 
 
-    @MessageMapping(value = "/game/start")
+    @MessageMapping(value = "/start")
     public void enter(ChatMessageDTO message){
 
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
