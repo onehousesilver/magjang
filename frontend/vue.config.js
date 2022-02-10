@@ -24,7 +24,7 @@ module.exports = {
   //   'element-plus'
   // ],
   // lintOnSave: false,
-  outputDir: '/var/www/html/dist',
+  // outputDir: '/var/www/html/dist',
 
   
    
