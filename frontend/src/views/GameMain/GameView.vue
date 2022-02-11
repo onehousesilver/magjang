@@ -29,12 +29,6 @@ export default {
 </script>
 
 <style>
-:root {
-  height: 100%;
-  overflow: hidden;
-  background-color: #1f1f1f;
-}
-
 #game-main {
   width: 100%;
   background-color: #1f1f1f;
@@ -52,7 +46,7 @@ export default {
   display: block;
   position: absolute;
   width: 80%;
-  height: 35vh;
+  height: 30vh;
   margin: 0 auto;
   left: 50%;
   top: 50%;
@@ -62,8 +56,9 @@ export default {
   border-radius: 20px;
 }
 .game-layout .user-video-head {
-  position: relative;
+  position: absolute;
   top: 10px;
+  width: 100%;
 }
 
 .game-layout .user-video .col {
@@ -78,8 +73,9 @@ export default {
 }
 
 .game-layout .user-video-foot {
-  position: relative;
-  top: 40vh;
+  position: absolute;
+  top: 63vh;
+  width: 100%;
 }
 
 .game-log {

@@ -29,10 +29,11 @@ export default {
 <style>
  #main {
    height: 100vh;
-   max-height: 100vh;
+   width: 100%;
    background-image: url('/src/assets/money_bg1.jpg');
    background-repeat: no-repeat; 
-   background-attachment: fixed;
+   /* background-attachment: fixed; */
+   background-size: cover;
    background-blend-mode: overlay;
    background-color: rgba(0, 0, 0, 0.5);
  }

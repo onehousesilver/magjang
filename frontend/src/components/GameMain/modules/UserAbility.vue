@@ -31,11 +31,10 @@ export default {
 
 <style>
 .ability {
-  /* display : flex; */
+  display : flex;
   text-align: center;
   bottom: -3rem;
   width: 100%;
-  z-index: 1;
   margin-top: 10px;
 }
 

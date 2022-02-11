@@ -12,7 +12,7 @@
       type="button"
       class="btn mj-btn"
       :disabled="userCount < 4"
-      @click="gamePossible">
+      @click="gamePossible()">
       게임시작
     </button>
     <!-- @click=" this.$router.push({ name: 'Home' })" -->
@@ -38,9 +38,9 @@ export default {
   },
   methods: {
     gamePossible(){
-      this.$emit('game-possible')
+      this.$store.state.gamePossible = true
+      // console.log('찍히나?')
     },
-    
   }
 }
 

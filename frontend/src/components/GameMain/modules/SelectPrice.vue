@@ -1,13 +1,13 @@
 <template>
   <span class="price-box">
-    <b>￦</b>
     <input
-      class="price"
+      class="price form-control form-control-lg"
+      aria-label="default input example"
       type="number"
       placeholder="금액을 입력하세요."
       v-model="price" 
       @input="showPrice" />
-    <b> 만원</b>
+    <b>만원</b>
   </span>
 </template>
 
@@ -32,13 +32,13 @@ export default {
     width: 70%;
 }
 .price-box .price {
-    font-size: 2rem;
+    font-size: 1rem;
     color : white;
     background-color: #1f1f1f;
     text-align:right;
 }
 .price-box b {
-    font-size: 2rem; 
+    font-size: 1rem; 
     color : white;
 }
 

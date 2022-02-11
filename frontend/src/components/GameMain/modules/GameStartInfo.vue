@@ -3,6 +3,7 @@
     <div class="col">
       <div> 
         인원 조건
+        <GameCardInfo />
       </div>
       <div> 
         능력 조건
@@ -38,13 +39,15 @@
 // import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText'
 import BaseTimer from '@/components/GameMain/modules/BaseTimer'
+import GameCardInfo from '@/components/GameMain/modules/GameCardInfo'
 
 
 export default {
   components: {
     // GameTimer,
     GameText,
-    BaseTimer
+    BaseTimer,
+    GameCardInfo
   },
   data() {
     return {

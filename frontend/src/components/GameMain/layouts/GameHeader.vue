@@ -1,7 +1,7 @@
 <template>
   <div class="nav-top">
     <GameRuleInfo />
-    <div v-if="gamePossible">
+    <div v-if="this.$store.state.gamePossible">
       <UserPrice />
     </div>
   </div>

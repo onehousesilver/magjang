@@ -12,13 +12,13 @@
       
       <!-- 테이블 -->
       <div class="row h-30 game-table-el">
-        <div v-if="gamePossible">
+        <div v-if="this.$store.state.gamePossible">
           <GameStartInfo />
         </div>
         <div v-else>
           <GameWatingBtns 
-            @gamePossible="gamestart"
             @go-to-main="leaveSession" />
+          <!-- @gamePossible="gamestart" -->
         </div>
       </div>
 
@@ -83,9 +83,9 @@ export default {
     this.joinSession();
   },
   methods: {
-    gamestart() {
-      this.gamePossible=true
-    },
+    // gamestart() {
+    //   this.gamePossible=true
+    // },
 		// openVidu system
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -122,7 +122,7 @@ export default {
 			this.getToken(this.mySessionId).then(token => {
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
-
+						console.log(this.myUserName)
 						// --- Get your own camera stream with the desired properties ---
 
 						let publisher = this.OV.initPublisher(undefined, {
@@ -168,6 +168,7 @@ export default {
     updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
+			console.log('update되는거야?')
 		},
 
 		/**
@@ -240,9 +241,9 @@ export default {
       subscribers: [],
 
 			// mySessionId: this.$route.params.code,
-			// myUserName: this.$store.getters.nickName,
+			myUserName: this.$store.getters.nickName,
       mySessionId: "20",
-			myUserName: "gaeun",
+			// myUserName: "gaeun",
     }
   }
 }

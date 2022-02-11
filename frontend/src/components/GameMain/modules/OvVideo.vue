@@ -9,7 +9,11 @@ export default {
 	name: 'OvVideo',
 
 	props: {
-		streamManager: Object,
+		// streamManager: Object,
+		streamManager: {
+      type: Object,
+      default: null,
+    }
 	},
 
 	mounted () {
@@ -17,11 +21,12 @@ export default {
 	},
 };
 </script>
+
 <style>
 	.video-size {
 		position: absolute;
-    left: 0;
     width: 100%;
-    height: 100%;
-}
+    height: 90%;
+		z-index: -1;
+	}
 </style>

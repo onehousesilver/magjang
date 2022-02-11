@@ -10,6 +10,7 @@ export default createStore({
     gangAmount: null,
     proGangAmount: null,
     lastGenRoom: null,
+    gamePossible: false,
   },
   getters: {  // state 상태 가져오기
     userId: state => state.userId,
@@ -20,6 +21,7 @@ export default createStore({
     gangAmount: state => state.gangAmount,
     proGangAmount: state => state.proGangAmount,
     lastGenRoom: state => state.lastGenRoom,
+    gamePossible: state => state.gamePossible,
     
     isLogined: function(state){
       if (state.userId && state.email)

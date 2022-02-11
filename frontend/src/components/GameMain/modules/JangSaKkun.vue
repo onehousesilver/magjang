@@ -8,7 +8,7 @@
         @click="updateMainVideoStreamManager(streamManager)" />
       <UserAbility />
     </div>
-    <div v-if="selectedUser">
+    <div v-show="selectedUser">
       <SelectPrice />
     </div>
   </div>
