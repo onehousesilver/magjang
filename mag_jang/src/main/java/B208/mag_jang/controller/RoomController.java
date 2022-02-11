@@ -28,15 +28,15 @@ public class RoomController {
 
 
     //채팅방 개설 - rest
-    @PostMapping(value = "/room")
-    public ResponseEntity<ChatRoomDTO> create(@RequestParam String name){
-        ChatRoomDTO room = repository.createChatRoomDTO(name);
-        if(room == null){
-            return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.ok(room);
-        }
-    }
+//    @PostMapping(value = "/room")
+//    public ResponseEntity<ChatRoomDTO> create(@RequestParam String name){
+//        ChatRoomDTO room = repository.createChatRoomDTO(name);
+//        if(room == null){
+//            return ResponseEntity.noContent().build();
+//        }else{
+//            return ResponseEntity.ok(room);
+//        }
+//    }
 
     //채팅방 조회 - rest
     @GetMapping("/room")
