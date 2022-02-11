@@ -30,7 +30,7 @@ export default {
  #main {
    height: 100vh;
    max-height: 100vh;
-   background-image: url('/src/assets/money_bg1.jpg');
+   background-image: url('~@/assets/money_bg1.jpg');
    background-repeat: no-repeat;
    background-attachment: fixed;
    background-blend-mode: overlay;

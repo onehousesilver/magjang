@@ -3,7 +3,7 @@
     <div class="logo">
       <img
         @click="home"
-        src="/src/assets/logo.gif"
+        src="@/assets/logo.gif"
         alt="logo" />
     </div>
     <div class="title">
