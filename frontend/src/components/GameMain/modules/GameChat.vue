@@ -36,14 +36,9 @@
         귓속말을 보낼 유저를 선택하세요.
       </option>
       <option
-        v-for="player in players"
+        v-for="player in whisperPeople"
         :key="player">
-        <div v-if="player != writer">
-          {{ player }}
-        </div>
-        <div v-else>
-          {{ writer.remove }}
-        </div>
+        {{ player }}
       </option>
     </select>
     <!-- 원래 귓말 보내는 창 -->
@@ -91,7 +86,14 @@ export default {
       roomId: "room1",
       // bottom_flag: true
       player: this.player,
+      
     };
+  },
+  computed: {
+    whisperPeople : function() {
+      console.log('-------------------------------------------------')
+      return this.players.filter(player => player != this.writer)
+    }
   },
   //stomp Chat system
   created() {
