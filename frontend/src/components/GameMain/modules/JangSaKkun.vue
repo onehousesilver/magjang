@@ -1,12 +1,11 @@
 <template>
   <div>
     <div
-      class="col p-3 bg-light"
+      class="col"
       @click="selectPriceShow">
       <UserVideo
         :stream-manager="streamManager"
         @click="updateMainVideoStreamManager(streamManager)" />
-      <UserAbility />
     </div>
     <div v-show="selectedUser">
       <SelectPrice />
@@ -16,13 +15,11 @@
 
 <script>
 import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
-import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
 
 export default {
   components: { 
     UserVideo,
-    UserAbility,
     SelectPrice,
   },
   data() {
@@ -44,6 +41,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.col {
+  background: linear-gradient(90deg, #fff 48%, #000 48%);
+}
 </style>

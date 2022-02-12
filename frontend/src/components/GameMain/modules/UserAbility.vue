@@ -35,7 +35,6 @@ export default {
   text-align: center;
   bottom: -3rem;
   width: 100%;
-  margin-top: 10px;
 }
 
 .ability .badge {

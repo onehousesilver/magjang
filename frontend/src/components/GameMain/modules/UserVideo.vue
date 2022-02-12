@@ -4,20 +4,22 @@
     v-if="streamManager"
     :key="streamManager.stream.connection.connectionId">
     <ov-video :stream-manager="streamManager" />
-    <di class="video-nickname">
-      <p>{{ clientData }}</p>
-    </di>
+    <UserAbility />
+    <p class="video-nickname">
+      {{ clientData }}
+    </p>
   </div>
 </template>
 
 <script>
 import OvVideo from './OvVideo';
-
+import UserAbility from './UserAbility.vue'
 export default {
 	name: 'UserVideo',
 
 	components: {
 		OvVideo,
+    UserAbility
 	},
 
 	props: {
@@ -48,18 +50,18 @@ export default {
 <style>
 .ov-video-wrap {
   position: relative;
-  height: 90%;
-  width: 100%;
+  height: 100%;
+  width: 70%;
   top: 50%;  
   left: 50%;
-  transform: translate(-50%, -52%);
-  overflow: hidden;
+  transform: translate(-50%, -50%);
 }
 
-.ov-video-wrap .video-nickname p {
-  background-color: black;
-  color: #fff;
-  display: inline;
-  margin-left: 50px;
+.ov-video-wrap p {
+    background-color: black;
+    color: #fff;
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 25px;
 }
 </style>

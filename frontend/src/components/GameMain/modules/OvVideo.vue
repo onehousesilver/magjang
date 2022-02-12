@@ -1,7 +1,8 @@
 <template>
   <video
     autoplay
-    class="video-size"></video>
+    class="video-size">
+  </video>
 </template>
 
 <script>
@@ -26,7 +27,7 @@ export default {
 	.video-size {
 		position: absolute;
     width: 100%;
-    height: 90%;
+    height: 100%;
 		z-index: -1;
 	}
 </style>

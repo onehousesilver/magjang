@@ -1,14 +1,15 @@
 <template>
-  <span class="price-box">
-    <input
-      class="price form-control form-control-lg"
-      aria-label="default input example"
-      type="number"
-      placeholder="금액을 입력하세요."
-      v-model="price" 
-      @input="showPrice" />
-    <b>만원</b>
-  </span>
+  <div class="price-box">
+    <span>
+      <input
+        class="price form-control form-control-lg"
+        aria-label="default input example"
+        type="number"
+        placeholder="금액을 입력하세요."
+        v-model="price" 
+        @input="showPrice" /><b>만원</b>
+    </span>
+  </div>
 </template>
 
 <script>
@@ -28,17 +29,16 @@ export default {
 
 <style scoped>
 .price-box {
-    /* border: 1px solid black;*/
-    width: 70%;
+    text-align: center;
 }
 .price-box .price {
-    font-size: 1rem;
+    font-size: 1.5rem;
     color : white;
     background-color: #1f1f1f;
     text-align:right;
 }
 .price-box b {
-    font-size: 1rem; 
+    font-size: 1.5rem; 
     color : white;
 }
 
@@ -47,6 +47,11 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.form-control {
+  display: inline-block;
+  width: 50%;
 }
 
 

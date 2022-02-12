@@ -87,6 +87,7 @@ export default {
   color: white;
   font-size: 30px;
   border-radius: 20px;
+  margin-top: 10px;
 }
 
 .game-chatting {
