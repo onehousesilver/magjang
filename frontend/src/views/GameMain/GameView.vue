@@ -93,15 +93,4 @@ export default {
   font-size: 30px;
   border-radius: 20px;
 }
-@keyframes float {
-    0% {
-        transform: translatey(0px);
-    }
-    70% {
-        transform: translateY(-5px) scaleX(1);
-    }
-    to {
-        transform: translatey(0px);
-    }
-}
 </style>

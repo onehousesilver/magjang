@@ -242,7 +242,7 @@ export default {
 
 			// mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "20",
+      mySessionId: "25",
 			// myUserName: "gaeun",
     }
   }

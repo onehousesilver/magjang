@@ -1,31 +1,31 @@
 <template>
   <div class="game-chat-write">
+    <!-- 실제 채팅이 보여지는 창 -->
     <div
       class="game-chat-log"
       ref="recvList">
       <div
         v-for="(item, idx) in recvList"
         :key="idx">
-        <div v-if="item.reader != '모두에게'">
-          {{ item.writer }} 님이 {{ item.reader }} 님에게 :
-        </div>
-        <div v-else>
+        <!-- 귓속말 할 때 발신자와 수신자에게 보이는 메세지 -->
+        <div v-if="item.reader == '모두에게'">
           {{ item.writer }} 님이 모두에게 :
         </div>
+        <!-- player가 입장할 때 보이는 알림 -->
+        <div v-else-if="item.reader == null">
+          📢 장사꾼 입장 알림
+        </div>
+        <!-- 전체채팅 할 때 모두에게 보이는 메세지 -->
+        <div v-else>
+          {{ item.writer }} 님이 {{ item.reader }} 님에게 :
+        </div>
+        <!-- 입력한 메세지 내용 -->
         <span> {{ item.message }} </span>
       </div>
     </div>
-    <!-- <button @click="connect">
-        연결
-      </button>
-      <button @click="disconnect">
-        해제
-      </button>
-      유저이름:
-      <input
-        v-model="writer"
-        type="text" /> -->
-    <span>귓속말을 보낼 유저를 선택하세요.</span>
+
+    <!-- 귓속말을 보낼 유저를 선택하는 select 창 -->
+    <span>귓속말을 보낼 장사꾼을 선택하세요.</span>
     <select
       class="form-select mb-3 mt-2"
       v-model="reader"
@@ -33,19 +33,16 @@
       <option
         selected
         disabled>
-        귓속말을 보낼 유저를 선택하세요.
+        귓속말을 보낼 장사꾼을 선택하세요.
       </option>
       <option
-        v-for="player in whisperPeople"
-        :key="player">
-        {{ player }}
+        v-for="gameplayer in whisperPeople"
+        :key="gameplayer">
+        {{ gameplayer }}
       </option>
     </select>
-    <!-- 원래 귓말 보내는 창 -->
-    <!-- <input
-        id="msg"
-        v-model="reader"
-        type="text" /> -->
+
+    <!-- 채팅 입력하는 input -->
     <div class="mb-3 input-content">
       <span>내용을 입력해 주세요:</span>
       <input
@@ -54,18 +51,15 @@
         v-model="message"
         type="text"
         @keyup="sendMessage" />
+
+      <!-- 채팅 전송하는 버튼 -->
       <button
         type="button"
-        class="btn btn-outline-warning"
+        class="btn btn-outline-warning chat-send-btn"
         @click="sendMessage">
         전송
       </button>
     </div>
-    <!-- 내용: <input
-        id="msg"
-        v-model="message"
-        type="text"
-        @keyup="sendMessage" /> -->
   </div>
 </template>
 
@@ -81,17 +75,16 @@ export default {
       message: "",
       recvList: [],
       selected: null,
-      // 여기에 플레이어 이름을 받아오고, 된다면 나 빼고 ^^
+      // 여기에 플레이어 이름을 받아오기
       players: ['모두에게', '토리최고', '킨더조이언박싱장인', '가으니'],
       roomId: "room1",
-      // bottom_flag: true
       player: this.player,
       
     };
   },
   computed: {
+    // 나를 제외한 다른 사람에게 귓속말이 가능하게 필터링
     whisperPeople : function() {
-      console.log('-------------------------------------------------')
       return this.players.filter(player => player != this.writer)
     }
   },
@@ -109,11 +102,14 @@ export default {
   methods: {
     // 엔터를 눌러 메세지 전송
     sendMessage(e) {
-      if (e.keyCode === 13 || e.type == "click" && this.writer !== "" && this.message !== "" ) {
+      if (e.keyCode === 13 && this.writer !== null && this.message !== "" ) {
         this.send();
         this.message = "";
-      }
-    },
+    // 전송버튼 눌러서 메세지 전송
+      } else if (e.type === "click" && this.writer !== null && this.message !== "") {
+        this.send();
+        this.message = "";
+      }},
     // 전체 채팅 or 귓속말 전송
     send() {
       console.log("Send message:" + this.message);
@@ -126,12 +122,10 @@ export default {
           player: this.player
         };
         // 전체 채팅 전송
-        if (this.reader == '모두에게')
-          this.stompClient.send("/pub/chat/message", JSON.stringify(msg), {})
+        if (this.reader == '모두에게') {
+          this.stompClient.send("/pub/chat/message", JSON.stringify(msg), {}) }
         // 귓속말 전송
-        
-        else{ 
-          console.log('귓속말 전송')
+        else { 
           this.player = this.reader
           this.stompClient.send("/pub/chat/whisper", JSON.stringify(msg), {});
         }
@@ -166,10 +160,10 @@ export default {
           });
 
           // 처음 연결 시 접속 메세지 전송
-          // this.stompClient.send(
-          //   "/pub/chat/enter",
-          //   JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
-          // );
+          this.stompClient.send(
+            "/pub/chat/enter",
+            JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
+          );
         },
         (error) => {
           // 소켓 연결 실패
@@ -199,26 +193,28 @@ export default {
   font-size: 16px;
 }
 
-.game-chat-log {
+.game-chat-write .game-chat-log {
   width: 100%;
   height: 25vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
 }
-.game-chat-log::-webkit-scrollbar {
+
+.game-chat-write .game-chat-log::-webkit-scrollbar {
   display: none;
 }
-.form-control {
-  width: 80%;
+
+.game-chat-write .form-control {
   display: inline-block;
+  width: 80%;
 }
 
-.btn {
+.game-chat-write .input-content .chat-send-btn {
   margin-left: 20px;
   margin-bottom: 4px;
 }
 
-.input-content span {
+.game-chat-write .input-content span {
   margin-bottom: 5px;
   display: block;
 }
