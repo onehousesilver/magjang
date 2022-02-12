@@ -41,6 +41,9 @@
         <div v-if="player != writer">
           {{ player }}
         </div>
+        <div v-else>
+          {{ writer.remove }}
+        </div>
       </option>
     </select>
     <!-- 원래 귓말 보내는 창 -->
@@ -88,6 +91,7 @@ export default {
       roomId: "room1",
       // bottom_flag: true
       player: this.player,
+      
     };
   },
   //stomp Chat system
@@ -211,5 +215,10 @@ export default {
 .btn {
   margin-left: 20px;
   margin-bottom: 4px;
+}
+
+.input-content span {
+  margin-bottom: 5px;
+  display: block;
 }
 </style>
