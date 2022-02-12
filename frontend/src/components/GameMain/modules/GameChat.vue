@@ -91,7 +91,6 @@ export default {
       roomId: "room1",
       // bottom_flag: true
       player: this.player,
-      
     };
   },
   //stomp Chat system
