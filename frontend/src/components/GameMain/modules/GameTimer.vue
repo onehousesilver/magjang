@@ -75,7 +75,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #timer {
 	width: 100px;
 	height: 100px;

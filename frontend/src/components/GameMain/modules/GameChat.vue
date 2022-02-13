@@ -1,5 +1,6 @@
 <template>
-  <div class="game-chat-write">
+  <div
+    class="game-chat-write">
     <!-- 실제 채팅이 보여지는 창 -->
     <div
       class="game-chat-log"
@@ -25,7 +26,7 @@
         <span> {{ item.message }} </span>
       </div>
     </div>
-
+    
     <!-- 귓속말을 보낼 유저를 선택하는 select 창 -->
     <section class="not-game-chat-log">
       <span>귓속말을 보낼 장사꾼을 선택하세요.</span>
@@ -48,7 +49,7 @@
 
       <!-- 채팅 입력하는 input -->
       <div class="mb-3 input-content">
-        <span>내용을 입력해 주세요:</span>
+        <span>내용:</span>
         <input
           class="form-control"
           aria-label="default input example"
@@ -93,11 +94,12 @@ export default {
       return this.players.filter(player => player != this.writer)
     }
   },
+  
   //stomp Chat system
   created() {
     // 여기서 connect()하면 페이지 접속 시 연결 - 사전에 사용자 id 저장 필요
     this.connect();
-    this.emitter.on('disconnect', this.disconnect)
+    this.emitter.on('chat_disconnect', this.disconnect)
   },
   
   updated() {
@@ -108,7 +110,7 @@ export default {
   methods: {
     // 엔터를 눌러 메세지 전송
     sendMessage(e) {
-      if (e.keyCode === 13 && this.writer !== null && this.message !== "" ) {
+      if (e.keyCode === 13 && this.message !== "" ) {
         this.send();
         this.message = "";
     // 전송버튼 눌러서 메세지 전송
@@ -199,6 +201,7 @@ export default {
 </script>
 
 <style scoped>
+
 .game-chat-write {
   font-size: 16px;
 }
@@ -208,7 +211,10 @@ export default {
   height: 25vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: solid rgb(67,66,47);
+  border-radius: 10px;
 }
 
 .game-chat-write .game-chat-log div {
@@ -225,12 +231,16 @@ export default {
 }
 
 .game-chat-write .input-content .chat-send-btn {
-  margin-left: 20px;
+  margin-left: 15px;
   margin-bottom: 4px;
 }
 
 .game-chat-write .input-content span {
   margin-bottom: 5px;
   display: block;
+}
+
+.not-game-chat-log .form-select {
+  width: 52%;
 }
 </style>

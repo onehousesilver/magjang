@@ -4,7 +4,9 @@
     v-if="streamManager"
     :key="streamManager.stream.connection.connectionId">
     <ov-video :stream-manager="streamManager" />
-    <UserAbility />
+    <div v-if="this.$store.state.gamePossible">
+      <UserAbility />
+    </div>
     <p class="video-nickname">
       {{ clientData }}
     </p>
@@ -32,7 +34,6 @@ export default {
 
 	computed: {
 		clientData () {
-      console.log("이거 찍히나?")
 			const { clientData } = this.getConnectionData();
 			return clientData;
 		},
@@ -58,10 +59,10 @@ export default {
 }
 
 .ov-video-wrap p {
-    background-color: black;
-    color: #fff;
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 25px;
+  background-color: black;
+  color: #fff;
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 15px;
 }
 </style>

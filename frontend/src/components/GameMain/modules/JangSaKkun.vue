@@ -1,13 +1,12 @@
 <template>
   <div>
     <div
-      class="col"
-      @click="selectPriceShow">
+      class="col">
       <UserVideo
-        :stream-manager="streamManager"
-        @click="updateMainVideoStreamManager(streamManager)" />
+        :stream-manager="streamManager" 
+        @click="selectPriceShow" />
     </div>
-    <div v-show="selectedUser">
+    <div v-show="selectedUser && this.$store.state.gamePossible">
       <SelectPrice />
     </div>
   </div>
@@ -42,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.col {
-  background: linear-gradient(90deg, #fff 48%, #000 48%);
-}
+/* .col {
+  background: rgb(156, 158, 127);
+} */
 </style>

@@ -68,7 +68,7 @@ export default {
 .game-layout .user-video .col {
   height: 25vh;
   border-radius: 20px;
-  border: solid black 2px;
+  /* border: solid black 2px; */
 }
 
 .game-layout .user-video .col:hover {
@@ -98,5 +98,6 @@ export default {
   color: white;
   font-size: 30px;
   border-radius: 20px;
+  margin-top: 20px;
 }
 </style>

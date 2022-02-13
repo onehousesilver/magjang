@@ -51,7 +51,7 @@ input::-webkit-inner-spin-button {
 
 .form-control {
   display: inline-block;
-  width: 60%;
+  width: 56%;
 }
 
 

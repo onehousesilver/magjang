@@ -42,7 +42,7 @@ export default {
       // console.log('찍히나?')
     },
     clickMain() {
-      this.emitter.emit('disconnect')
+      this.emitter.emit('chat_disconnect')
     }
   }
 }
@@ -71,6 +71,7 @@ export default {
   background-color: #198754;
   color: #fff;
 }
+
 .game-start-btn:hover {
   background-color: rgb(223, 223, 223);
   color: #198754;
