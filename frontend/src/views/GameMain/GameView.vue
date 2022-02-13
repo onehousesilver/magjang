@@ -45,7 +45,7 @@ export default {
   height: 30vh;
   margin: 0 auto;
   left: 50%;
-  top: 50%;
+  top: 52%;
   transform: translate(-50%, -50%);
   background-color: rgb(180, 180, 180);
   font-size: 30px;
@@ -78,14 +78,14 @@ export default {
 
 .game-layout .user-video-foot {
   position: absolute;
-  top: 63vh;
+  top: 64vh;
   width: 100%;
 }
 
 .game-log {
   width: 100%;
   height: 45vh;
-  background-color: black;
+  border: solid rgb(67,66,47) 2px;
   color: white;
   font-size: 30px;
   border-radius: 20px;

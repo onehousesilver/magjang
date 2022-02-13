@@ -11,6 +11,7 @@ export default createStore({
     proGangAmount: null,
     lastGenRoom: null,
     gamePossible: false,
+
   },
   getters: {  // state 상태 가져오기
     userId: state => state.userId,
