@@ -5,12 +5,12 @@
       type="button"
       class="btn mj-btn"
       disabled>
-      게임 코드 <hr />
+      입장 코드 <hr />
       {{ gameCode }}
     </button>
     <button
       type="button"
-      class="btn mj-btn"
+      class="btn game-start-btn mj-btn"
       :disabled="userCount < 4"
       @click="gamePossible()">
       게임시작
@@ -19,7 +19,7 @@
     <button
       type="button"
       class="btn mj-btn"
-      @click="$emit('go-to-main')">
+      @click="$emit('go-to-main'), clickMain()">
       메인화면으로
     </button>
   </div>
@@ -41,17 +41,38 @@ export default {
       this.$store.state.gamePossible = true
       // console.log('찍히나?')
     },
+    clickMain() {
+      this.emitter.emit('disconnect')
+    }
   }
 }
 
 </script>
 
-<style>
+<style scoped>
 .button-flex {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 6vh;
 }
 
+.button-flex .mj-btn {
+  width: 200px;
+  margin-top: 0;
+  padding-top: 15px;
+}
 
+.button-flex .game-start-btn {
+  width: 200px;
+  margin-top: 0;
+  padding-top: 15px;
+  color: #198754;
+  border: 2px solid #198754;
+  background-color: #198754;
+  color: #fff;
+}
+.game-start-btn:hover {
+  background-color: rgb(223, 223, 223);
+  color: #198754;
+}
 </style>

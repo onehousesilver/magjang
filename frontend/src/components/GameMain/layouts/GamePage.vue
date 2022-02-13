@@ -30,6 +30,7 @@
       </div>
     </div>
 
+
     <div class="col-3">
       <div class="row">
         <div class="game-log">
@@ -242,7 +243,7 @@ export default {
 
 			// mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "25",
+      mySessionId: "20",
 			// myUserName: "gaeun",
     }
   }

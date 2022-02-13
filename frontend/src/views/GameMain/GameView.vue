@@ -38,7 +38,8 @@ export default {
 }
 
 .game-layout .game-table-el {
-  display: block;
+  display: flex;
+  text-align: center;
   position: absolute;
   width: 80%;
   height: 30vh;
@@ -49,7 +50,15 @@ export default {
   background-color: rgb(180, 180, 180);
   font-size: 30px;
   border-radius: 20px;
+  align-items: center;
+  overflow: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
 }
+.game-layout .game-table-el::-webkit-scrollbar {
+  display: none;
+}
+
 .game-layout .user-video-head {
   position: absolute;
   top: 10px;
@@ -76,9 +85,7 @@ export default {
 .game-log {
   width: 100%;
   height: 45vh;
-  margin-right: 20px;
   background-color: black;
-  margin-bottom: 20px;
   color: white;
   font-size: 30px;
   border-radius: 20px;
@@ -88,7 +95,6 @@ export default {
 .game-chatting {
   width: 100%;
   height: 45vh;
-  margin-top: 20px;
   color: white;
   font-size: 30px;
   border-radius: 20px;

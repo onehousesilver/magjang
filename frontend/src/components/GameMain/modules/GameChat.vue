@@ -11,9 +11,11 @@
         <div v-if="item.reader == '모두에게'">
           {{ item.writer }} 님이 모두에게 :
         </div>
-        <!-- player가 입장할 때 보이는 알림 -->
-        <div v-else-if="item.reader == null">
-          📢 장사꾼 입장 알림
+        <!-- player가 입장/퇴장할 때 보이는 알림 -->
+        <div
+          v-else-if="item.reader == null"
+          style="color: #ffc107;">
+          📢 장사꾼 입/퇴장 알림
         </div>
         <!-- 전체채팅 할 때 모두에게 보이는 메세지 -->
         <div v-else>
@@ -25,41 +27,44 @@
     </div>
 
     <!-- 귓속말을 보낼 유저를 선택하는 select 창 -->
-    <span>귓속말을 보낼 장사꾼을 선택하세요.</span>
-    <select
-      class="form-select mb-3 mt-2"
-      v-model="reader"
-      aria-label="Default select example">
-      <option
-        selected
-        disabled>
-        귓속말을 보낼 장사꾼을 선택하세요.
-      </option>
-      <option
-        v-for="gameplayer in whisperPeople"
-        :key="gameplayer">
-        {{ gameplayer }}
-      </option>
-    </select>
+    <section class="not-game-chat-log">
+      <span>귓속말을 보낼 장사꾼을 선택하세요.</span>
+      <select
+        class="form-select mb-3 mt-2"
+        v-model="reader"
+        aria-label="Default select example">
+        <option
+          selected
+          disabled>
+          귓속말을 보낼 장사꾼을 선택하세요.
+        </option>
+        <option
+          v-for="gameplayer in whisperPeople"
+          :key="gameplayer">
+          {{ gameplayer }}
+        </option>
+      </select>
 
-    <!-- 채팅 입력하는 input -->
-    <div class="mb-3 input-content">
-      <span>내용을 입력해 주세요:</span>
-      <input
-        class="form-control"
-        aria-label="default input example"
-        v-model="message"
-        type="text"
-        @keyup="sendMessage" />
 
-      <!-- 채팅 전송하는 버튼 -->
-      <button
-        type="button"
-        class="btn btn-outline-warning chat-send-btn"
-        @click="sendMessage">
-        전송
-      </button>
-    </div>
+      <!-- 채팅 입력하는 input -->
+      <div class="mb-3 input-content">
+        <span>내용을 입력해 주세요:</span>
+        <input
+          class="form-control"
+          aria-label="default input example"
+          v-model="message"
+          type="text"
+          @keyup="sendMessage" />
+
+        <!-- 채팅 전송하는 버튼 -->
+        <button
+          type="button"
+          class="btn btn-outline-warning chat-send-btn"
+          @click="sendMessage">
+          전송
+        </button>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -92,6 +97,7 @@ export default {
   created() {
     // 여기서 connect()하면 페이지 접속 시 연결 - 사전에 사용자 id 저장 필요
     this.connect();
+    this.emitter.on('disconnect', this.disconnect)
   },
   
   updated() {
@@ -172,6 +178,7 @@ export default {
         }
       );
     },
+    
     // 소켓 연결 해제
     disconnect() {
       if (this.connected) {
@@ -182,6 +189,9 @@ export default {
         );
         this.stompClient.disconnect();
         this.connected = false;
+
+        window.addEventListener('beforeunload', this.disconnect)
+        this.$router.push({ name: 'Home' })
       }
     },
   },
@@ -198,6 +208,11 @@ export default {
   height: 25vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
+  margin-bottom: 20px;
+}
+
+.game-chat-write .game-chat-log div {
+  margin-top: 10px;
 }
 
 .game-chat-write .game-chat-log::-webkit-scrollbar {
