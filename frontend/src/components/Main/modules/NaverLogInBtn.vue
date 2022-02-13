@@ -8,7 +8,7 @@
 <script>
 export default {
   mounted() {
-    const naver_id_login = new window.naver_id_login("XcnVRW5TXoLW3FDEkiUJ", "http://localhost:8083/navercallback");
+    const naver_id_login = new window.naver_id_login("XcnVRW5TXoLW3FDEkiUJ", "https://i6b208.p.ssafy.io/navercallback");
     const state = naver_id_login.getUniqState();
     naver_id_login.setButton("green", 3, 80)
     naver_id_login.setState(state);
