@@ -3,6 +3,7 @@ package B208.mag_jang.controller;
 import B208.mag_jang.domain.ChatMessageDTO;
 import B208.mag_jang.domain.ChatRoomDTO;
 import B208.mag_jang.domain.GameDTO;
+import B208.mag_jang.domain.RoomMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,19 +12,19 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value="/pub")
+@RequestMapping("/pub")
 public class StompChatController {
 
     private final SimpMessagingTemplate template;
-
-    public Map<String, ChatRoomDTO> room;
-    public Map<String, GameDTO> game;
+    private final RoomMap roomMap;
     @Autowired
     private SimpUserRegistry simpUserRegistry;
+
 
     // Client가 SEND할 수 있는 경로
     // stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
@@ -33,15 +34,11 @@ public class StompChatController {
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
         System.out.println(message.getWriter()+ "님이 채팅방에 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-        System.out.println(template.getMessageChannel());
-        // map으로 room이랑 game관리하고
-        // room에 유저아이디를 넣고
-        if(room.get(message.getRoomId())==null){
-            room.put(message.getRoomId(), new ChatRoomDTO());
-        }
-        room.get(message.getRoomId()).addNickname(message.getWriter());
-        // game시작시에 room에 있는 유저아이디를 game으로 넘겨주며 roommap 삭제
+        
+        // room에 유저아이디를 넣음
+        roomMap.addNickname(message.getRoomId(), message.getWriter());
     }
+
 
 
 
@@ -66,6 +63,9 @@ public class StompChatController {
     public void quit(ChatMessageDTO message){
         message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        
+        // room에tj 유저아이디 삭제
+        roomMap.removeNickname(message.getRoomId(), message.getWriter());
     }
 
 }
