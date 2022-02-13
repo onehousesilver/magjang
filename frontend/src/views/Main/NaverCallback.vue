@@ -8,7 +8,7 @@ import axios from 'axios'
 
 export default {
   mounted () {
-    var naver_id_login = new window.naver_id_login("XcnVRW5TXoLW3FDEkiUJ", "http://localhost:8083/navercallback");
+    var naver_id_login = new window.naver_id_login("XcnVRW5TXoLW3FDEkiUJ", "http://i6b208.p.ssafy.io/navercallback");
     // console.log(naver_id_login.oauthParams.access_token);
     
     // this.setUser({
