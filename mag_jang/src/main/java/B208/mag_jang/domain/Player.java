@@ -40,10 +40,9 @@ public class Player implements Comparable<Player>{
     @Override
     public String toString() {
         return "Player : " +
-                nickName + '\'' +
+                nickName +
                 ", money=" + money +
-                ", jobs=" + Arrays.toString(jobs) +
-                '}';
+                ", jobs=" + Arrays.toString(jobs);
     }
 
     @Override

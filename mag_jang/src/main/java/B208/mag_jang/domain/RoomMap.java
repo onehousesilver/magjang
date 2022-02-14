@@ -27,4 +27,8 @@ public class RoomMap {
     public List<String> getNicknames(String roomId) {
         return rooms.get(roomId).getNicknames();
     }
+
+    public void removeChatRoomDTO(String roomId){
+        rooms.remove(roomId);
+    }
 }

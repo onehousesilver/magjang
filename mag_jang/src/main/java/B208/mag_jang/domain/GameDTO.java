@@ -7,12 +7,16 @@ import java.util.Map;
 public class GameDTO {
     private String gameId;
     private List<Player> playerList; // 플레이어 리스트
+    private List<Player> order; // 플레이어 리스트
+    private List<String> currJobs; // 플레이어 리스트
     //직업리스트도 있어야됨
     private DealDTO deal;
 
+    private int[][][] gameLog;
 
     private int round; // 라운드
     private int turn;  // 턴
+    private boolean isGameFinished = false;
 
     //게임 초기 생성
     public GameDTO(String roomId) {
@@ -48,8 +52,8 @@ public class GameDTO {
         return deal.isDealOk();
     }
     //거래분배금액반환
-    public Map<String,Integer> getFinalMoney(){
-        return this.deal.calcMoney(this.round);
+    public Map<String,Integer> getDealAmount(){
+        return deal.getDealAmount();
     }
 
     public void addPlayer(String player) {
@@ -57,14 +61,20 @@ public class GameDTO {
     }
 
     public void initGame(int seedMoney) {
-        for(int i=0; i<playerList.size(); i++){
+        for(int i=0; i<getPlayerListSize(); i++){
             playerList.get(i).setMoney(seedMoney);
-//            playerList.get(i).setJobs(jobs[i]);
         }
+        gameLog = new int[3][getPlayerListSize()][getPlayerListSize()];
     }
     public List<Player> initJobs(String[][] jobs){
         for(int i=0; i<playerList.size(); i++){
             playerList.get(i).setJobs(jobs[i]);
+            if(!currJobs.contains(jobs[i][0])){
+                currJobs.add(jobs[i][0]);
+            }
+            if(!currJobs.contains(jobs[i][1])){
+                currJobs.add(jobs[i][1]);
+            }
         }
         return playerList;
     }
@@ -109,6 +119,41 @@ public class GameDTO {
         this.turn = turn;
     }
 
+    public List<Player> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Player> order) {
+        this.order = order;
+    }
+
+    public List<String> getCurrJobs() {
+        return currJobs;
+    }
+
+    public void setCurrJobs(List<String> currJobs) {
+        this.currJobs = currJobs;
+    }
+
+    public void nextTurn() {
+        this.turn++;
+        if(this.turn > getPlayerListSize()){
+            this.turn = 1;
+            this.round++;
+            if(this.round > 3){
+                this.isGameFinished = true;
+            }
+        }
+    }
+
+    public boolean isGameFinished() {
+        return isGameFinished;
+    }
+
+    public int[][][] getGameLog() {
+        return gameLog;
+    }
+
     @Override
     public String toString() {
         return "GameDTO{" +
@@ -119,4 +164,5 @@ public class GameDTO {
                 ", turn=" + turn +
                 '}';
     }
+
 }

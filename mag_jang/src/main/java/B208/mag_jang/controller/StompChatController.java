@@ -64,7 +64,7 @@ public class StompChatController {
         message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         
-        // room에tj 유저아이디 삭제
+        // room에서 유저아이디 삭제 - ㅇ
         roomMap.removeNickname(message.getRoomId(), message.getWriter());
     }
 
