@@ -12,7 +12,7 @@ public class ChatMessageDTO {
     private String roomId;
     private String writer;
     private String reader;
-    private String message;
+    private Object message;
 
     @Override
     public String toString() {
