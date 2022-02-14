@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col">
+    <div class="col-4">
       <div> 
         <span class="badge badge-info">인원 조건</span>
         <h2>브로커 {{ broker }} 제외 2명</h2>
@@ -11,7 +11,7 @@
     </div>
 
     <!-- 거래 금액 -->
-    <div class="col total-money">
+    <div class="col-3 total-money">
       <span class="badge badge-info">거래 금액</span> <br />
       <img
         src="@/assets/money.png"
@@ -21,10 +21,17 @@
           
     <!-- 설명 -->
     <div
-      class="col">
+      class="col-5">
       <div class="row">
-        <div class="col">
+        <div
+          v-if="this.$store.state.conclusion === true"
+          class="col">
           <GameText />
+        </div>
+        <div
+          v-else
+          class="col">
+          <SelectedUserBtn />
         </div>
         <div class="col">
           <GameTimer
@@ -39,6 +46,7 @@
 import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText.vue'
 import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
+import SelectedUserBtn from './SelectedUserBtn.vue'
 
 export default {
   components: {
@@ -46,6 +54,7 @@ export default {
     GameText,
     GameTimer,
     UserAbility,
+    SelectedUserBtn,
     // GameRoundInfo,
   },
   data() {

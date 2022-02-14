@@ -1,15 +1,13 @@
 <template>
-  <span class="price-box">
-    <b>￦</b>
-    <input
+  <div class="price-box">
+    <b>💰</b>
+    <span
       class="price"
-      type="text"
-      dir="rtl"
-      placeholder="Price"
-      v-model="price"
-      readonly />
-    <b> 만원</b>
-  </span>
+      v-bind="price">
+      {{ price }}
+    </span>
+    <b> 만원 </b>
+  </div>
 </template>
 
 <script>
@@ -23,15 +21,12 @@ export default {
 </script>
 
 <style scoped>
-.price-box {
-    /* border: 1px solid black;*/
-    width: 200px;
-}
 .price-box .price {
     font-size: 2rem;
     color : white;
     border : none;
     background-color: #1f1f1f;
+    margin-left: 100px;
 }
 .price-box b {
     font-size: 2rem; 

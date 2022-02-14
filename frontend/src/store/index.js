@@ -13,7 +13,10 @@ export default createStore({
     gamePossible: false,
     // turn마다
     turnPrice: 0,
-    
+    selectedList: [],
+
+    // 결정여부
+    conclusion: true,
   },
   getters: {  // state 상태 가져오기
     userId: state => state.userId,
@@ -25,12 +28,13 @@ export default createStore({
     proGangAmount: state => state.proGangAmount,
     lastGenRoom: state => state.lastGenRoom,
     gamePossible: state => state.gamePossible,
-    
+    conclusion: state => state.conclusion,
+
     isLogined: function(state){
       if (state.userId && state.email)
         return true
       return false
-    }
+    },
   },
   mutations: {  // state 상태 변경, 동기적이어야 함
     SET_USER: function (state, userdata) {
@@ -45,7 +49,10 @@ export default createStore({
     },
     SET_NICKNAME(state, nickName){
       state.nickName = nickName
-    }
+    },
+    addSelectedList(state, price) {
+      state.selectedList.push(price)
+    },
   },
   actions: {  // mutations 호출, 비동기 가능
     setUser: function ({commit}, userId, nickName, rankPoint, email, winAmount, gangAmount, proGangAmount, lastGenRoom) {
