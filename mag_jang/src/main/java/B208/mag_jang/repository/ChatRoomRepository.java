@@ -26,10 +26,10 @@ public class ChatRoomRepository {
         return chatRoomDTOMap.get(id);
     }
 
-    public ChatRoomDTO createChatRoomDTO(String name){
-        ChatRoomDTO room = ChatRoomDTO.create(name);
-        chatRoomDTOMap.put(room.getRoomId(), room);
-
-        return room;
-    }
+//    public ChatRoomDTO createChatRoomDTO(String name){
+//        ChatRoomDTO room = ChatRoomDTO.create(name);
+//        chatRoomDTOMap.put(room.getRoomId(), room);
+//
+//        return room;
+//    }
 }
