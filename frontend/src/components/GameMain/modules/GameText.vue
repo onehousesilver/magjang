@@ -8,11 +8,11 @@
       <!-- 동시에 타이머 스킵 -->
       <!-- 결정완료를 누르면 메소드가 실행되어서 전체 인원에게 입력한 금액 보여줌 -->
       <!-- 그리고 해당되는 사람들에게만 체결하기/거부하기 띄어주기 -->
+      <!-- v-if="game_condition_player == click_player" -->
       <button
         type="button"
         class="btn mj-btn"
-        v-if="game_condition_player == click_player"
-        @click="selectDone">
+        @click="isConclusion">
         결정완료
       </button>
     </div>
@@ -24,18 +24,17 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
       player: this.$store.state.nickName,
       //broker: this.$store.stat.broker,
-      broker: null
+      broker: null,
     }
   },
   methods: {
-    selectDone() {
-
+    isConclusion () {
+      this.$store.state.conclusion = false
     }
   }
 }
