@@ -29,14 +29,14 @@ public class UserService {
                 });
     }
 
-    public User findUserUsingEmail(String email){
-        return userRepository.findByEmail(email)
-                .orElseGet(() -> JoinNewUserWithEmail(email));
+    public User findUserUsingNaverId(String naverId){
+        return userRepository.findByNaverId(naverId)
+                .orElseGet(() -> JoinNewUserWithNaverId(naverId));
     }
 
-    public User JoinNewUserWithEmail(String email){
+    public User JoinNewUserWithNaverId(String naverId){
         User user = new User();
-        user.setEmail(email);
+        user.setNaverId(naverId);
         return join(user);
     }
 

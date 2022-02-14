@@ -9,6 +9,6 @@ public interface UserRepository {
     User save(User user);
     Optional<User> findById(Long id);
     Optional<User> findByNickName(String NickName);
-    Optional<User> findByEmail(String email);
+    Optional<User> findByNaverId(String naverId);
     List<User> findAll();
 }

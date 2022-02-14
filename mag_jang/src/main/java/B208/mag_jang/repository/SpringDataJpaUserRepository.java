@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface SpringDataJpaUserRepository extends JpaRepository<User, Long>, UserRepository {
     @Override
     Optional<User> findByNickName(String NickName);
-    Optional<User> findByEmail(String email);
+    Optional<User> findByNaverId(String naverId);
 }
