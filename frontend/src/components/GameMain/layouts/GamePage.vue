@@ -2,7 +2,7 @@
   <div
     class="row"
     id="session">
-    <div class="game-layout col-10">
+    <div class="game-layout col-9">
       <!-- 위쪽 유저 -->
       <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
         <JangSaKkun :stream-manager="publisher" />
@@ -12,13 +12,13 @@
       
       <!-- 테이블 -->
       <div class="row h-30 game-table-el">
-        <div v-if="gamePossible">
+        <div v-if="this.$store.state.gamePossible">
           <GameStartInfo />
         </div>
         <div v-else>
           <GameWatingBtns 
-            @gamePossible="gamestart"
             @go-to-main="leaveSession" />
+          <!-- @gamePossible="gamestart" -->
         </div>
       </div>
 
@@ -30,7 +30,8 @@
       </div>
     </div>
 
-    <div class="col-2">
+
+    <div class="col-3">
       <div class="row">
         <div class="game-log">
           게임로그
@@ -83,10 +84,10 @@ export default {
     this.joinSession();
   },
   methods: {
-    gamestart() {
-      this.gamePossible=true
-    },
-
+    // gamestart() {
+    //   this.gamePossible=true
+    // },
+		// openVidu system
     joinSession() {
       // --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -122,7 +123,7 @@ export default {
 			this.getToken(this.mySessionId).then(token => {
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
-
+						console.log(this.myUserName)
 						// --- Get your own camera stream with the desired properties ---
 
 						let publisher = this.OV.initPublisher(undefined, {
@@ -133,7 +134,7 @@ export default {
 							resolution: '320x240',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
+							mirror: true       	// Whether to mirror your local video or not
 						});
 
 						this.mainStreamManager = publisher;
@@ -169,18 +170,6 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
 		},
-
-		/**
-		 * --------------------------
-		 * SERVER-SIDE RESPONSIBILITY
-		 * --------------------------
-		 * These methods retrieve the mandatory user token from OpenVidu Server.
-		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-		 *   3) The Connection.token must be consumed in Session.connect() method
-		 */
 
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
@@ -239,9 +228,9 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-			mySessionId: this.$route.params.code,
+			// mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      // mySessionId: "20",
+      mySessionId: "20",
 			// myUserName: "gaeun",
     }
   }

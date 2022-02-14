@@ -1,8 +1,7 @@
 <template>
   <div class="nav-top">
     <GameRuleInfo />
-    <div v-if="gamePossible">
-      <!-- <InputPrice /> -->
+    <div v-if="this.$store.state.gamePossible">
       <UserPrice />
     </div>
   </div>
@@ -15,11 +14,9 @@ import UserPrice from '@/components/GameMain/modules/UserPrice.vue'
 
 export default {
   components: {
-    // InputPrice,
     GameRuleInfo,
     UserPrice,
-  }
-  
+  },
 }
 </script>
 

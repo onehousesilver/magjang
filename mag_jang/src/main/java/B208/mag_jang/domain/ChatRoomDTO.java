@@ -2,23 +2,43 @@ package B208.mag_jang.domain;
 
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 public class ChatRoomDTO {
     private String roomId;
-    private String name;
-    // WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
-    private Set<WebSocketSession> sessions = new HashSet<>();
+    private List<String> nicknames;
 
-    public static ChatRoomDTO create(String name){
-        ChatRoomDTO room = new ChatRoomDTO();
-        room.roomId = UUID.randomUUID().toString();
-        room.name = name;
-        return room;
+    public ChatRoomDTO(String roomId) {
+        this.roomId = roomId;
     }
+
+    public List<String> getNicknames() {
+        return this.nicknames;
+    }
+
+    public void addNickname(String nickname){
+        if(this.nicknames==null) {
+            this.nicknames = new ArrayList<>();
+        }
+        this.nicknames.add(nickname);
+    }
+
+    public void removeNickname(String nickname) {
+        if(this.nicknames==null) {
+            System.out.println("ChatRoomDTO : " + nickname + "의 quit 요청, nicknames가 null 입니다.");
+            return;
+        }
+        System.out.println(nicknames);
+        this.nicknames.remove(nickname);
+        System.out.println(nicknames);
+    }
+//    public static ChatRoomDTO create(String name){
+//        ChatRoomDTO room = new ChatRoomDTO();
+//        room.roomId = UUID.randomUUID().toString();
+//        room.name = name;
+//        return room;
+//    }
 
     public String getRoomId() {
         return roomId;
@@ -28,28 +48,11 @@ public class ChatRoomDTO {
         this.roomId = roomId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<WebSocketSession> getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(Set<WebSocketSession> sessions) {
-        this.sessions = sessions;
-    }
-
     @Override
     public String toString() {
         return "ChatRoomDTO{" +
                 "roomId='" + roomId + '\'' +
-                ", name='" + name + '\'' +
-                ", sessions=" + sessions +
                 '}';
     }
+
 }

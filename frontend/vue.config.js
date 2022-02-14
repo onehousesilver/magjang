@@ -12,7 +12,7 @@ module.exports = {
     proxy: {
       '/account': {
         target: 'http://localhost:8080/'
-      }
+      },
     },
     historyApiFallback: true,
     hot: true
