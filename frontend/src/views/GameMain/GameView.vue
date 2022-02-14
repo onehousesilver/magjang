@@ -71,11 +71,6 @@ export default {
   /* border: solid black 2px; */
 }
 
-.game-layout .user-video .col:hover {
-  cursor: pointer;
-  border-color: tomato;
-}
-
 .game-layout .user-video-foot {
   position: absolute;
   top: 64vh;

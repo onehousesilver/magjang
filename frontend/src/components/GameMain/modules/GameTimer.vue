@@ -113,6 +113,7 @@ export default {
   position: relative;
   width: 100px;
   height: 100px;
+  margin: 0 auto;
 	
 /* Removes SVG styling that would hide the time label */
   &__circle {

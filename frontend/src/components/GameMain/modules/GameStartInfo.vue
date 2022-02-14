@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col">
       <div> 
-        인원 조건
-        <h1>브로커 {{ broker }} 제외 2명</h1>
+        <span class="badge badge-info">인원 조건</span>
+        <h2>브로커 {{ broker }} 제외 2명</h2>
         <div>
           <UserAbility />
         </div>
@@ -11,7 +11,8 @@
     </div>
 
     <!-- 거래 금액 -->
-    <div class="col">
+    <div class="col total-money">
+      <span class="badge badge-info">거래 금액</span> <br />
       <img
         src="@/assets/money.png"
         alt="money.png" />
@@ -49,6 +50,7 @@ export default {
   },
   data() {
     return {
+      // back에서 랜덤으로 주는 금액
       money : 2000,
       timeLimit: 30,
       timePassed: 0,
@@ -56,10 +58,6 @@ export default {
       // 브로커 받아온 값
       broker: null,
     };
-  },
-  created() {
-    console.log('create되자마자는 안되는거같구..')
-    // this.ShowRoundInfo();
   },
   computed: {
     timeLeft() {
@@ -102,6 +100,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.total-money img {
+  width: 150px;
+}
+span {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.badge {
+  background-color: #2778c4;
+}
 </style>

@@ -3,7 +3,8 @@
     class="ov-video-wrap"
     v-if="streamManager"
     :key="streamManager.stream.connection.connectionId">
-    <ov-video :stream-manager="streamManager" />
+    <ov-video
+      :stream-manager="streamManager" />
     <div v-if="this.$store.state.gamePossible">
       <UserAbility />
     </div>
@@ -29,7 +30,8 @@ export default {
 		streamManager: {
       type: Object,
       default: null,
-    }
+    },
+    // gamePossible : this.$store.state.gamePossible,
 	},
 
 	computed: {
@@ -64,5 +66,9 @@ export default {
   display: inline-block;
   margin-left: 10px;
   font-size: 15px;
+}
+
+.ov-video-wrap:hover {
+  cursor: pointer;
 }
 </style>

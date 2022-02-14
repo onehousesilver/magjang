@@ -1,67 +1,68 @@
 <template>
   <div class="price-box">
     <span>
-      <input
-        class="price form-control form-control-lg"
-        aria-label="default input example"
-        type="number"
-        placeholder="금액을 입력하세요."
-        ref="inputPrice"
-        v-model="price" /><b>만원</b>
+      <vue-number-input 
+        v-model="price" 
+        :min="100" 
+        :step="100" 
+        :inputtable="false"
+        inline 
+        controls
+        @click="btnCnt" />
+      <b>만원</b>
     </span>
   </div>
 </template>
 
 <script>
+
 export default {
   data() { 
     return {
-      price : '',
-      noprice: '100단위로 작성해주세요.'
+      price: 100,
+      btncount: 1,
+      againClick: false,
+      preprice: 0
     };
   },
-  // watch: {
-  //   checkPrice() {
-  //     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  //     if (this.price*1 > 0 && this.price*1 % 100 == 0) {
-  //       this.price
-  //      } else {
-  //       this.noprice
-  //      }
-  //   }
+  // props: {
+  //   selectedUser: false,
   // },
   methods: {
-    inputPrice(e) {
-      e.preventDefault();
-      if(this.price%100 != 0) {
-        console.error("100단위로 입력해주세요.");
-        this.price = '';
-        this.$refs.inputprice.focus();
-      }else {
-        console.error(this.price);
-        this.$refs.inputprice.focus();
+    btnCnt() {
+      if (this.againClick) {
+        this.$store.state.turnPrice -= this.preprice
+      } else {
+        this.againClick=true
       }
+      this.$store.state.turnPrice += this.price
+      this.preprice = this.price
+      console.log(this.$store.state.turnPrice)
     }
   }
 }
 </script>
 
 <style scoped>
+
 .price-box {
     text-align: center;
+    margin-top: 10px;
 }
+/*
 .price-box .price {
     font-size: 1.5rem;
     color : white;
     background-color: #1f1f1f;
     text-align:right;
 }
+*/
 .price-box b {
     font-size: 1.5rem; 
     color : white;
 }
-
-/* input창에서 증감버튼 없애기 */
+/*
+input창에서 증감버튼 없애기 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -72,4 +73,5 @@ input::-webkit-inner-spin-button {
   display: inline-block;
   width: 56%;
 }
+*/
 </style>

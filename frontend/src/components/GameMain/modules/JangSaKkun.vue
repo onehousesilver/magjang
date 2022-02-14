@@ -7,7 +7,8 @@
         @click="selectPriceShow" />
     </div>
     <div v-show="selectedUser && this.$store.state.gamePossible">
-      <SelectPrice />
+      <SelectPrice 
+        :selected-user="selectedUser" />
     </div>
   </div>
 </template>

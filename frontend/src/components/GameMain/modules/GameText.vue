@@ -12,12 +12,12 @@
         type="button"
         class="btn mj-btn"
         v-if="game_condition_player == click_player"
-        @click="showPlayerMoney">
+        @click="selectDone">
         결정완료
       </button>
     </div>
     <div v-else> 
-      <span>브로커가 거래를 체결 중 입니다. </span><br />
+      <span>브로커가 거래를 <br />체결 중 입니다. </span><br />
       <span>잠시만 기다려주세요.</span>
     </div>
   </div>
@@ -29,15 +29,15 @@ export default {
   data () {
     return {
       player: this.$store.state.nickName,
-      broker: null,
+      //broker: this.$store.stat.broker,
+      broker: null
     }
   },
   methods: {
-    showPlayerMoney() {
-      // 입력한 금액을 보여주겠지
+    selectDone() {
+
     }
   }
-
 }
 </script>
 

@@ -11,7 +11,9 @@ export default createStore({
     proGangAmount: null,
     lastGenRoom: null,
     gamePossible: false,
-
+    // turn마다
+    turnPrice: 0,
+    
   },
   getters: {  // state 상태 가져오기
     userId: state => state.userId,
