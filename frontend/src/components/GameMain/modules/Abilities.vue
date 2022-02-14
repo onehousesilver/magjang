@@ -1,9 +1,17 @@
 <template>
-  <b-button
-    :variant="ce()"
-    disabled="disabled">
-    {{ ability }}
-  </b-button>
+  <div v-if="activate">
+    <b-button
+      :variant="ce()"
+      disabled="disabled">
+      {{ ability }}
+    </b-button>
+  </div>
+  <div v-else>
+    <b-button
+      disabled="disabled">
+      {{ ability }}
+    </b-button>
+  </div>
 </template>
 
 <script>
@@ -11,7 +19,11 @@ export default {
   props: {
 		ability: {
       type: String,
-      default: "회색",
+      default: "무능",
+    },
+    activate: {
+      type: Boolean,
+      default: true,
     }
 	},
   data() {
@@ -23,7 +35,6 @@ export default {
         "인맥": "warning",
         "정보": "info",
         "로비": "light",
-        "회색": "secondary"
       },
     }
   },
@@ -31,7 +42,7 @@ export default {
     ce() {
       return this.colors[this.ability]
     }
-  }
+  }  // 차라리 여기에 dealStateCount 넣어서 자동으로 보게 하는 건 어떨까? 내일 그렇게 수정하자
 }
 </script>
 

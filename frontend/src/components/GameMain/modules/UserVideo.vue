@@ -5,7 +5,7 @@
     :key="streamManager.stream.connection.connectionId">
     <ov-video :stream-manager="streamManager" />
     <div v-if="this.$store.state.gamePossible">
-      <UserAbility />
+      <UserAbility :abilities-array="abilitiesArray" />
     </div>
     <p class="video-nickname">
       {{ clientData }}
@@ -29,6 +29,10 @@ export default {
 		streamManager: {
       type: Object,
       default: null,
+    },
+    abilitiesArray: {
+      type: Array,
+      default: undefined,
     }
 	},
 

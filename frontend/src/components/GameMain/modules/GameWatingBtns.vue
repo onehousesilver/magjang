@@ -1,16 +1,7 @@
 <template>
-  <div class="sp">
-    <Abilities ability="선박" />
-  </div>
-  <Abilities ability="선박" />
-  <Abilities ability="언변" />
-  <Abilities ability="창고" />
-  <Abilities ability="인맥" />
-  <Abilities ability="정보" />
-  <Abilities ability="로비" />
   <div
     class="button-flex">
-    <!-- <button
+    <button
       type="button"
       class="btn mj-btn"
       disabled>
@@ -29,17 +20,14 @@
       class="btn mj-btn"
       @click="$emit('go-to-main'), clickMain()">
       메인화면으로
-    </button> -->
+    </button>
   </div>
 </template>
 
 <script>
-import Abilities from '@/components/GameMain/modules/Abilities.vue'
+
 
 export default {
-  components: {
-    Abilities,
-  },
   emits: ['game-possible', 'go-to-main'],
   data() {
     return {
@@ -50,7 +38,7 @@ export default {
   },
   methods: {
     gamePossible(){
-      this.$store.state.gamePossible = true
+      this.$store.state.gamePossible = true  // 직접 store에 접근해서 값 바꾸지 맙시다.. 안됩니다.. actions까지 끌고와서 쓰십셔..
     },
     clickMain() {
       this.emitter.emit('chat_disconnect')
