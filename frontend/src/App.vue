@@ -9,5 +9,6 @@
   height: 100vh;
   overflow: hidden;
   background-color: #1f1f1f;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 </style>

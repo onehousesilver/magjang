@@ -29,17 +29,6 @@ export default {
 </script>
 
 <style>
-:root {
-  height: 100%;
-  overflow: hidden;
-  background-color: #1f1f1f;
-}
-
-#game-main {
-  width: 100%;
-  background-color: #1f1f1f;
-}
-
 .nav-top {
   height: 40px;
 }
@@ -49,58 +38,61 @@ export default {
 }
 
 .game-layout .game-table-el {
-  display: block;
+  display: flex;
+  text-align: center;
   position: absolute;
   width: 80%;
-  height: 35vh;
+  height: 30vh;
   margin: 0 auto;
   left: 50%;
-  top: 50%;
+  top: 52%;
   transform: translate(-50%, -50%);
   background-color: rgb(180, 180, 180);
   font-size: 30px;
   border-radius: 20px;
+  align-items: center;
+  overflow: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
 }
+.game-layout .game-table-el::-webkit-scrollbar {
+  display: none;
+}
+
 .game-layout .user-video-head {
-  position: relative;
+  position: absolute;
   top: 10px;
+  width: 100%;
 }
 
 .game-layout .user-video .col {
   height: 25vh;
   border-radius: 20px;
-  border: solid black 2px;
-}
-
-.game-layout .user-video .col:hover {
-  cursor: pointer;
-  border-color: tomato;
+  /* border: solid black 2px; */
 }
 
 .game-layout .user-video-foot {
-  position: relative;
-  top: 40vh;
+  position: absolute;
+  top: 64vh;
+  width: 100%;
 }
 
 .game-log {
   width: 100%;
   height: 45vh;
-  margin-right: 20px;
-  background-color: black;
-  margin-bottom: 20px;
+  border: solid rgb(67,66,47) 2px;
   color: white;
   font-size: 30px;
   border-radius: 20px;
+  margin-top: 10px;
 }
 
 .game-chatting {
   width: 100%;
   height: 45vh;
-  background-color: rgb(42, 106, 165);
-  margin-top: 20px;
   color: white;
   font-size: 30px;
   border-radius: 20px;
+  margin-top: 20px;
 }
-
 </style>
