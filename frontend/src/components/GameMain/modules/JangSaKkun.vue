@@ -1,28 +1,25 @@
 <template>
   <div>
     <div
-      class="col p-3 bg-light"
-      @click="selectPriceShow">
+      class="col">
       <UserVideo
         :stream-manager="streamManager"
-        @click="updateMainVideoStreamManager(streamManager)" />
-      <UserAbility />
+        @click="selectPriceShow" />
     </div>
-    <div v-if="selectedUser">
-      <SelectPrice />
+    <div v-show="selectedUser && this.$store.state.gamePossible">
+      <SelectPrice 
+        :selected-user="selectedUser" />
     </div>
   </div>
 </template>
 
 <script>
 import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
-import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
 
 export default {
   components: { 
     UserVideo,
-    UserAbility,
     SelectPrice,
   },
   data() {
@@ -34,7 +31,7 @@ export default {
 		streamManager: {
       type: Object,
       default: null,
-    }
+    },
 	},
   methods: {
     selectPriceShow(){
@@ -44,6 +41,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+/* .col {
+  background: rgb(156, 158, 127);
+} */
 </style>

@@ -29,14 +29,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ability {
-  /* display : flex; */
+  display : flex;
   text-align: center;
   bottom: -3rem;
   width: 100%;
-  z-index: 1;
-  margin-top: 10px;
 }
 
 .ability .badge {

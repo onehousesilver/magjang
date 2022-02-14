@@ -2,15 +2,17 @@
   <div class="row">
     <div class="col">
       <div> 
-        인원 조건
-      </div>
-      <div> 
-        능력 조건
+        <span class="badge badge-info">인원 조건</span>
+        <h2>브로커 {{ broker }} 제외 2명</h2>
+        <div>
+          <UserAbility />
+        </div>
       </div>
     </div>
 
     <!-- 거래 금액 -->
-    <div class="col">
+    <div class="col total-money">
+      <span class="badge badge-info">거래 금액</span> <br />
       <img
         src="@/assets/money.png"
         alt="money.png" />
@@ -25,8 +27,7 @@
           <GameText />
         </div>
         <div class="col">
-          <!-- <GameTimer /> -->
-          <BaseTimer
+          <GameTimer
             :time-left="timeLeft" />
         </div>
       </div>
@@ -35,23 +36,27 @@
 </template>
 
 <script>
-// import GameTimer from '@/components/GameMain/modules/GameTimer'
-import GameText from '@/components/GameMain/modules/GameText'
-import BaseTimer from '@/components/GameMain/modules/BaseTimer'
-
+import GameTimer from '@/components/GameMain/modules/GameTimer'
+import GameText from '@/components/GameMain/modules/GameText.vue'
+import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 
 export default {
   components: {
     // GameTimer,
     GameText,
-    BaseTimer
+    GameTimer,
+    UserAbility,
+    // GameRoundInfo,
   },
   data() {
     return {
+      // back에서 랜덤으로 주는 금액
       money : 2000,
       timeLimit: 30,
       timePassed: 0,
       timerInterval: null,
+      // 브로커 받아온 값
+      broker: null,
     };
   },
   computed: {
@@ -77,6 +82,7 @@ export default {
     // }
   },
   methods: {
+    // GameTimerMethods
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
@@ -86,7 +92,7 @@ export default {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
       this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
-    }
+    },
   },
   mounted() {
     this.startTimer();
@@ -94,6 +100,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.total-money img {
+  width: 150px;
+}
+span {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.badge {
+  background-color: #2778c4;
+}
 </style>
