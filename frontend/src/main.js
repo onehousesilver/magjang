@@ -16,4 +16,6 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 //mitt
 import mitt from './mitt/mitt.js'
 
+
+
 createApp(App).use(store).use(router).use(BootstrapVue3).use(VueSweetalert2).use(mitt).mount('#app')

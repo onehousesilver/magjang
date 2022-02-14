@@ -6,8 +6,8 @@
         aria-label="default input example"
         type="number"
         placeholder="금액을 입력하세요."
-        v-model="price" 
-        @input="showPrice" /><b>만원</b>
+        ref="inputPrice"
+        v-model="price" /><b>만원</b>
     </span>
   </div>
 </template>
@@ -15,15 +15,34 @@
 <script>
 export default {
   data() { 
-    return {  
+    return {
       price : '',
+      noprice: '100단위로 작성해주세요.'
     };
   },
-  watch: {   
-    showPrice(){
-      return this.price > 0 && this.price % 100 == 0? this.price : '100단위로 작성해주세요.' 
+  // watch: {
+  //   checkPrice() {
+  //     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+  //     if (this.price*1 > 0 && this.price*1 % 100 == 0) {
+  //       this.price
+  //      } else {
+  //       this.noprice
+  //      }
+  //   }
+  // },
+  methods: {
+    inputPrice(e) {
+      e.preventDefault();
+      if(this.price%100 != 0) {
+        console.error("100단위로 입력해주세요.");
+        this.price = '';
+        this.$refs.inputprice.focus();
+      }else {
+        console.error(this.price);
+        this.$refs.inputprice.focus();
+      }
     }
-  },
+  }
 }
 </script>
 
@@ -53,6 +72,4 @@ input::-webkit-inner-spin-button {
   display: inline-block;
   width: 56%;
 }
-
-
 </style>

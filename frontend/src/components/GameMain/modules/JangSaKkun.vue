@@ -3,7 +3,7 @@
     <div
       class="col">
       <UserVideo
-        :stream-manager="streamManager" 
+        :stream-manager="streamManager"
         @click="selectPriceShow" />
     </div>
     <div v-show="selectedUser && this.$store.state.gamePossible">
@@ -30,7 +30,7 @@ export default {
 		streamManager: {
       type: Object,
       default: null,
-    }
+    },
 	},
   methods: {
     selectPriceShow(){

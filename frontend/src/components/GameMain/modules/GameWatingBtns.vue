@@ -39,7 +39,6 @@ export default {
   methods: {
     gamePossible(){
       this.$store.state.gamePossible = true
-      // console.log('찍히나?')
     },
     clickMain() {
       this.emitter.emit('chat_disconnect')

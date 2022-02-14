@@ -13,11 +13,12 @@
     <div
       class="modal fade"
       id="exampleModal"
+      role="dialog"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullsize">
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div
           class="modal-content">
           <div class="modal-header">
@@ -62,7 +63,7 @@
               - <span style="color:red;">한 명이라도 거래를 거부한다면 해당 경매는 실패하게 됩니다. </span> <br />
               이때, 한 명만 배신한다면 이득을 얻을 수 있지만 <span style="color:red;">2명 이상 거부했다면 패널티</span>가 부과됩니다.<br />
 
-              ✨마치 거래에 참가할 것처럼 속이고 들어가서 해당 거래를 무효로 만들어버릴 수도 있겠죠?🤭✨<br />
+              <b>✨마치 거래에 참가할 것처럼 속이고 들어가서 해당 거래를 무효로 만들어버릴 수도 있겠죠?🤭✨ </b><br />
 
               C. 순위 발표 👑<br />
 
@@ -89,10 +90,15 @@
 
 <script>
 export default {
-  data() {
-
-  }
+  // data() {
+  //   return {
+  //     modalShow: false
+  //   }
+  // }
 }
+
+  
+
 </script>
 
 <style scoped>
@@ -111,6 +117,7 @@ export default {
   color: white;
   padding-top: 12px;
   padding-bottom: 0;
+  margin-right: 19%;
 }
 
 
