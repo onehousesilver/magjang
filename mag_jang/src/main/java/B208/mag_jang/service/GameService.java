@@ -22,7 +22,10 @@ public class GameService {
 
     // GameDTO 생성 후 GameMap<String roomId, GameDTO gameDTO>에 연결 - ㅇ
     // roomMap의 key 삭제 - ㅇ
-    public void gameStart(String writer, String roomId) {
+    public boolean gameStart(String writer, String roomId) {
+        if(roomMap.getNicknames(roomId).size() < 4){
+            return false;
+        }
         for(String player : roomMap.getNicknames(roomId)){
             gameMap.addPlayer(roomId, player);
         }
@@ -32,6 +35,7 @@ public class GameService {
         if(gameMap.getGame(roomId) != null){
             roomMap.removeChatRoomDTO(roomId);
         }
+        return true;
     }
     public List<Player> getNextJobs(String roomId){
         String[][] jobs = new String[gameMap.getGame(roomId).getPlayerListSize()][2];
@@ -274,5 +278,10 @@ public class GameService {
             }
         }
         return winnerList;
+    }
+
+    public Player getCurrBroker(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        return new Player(game.getOrder().get(game.getTurn()-1).getNickName());
     }
 }

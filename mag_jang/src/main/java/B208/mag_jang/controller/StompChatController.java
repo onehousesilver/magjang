@@ -31,15 +31,12 @@ public class StompChatController {
     // "/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
-        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
-        System.out.println(message.getWriter()+ "님이 채팅방에 참여하였습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/enter/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/players/" + message.getRoomId(), roomMap.getNicknames(message.getRoomId()));
         
         // room에 유저아이디를 넣음
         roomMap.addNickname(message.getRoomId(), message.getWriter());
     }
-
-
 
 
     @MessageMapping(value = "/chat/message")
