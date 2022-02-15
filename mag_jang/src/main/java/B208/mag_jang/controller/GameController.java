@@ -29,25 +29,30 @@ public class GameController {
     // 프론트 : 메서드 만들어서 처리 "/sub/game/start/{roomId}"
     @MessageMapping(value = "/start")
     public void gameStart(ChatMessageDTO message) throws InterruptedException {
-        gameService.gameStart(message.getWriter(), message.getRoomId());
+        if(gameService.gameStart(message.getWriter(), message.getRoomId())){
+            // 1. 게임시작 메세지 전송
+            System.out.println("gameStart : 게임을 시작합니다!");
+            template.convertAndSend("/sub/game/start/" + message.getRoomId(), gameService.getGame(message.getRoomId())); // GameDTO 전송
 
-        // 1. 게임시작 메세지 전송
-        System.out.println("gameStart : 게임을 시작합니다!");
-        template.convertAndSend("/sub/game/start/" + message.getRoomId(), gameService.getGame(message.getRoomId())); // GameDTO 전송
+
+            // 2. 3초 후 능력 생성
+            // AsyncService의 @Async 메서드 호출, callback 등록을 통해 능력 생성
+            asyncService.sleep(message.getRoomId(), 3000).addCallback((result) -> {
+                System.out.println("callback returns : " + result);
+                try {
+                    initJobs(result);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, (e) -> {
+                System.out.println("error");
+            });
+        }else{//게임 인원 부족
+            System.out.println("gameStart Failed : 게임 인원이 부족합니다");
+            template.convertAndSend("/sub/game/start/" + message.getRoomId(), (Object) null);
+        }
 
 
-        // 2. 3초 후 능력 생성
-        // AsyncService의 @Async 메서드 호출, callback 등록을 통해 능력 생성
-        asyncService.sleep(message.getRoomId(), 3000).addCallback((result) -> {
-            System.out.println("callback returns : " + result);
-            try {
-                initJobs(result);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }, (e) -> {
-            System.out.println("error");
-        });
     }
 
     // 플레이어 능력 생성 후 반환
@@ -77,20 +82,40 @@ public class GameController {
         // @Async 메서드 호출, callback 등록을 통해 처리
         asyncService.sleep(roomId, 3000).addCallback((result) -> {
             System.out.println("callback!! : " + result);
-            initDeal(result);
+            try {
+                initDeal(result);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }, (e) -> {
             System.out.println("error");
         });
     }
 
+    public void sendCurrBroker(String roomId){
+        //브로커 주기
+        template.convertAndSend("/sub/game/broker/" + roomId, gameService.getCurrBroker(roomId));
+    }
+
     // 거래 조건 생성
-    public void initDeal(String roomId){
-        System.out.println("initDeal : "+roomId);
-        DealDTO deal = new DealDTO();
-        deal = gameService.initDeal(roomId);
-        System.out.println(deal);
-        System.out.println("/sub/game/dealdeal/" + roomId);
-        template.convertAndSend("/sub/game/dealdeal/" + roomId, deal);
+    public void initDeal(String roomId) throws InterruptedException {
+        sendCurrBroker(roomId);
+
+
+        // @Async 메서드 호출, callback 등록을 통해 처리
+        asyncService.sleep(roomId, 3000).addCallback((result) -> {
+            System.out.println("callback!! : " + result);
+            //3초 기다렸다가 딜 생성
+            System.out.println("initDeal : "+roomId);
+            DealDTO deal = new DealDTO();
+            deal = gameService.initDeal(roomId);
+            System.out.println(deal);
+            System.out.println("/sub/game/deal/" + roomId);
+            template.convertAndSend("/sub/game/deal/" + roomId, deal);
+        }, (e) -> {
+            System.out.println("error");
+        });
+
     }
     
     // 함께 거래할 멤버 리스트를 받아 모두에게 전송 - 금액을 함께 적어서 전송할지 논의 필요
