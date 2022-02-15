@@ -243,4 +243,36 @@ public class GameService {
         }
 
     }
+
+    public List<String> getProGangPlayer(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        int max = 0;
+        List<String> proGangList = new ArrayList<>();
+        for(Player player : game.getPlayerList()){
+            if(player.getGangAmount() == max && max > 0){
+                proGangList.add(player.getNickName());
+            }else if(player.getGangAmount() > max){
+                max = player.getGangAmount();
+                proGangList.clear();
+                proGangList.add(player.getNickName());
+            }
+        }
+        return proGangList;
+    }
+
+    public List<Player> getWinners(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        List<Player> winnerList = new ArrayList<>();
+        int max = 0;
+        for(Player player : game.getPlayerList()){
+            if(player.getMoney() == max && max > 0){
+                winnerList.add(player);
+            }else if(player.getMoney() > max){
+                max = player.getMoney();
+                winnerList.clear();
+                winnerList.add(player);
+            }
+        }
+        return winnerList;
+    }
 }

@@ -1,8 +1,13 @@
 package B208.mag_jang.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -98,5 +103,16 @@ public class User {
 
     public void setLastGenRoom(Long lastGenRoom) {
         this.lastGenRoom = lastGenRoom;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "userId=" + userId +
+                ", nickName='" + nickName + '\'' +
+                ", rankPoint=" + rankPoint +
+                ", winAmount=" + winAmount +
+                ", proGangAmount=" + proGangAmount +
+                '}';
     }
 }
