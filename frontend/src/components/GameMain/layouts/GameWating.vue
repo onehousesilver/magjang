@@ -25,25 +25,27 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 
 export default {
-  emits: ['game-possible', 'go-to-main'],
+  emits: ['go-to-main'],
   data() {
     return {
-      gameStartFlag: false,
       gameCode: this.$route.params.code,
       userCount: 4,
     }
   },
   methods: {
     gamePossible(){
-      this.$store.state.gamePossible = true  // 직접 store에 접근해서 값 바꾸지 맙시다.. 안됩니다.. actions까지 끌고와서 쓰십셔..
+      this.changeGamePossible(true)
     },
     clickMain() {
       this.emitter.emit('chat_disconnect')
-    }
-  }
+    },
+    ...mapActions([
+      "changeGamePossible"
+    ])
+  },
 }
 
 </script>

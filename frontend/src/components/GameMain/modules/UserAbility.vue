@@ -1,14 +1,4 @@
 <template>
-  <!-- <div
-    class="ability"
-    v-bind="getAbilities()">
-    <span class="badge bg-secondary">
-      {{ abilities[0] }}
-    </span>
-    <span class="badge bg-secondary">
-      {{ abilities[1] }}
-    </span>
-  </div> -->
   <div>
     <Abilities 
       v-if="abilitiesArray"

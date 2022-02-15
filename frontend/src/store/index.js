@@ -10,10 +10,10 @@ export default createStore({
     gangAmount: null,
     proGangAmount: null,
     lastGenRoom: null,
+
     gamePossible: false,
     // turn마다
     turnPrice: 0,
-    selectedList: [],
 
     // 결정여부
     conclusion: true,
@@ -97,6 +97,9 @@ export default createStore({
         state.dealStateCount[first_ability].value -= 1
         state.dealStateCount[second_ability].value -= 1
       }
+    },
+    CHANGE_GAME_POSSIBLE(state, flag) {
+      state.gamePossible = flag
     }
   },
   actions: {  // mutations 호출, 비동기 가능
@@ -109,6 +112,9 @@ export default createStore({
     userSelectEvent({commit}, selectdata){
       commit('DEAL_STATE_COUNT_PLUS', selectdata)
     },
+    changeGamePossible({commit}, flag) {
+      commit("CHANGE_GAME_POSSIBLE", flag)
+    }
   },
   modules: {
   }

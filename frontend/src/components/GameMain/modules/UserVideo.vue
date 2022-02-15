@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import OvVideo from './OvVideo';
-import UserAbility from './UserAbility.vue'
+import OvVideo from '@/components/GameMain/modules/OvVideo.vue';
+import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 export default {
 	name: 'UserVideo',
 

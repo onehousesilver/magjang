@@ -49,7 +49,7 @@
 <script>
 import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText.vue'
-import SelectedUserBtn from './SelectedUserBtn.vue'
+import SelectedUserBtn from '@/components/GameMain/layouts/SelectedUserBtn.vue'
 import Abilities from '@/components/GameMain/modules/Abilities.vue'
 import { mapGetters } from 'vuex'
 

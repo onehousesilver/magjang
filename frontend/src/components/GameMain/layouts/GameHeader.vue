@@ -9,7 +9,7 @@
 
 <script>
 // import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
-import GameRuleInfo from '@/components/GameMain/modules/GameRuleInfo.vue'
+import GameRuleInfo from '@/components/GameMain/layouts/GameRuleInfo.vue'
 import UserPrice from '@/components/GameMain/modules/UserPrice.vue'
 
 export default {
