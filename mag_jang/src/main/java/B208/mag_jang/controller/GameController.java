@@ -135,6 +135,7 @@ public class GameController {
         if(message.getMessage().equals("")){
             // 최종 멤버 결정 실패 시 투표를 건너뛰고 다음 턴으로 진행(마지막 턴이라면 라운드 +1)
             System.out.println("결정 실패");
+            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), (Object) null); // {멤버 : 돈} 전송
             //컨트롤러 메서드 만들기
             startNext(message.getRoomId());
         }else{
@@ -199,7 +200,8 @@ public class GameController {
         template.convertAndSend("/sub/game/log/" + roomId, gameService.getLog(roomId)); // int[round][turn][playerIndex] 형의 3차원 배열로 전송
 
         List<String> proGangPlayerList = gameService.getProGangPlayer(roomId);
-        template.convertAndSend("/sub/game/log/" + roomId, proGangPlayerList); // 프로깽판러 리스트 전송
+        template.convertAndSend("/sub/game/winner/" + roomId, gameService.getWinners(roomId)); // 우승자 리스트 전송
+        template.convertAndSend("/sub/game/progang/" + roomId, proGangPlayerList); // 프로깽판러 리스트 전송
         
         // 각 플레이어별 승점 5500 -> 550, 1등 5
         for(Player player : playerList){
