@@ -10,5 +10,5 @@ public interface UserRepository {
     Optional<User> findById(Long id);
     Optional<User> findByNickName(String NickName);
     Optional<User> findByEmail(String email);
-    List<User> findAll();
+    List<User> findTop10ByOrderByRankPointDesc();
 }

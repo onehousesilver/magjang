@@ -6,6 +6,7 @@ public class Player implements Comparable<Player>{
     private String nickName;
     private int money;
     private String[] jobs;
+    private int gangAmount = 0;
 
 
     public Player(String player) {
@@ -35,6 +36,14 @@ public class Player implements Comparable<Player>{
 
     public void setJobs(String[] jobs) {
         this.jobs = jobs;
+    }
+
+    public int getGangAmount() {
+        return gangAmount;
+    }
+
+    public void setGangAmount(int gangAmount) {
+        this.gangAmount = gangAmount;
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 //@Controller
 @RestController
@@ -47,11 +48,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/test")
-//    public void test(String nickName) throws IOException {
-//        System.out.println(nickName);
-//    }
-
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Map<String, String> requestData) throws IOException {
         String nickName = requestData.get("nickName");
@@ -79,11 +75,12 @@ public class UserController {
         String res = requestToServer(apiURL);
     }
 
-//    @GetMapping("/account")
-//    public List<User> all() {
-//        return userService.findAll();
-//    }
-
+    @GetMapping("/rank")
+    public ResponseEntity<List<User>> getRank() throws IOException {
+        List<User> user = userService.getRank();
+        System.out.println(user);
+        return ResponseEntity.ok().body(user);
+    }
     /**
      * 서버 통신 메소드
      * @param apiURL
