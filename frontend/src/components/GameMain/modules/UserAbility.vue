@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="ability">
     <Abilities 
+      class="badge"
       v-if="abilitiesArray"
       :ability="abilitiesArray[0]"
       :activate="!dealStateCount[abilitiesArray[0]].value" />
     <Abilities
+      class="badge"
       v-if="abilitiesArray"
       :ability="abilitiesArray[1]"
       :activate="!dealStateCount[abilitiesArray[1]].value" />
@@ -44,17 +46,6 @@ export default {
 <style scoped>
 .ability {
   display : flex;
-  text-align: center;
-  bottom: -3rem;
-  width: 100%;
 }
 
-.ability .badge {
-  margin: 0.5rem;
-  top: 30px;
-  justify-content: center;
-  display: inline-block;
-  width: 45%;
-  font-size: 30px;
-}
 </style> 

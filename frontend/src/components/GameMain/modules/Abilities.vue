@@ -1,16 +1,16 @@
 <template>
   <div v-if="activate">
-    <b-button
+    <b-badge
       :variant="ce()"
       disabled="disabled">
       {{ ability }}
-    </b-button>
+    </b-badge>
   </div>
   <div v-else>
-    <b-button
+    <b-badge
       disabled="disabled">
       {{ ability }}
-    </b-button>
+    </b-badge>
   </div>
 </template>
 
@@ -46,6 +46,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.badge {
+  padding: 0.35em 0.8em;
+  font-size: 30px;
+}
 </style>

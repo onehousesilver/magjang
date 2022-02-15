@@ -2,12 +2,14 @@
   <div class="row">
     <div class="col-4">
       <div> 
-        인원 조건
-        <h1>브로커 {{ broker }} 제외 2명</h1>
+        <span class="badge bg-light">거래 조건</span> <br />
+        <h2>브로커 포함 3명</h2>
         <div
+          id="abilities"
           v-for="deal in dealCondition"
           :key="deal.id">
           <Abilities
+            class="table-ability"
             :ability="deal"
             :activate="!dealStateCount[deal].value" />
         </div>
@@ -16,7 +18,7 @@
 
     <!-- 거래 금액 -->
     <div class="col-3 total-money">
-      <span class="badge badge-info">거래 금액</span> <br />
+      <span class="badge bg-light">거래 금액</span> <br />
       <img
         src="@/assets/money.png"
         alt="money.png" />
@@ -66,7 +68,7 @@ export default {
     return {
       // back에서 랜덤으로 주는 금액
       money : 2000,
-      timeLimit: 30,
+      timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
       // 브로커 받아온 값
@@ -84,20 +86,6 @@ export default {
       'dealCondition',
       'dealStateCount',
     ])
-    // formattedTimeLeft() {
-    //   const timeLeft = this.timeLeft
-			
-    //   const minutes = Math.floor(timeLeft / 60)
-			
-    //   let seconds = timeLeft % 60
-			
-    //   if (seconds < 10) {
-    //     seconds = `0${seconds}`
-    //   }
-			
-    //   // The output in MM:SS format
-    //   return `${minutes}:${seconds}`
-    // }
   },
   methods: {
     // GameTimerMethods
@@ -127,6 +115,15 @@ span {
   margin-bottom: 20px;
 }
 .badge {
-  background-color: #2778c4;
+  color: black;
 }
+
+#abilities {
+  display: flex;
+  float: left;
+  flex-wrap: wrap;
+  margin: 5px;
+  margin-top: 20px
+}
+
 </style>

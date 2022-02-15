@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       // 겉에 원형 색깔 줄어드는 초
-      timeLimit: 30,
+      timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
     }

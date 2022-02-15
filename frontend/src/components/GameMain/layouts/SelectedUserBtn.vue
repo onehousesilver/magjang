@@ -13,7 +13,7 @@
       </button>
       <button
         type="button"
-        class="btn btn-nope btn-warning">
+        class="btn btn-nope btn-danger">
         미체결
       </button>
     </div>

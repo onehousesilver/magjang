@@ -5,7 +5,9 @@
     :key="streamManager.stream.connection.connectionId">
     <ov-video
       :stream-manager="streamManager" />
-    <div v-if="this.$store.state.gamePossible">
+    <div
+      v-if="this.$store.state.gamePossible"
+      class="user-ability">
       <UserAbility :abilities-array="abilitiesArray" />
     </div>
     <p class="video-nickname">
@@ -53,7 +55,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .ov-video-wrap {
   position: relative;
   height: 100%;
@@ -73,5 +75,10 @@ export default {
 
 .ov-video-wrap:hover {
   cursor: pointer;
+}
+
+.user-ability {
+  display: flex;
+  justify-content: center;
 }
 </style>
