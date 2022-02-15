@@ -19,7 +19,6 @@ public class ChatRoomDTO {
 
     public void addNickname(String nickname){
         if(this.nicknames==null) {
-            System.out.println("nullllll");
             this.nicknames = new ArrayList<>();
         }
         this.nicknames.add(nickname);
@@ -30,7 +29,9 @@ public class ChatRoomDTO {
             System.out.println("ChatRoomDTO : " + nickname + "의 quit 요청, nicknames가 null 입니다.");
             return;
         }
+        System.out.println(nicknames);
         this.nicknames.remove(nickname);
+        System.out.println(nicknames);
     }
 //    public static ChatRoomDTO create(String name){
 //        ChatRoomDTO room = new ChatRoomDTO();
