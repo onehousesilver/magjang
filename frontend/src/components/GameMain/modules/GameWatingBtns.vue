@@ -15,7 +15,6 @@
       @click="gamePossible()">
       게임시작
     </button>
-    <!-- @click=" this.$router.push({ name: 'Home' })" -->
     <button
       type="button"
       class="btn mj-btn"
@@ -26,6 +25,7 @@
 </template>
 
 <script>
+
 
 export default {
   emits: ['game-possible', 'go-to-main'],
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     gamePossible(){
-      this.$store.state.gamePossible = true
+      this.$store.state.gamePossible = true  // 직접 store에 접근해서 값 바꾸지 맙시다.. 안됩니다.. actions까지 끌고와서 쓰십셔..
     },
     clickMain() {
       this.emitter.emit('chat_disconnect')
@@ -74,5 +74,10 @@ export default {
 .game-start-btn:hover {
   background-color: rgb(223, 223, 223);
   color: #198754;
+}
+
+.sp {
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0);
 }
 </style>

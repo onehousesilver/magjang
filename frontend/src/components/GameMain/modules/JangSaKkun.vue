@@ -4,6 +4,7 @@
       class="col">
       <UserVideo
         :stream-manager="streamManager"
+        :abilities-array="abilitiesArray"
         @click="selectPriceShow" />
     </div>
     <div v-show="selectedUser && this.$store.state.gamePossible">
@@ -16,6 +17,8 @@
 <script>
 import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
+import { mapActions } from 'vuex'
+import _ from 'lodash'
 
 export default {
   components: { 
@@ -25,6 +28,7 @@ export default {
   data() {
     return{
       selectedUser: false,
+      abilitiesArray: [],
     }
   },
   props: {
@@ -34,9 +38,24 @@ export default {
     },
 	},
   methods: {
+    ...mapActions([
+      'userSelectEvent'
+    ]),
     selectPriceShow(){
       this.selectedUser = !this.selectedUser;
+      this.userSelectEvent({
+        "first_ability": this.abilitiesArray[0],
+        "second_ability": this.abilitiesArray[1], 
+        "isUserSelected": this.selectedUser
+        })
     },
+    getAbilities() {
+      const abilityList = ['창고','인맥','언변','정보','로비','선박',]
+      this.abilitiesArray = _.sampleSize(abilityList, 2)
+    },
+  },
+  mounted() {
+    this.getAbilities();
   },
 }
 </script>

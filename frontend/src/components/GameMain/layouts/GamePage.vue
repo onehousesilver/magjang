@@ -18,8 +18,9 @@
         <div v-else>
           <GameWatingBtns 
             @go-to-main="leaveSession" />
-          <!-- @gamePossible="gamestart" -->
         </div>
+        <!-- @gamePossible="gamestart" -->
+        <!-- <GameLogicTest4Abilities /> -->
       </div>
 
       <!-- 아래쪽 유저 -->
@@ -51,6 +52,7 @@ import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
 import GameStartInfo from '@/components/GameMain/modules/GameStartInfo.vue'
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun'; 
 import GameChat from '@/components/GameMain/modules/GameChat'; 
+// import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
 
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
@@ -67,7 +69,8 @@ export default {
     GameWatingBtns,
     GameStartInfo,
     JangSaKkun,
-		GameChat
+		GameChat,
+		// GameLogicTest4Abilities,
   },
   // props: {
   //   publisher:{
@@ -230,7 +233,7 @@ export default {
 
 			// mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "20",
+      mySessionId: "25",
 			// myUserName: "gaeun",
     }
   }

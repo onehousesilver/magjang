@@ -6,7 +6,7 @@
     <ov-video
       :stream-manager="streamManager" />
     <div v-if="this.$store.state.gamePossible">
-      <UserAbility />
+      <UserAbility :abilities-array="abilitiesArray" />
     </div>
     <p class="video-nickname">
       {{ clientData }}
@@ -31,7 +31,10 @@ export default {
       type: Object,
       default: null,
     },
-    // gamePossible : this.$store.state.gamePossible,
+    abilitiesArray: {
+      type: Array,
+      default: undefined,
+    }
 	},
 
 	computed: {

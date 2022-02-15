@@ -2,10 +2,14 @@
   <div class="row">
     <div class="col-4">
       <div> 
-        <span class="badge badge-info">인원 조건</span>
-        <h2>브로커 {{ broker }} 제외 2명</h2>
-        <div>
-          <UserAbility />
+        인원 조건
+        <h1>브로커 {{ broker }} 제외 2명</h1>
+        <div
+          v-for="deal in dealCondition"
+          :key="deal.id">
+          <Abilities
+            :ability="deal"
+            :activate="!dealStateCount[deal].value" />
         </div>
       </div>
     </div>
@@ -45,16 +49,17 @@
 <script>
 import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText.vue'
-import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
 import SelectedUserBtn from './SelectedUserBtn.vue'
+import Abilities from '@/components/GameMain/modules/Abilities.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     // GameTimer,
     GameText,
     GameTimer,
-    UserAbility,
     SelectedUserBtn,
+    Abilities,
     // GameRoundInfo,
   },
   data() {
@@ -75,6 +80,10 @@ export default {
       }
       return this.timeLimit - this.timePassed
     },
+    ...mapGetters([
+      'dealCondition',
+      'dealStateCount',
+    ])
     // formattedTimeLeft() {
     //   const timeLeft = this.timeLeft
 			
@@ -96,7 +105,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     skipTimer() {
-      this.timeLimit = 10,
+      this.timeLimit = 30,
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
