@@ -27,7 +27,6 @@ import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
 import TotalPrice from '@/components/GameMain/modules/TotalPrice.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
 import { mapActions, mapGetters } from 'vuex'
-import _ from 'lodash'
 
 export default {
   components: { 
@@ -73,16 +72,18 @@ export default {
           "isUserSelected": this.selectedUser
         })
     },
-    getAbilities() {
-      const abilityList = ['창고','인맥','언변','정보','로비','선박',]
-      this.abilitiesArray = _.sampleSize(abilityList, 2)
-      // console.log("------------- playerAbilities 확인!-------------")
-      // console.log(playerAbilities)
+    getAbilities(jobsList) {
+      console.log(this.$store.getters.nickName)
+      console.log(jobsList)
+      // const abilityList = ['창고','인맥','언변','정보','로비','선박',]
+      // this.abilitiesArray = _.sampleSize(abilityList, 2)
+
     },
   },
   mounted() {
   //  this.emitter.on('playerAbility', playerAbilities => this.getAbilities(playerAbilities))
-  this.getAbilities();
+    // this.emitter.off('initJobs')
+    this.emitter.on('initJobs', jobsList => this.getAbilities(jobsList))
   },
   computed: {
     ...mapGetters([

@@ -95,6 +95,7 @@ export default createStore({
       state.lastGenRoom = userdata["lastGenRoom"]
     },
     SET_NICKNAME(state, nickName){
+      console.log("닉네임", nickName)
       state.nickName = nickName
     },
     DEAL_STATE_COUNT_PLUS(state, selectdata){

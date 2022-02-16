@@ -48,6 +48,11 @@
       <div class="row">
         <div class="game-log">
           게임로그
+          <input 
+            type="text"
+            v-model="nickName"
+            @keyup.enter="setPlayerName" />
+          {{ nickName }}
         </div>
       </div>
       <div class="row">
@@ -67,7 +72,7 @@ import GameChat from '@/components/GameMain/layouts/GameChat.vue';
 // import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -76,6 +81,24 @@ const OPENVIDU_SERVER_URL = "https://i6b208.p.ssafy.io:5443";
 const OPENVIDU_SERVER_SECRET = "ssafy";
 
 export default {
+  data() {
+    return {
+			nickName : '',
+      
+			// openvidu
+			gamePossible: false,
+      OV: undefined,
+			session: undefined,
+			mainStreamManager: undefined,
+			publisher: undefined,
+      subscribers: [],
+
+			// mySessionId: this.$route.params.code,
+			myUserName: this.$store.getters.nickName,
+      mySessionId: "25",
+			// myUserName: "gaeun",
+    }
+  },
   components: {
     GameWaiting,
     GameStartInfo,
@@ -98,10 +121,19 @@ export default {
     this.joinSession();
   },
   methods: {
-    // gamestart() {
-    //   this.gamePossible=true
-    // },
-		// openVidu system
+	setPlayerName(){
+		this.setNickName(this.nickName)
+		this.emitter.emit('connect')
+	},
+	...mapActions([
+			"changeGamePossible",
+			"setNickName"
+		]),
+	// store의 gamePossible을 true로 변경
+	setGamePossibleTrue() {
+		this.changeGamePossible(true)
+	},
+	// OpenVidu System 
     joinSession() {
       // --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -233,27 +265,6 @@ export default {
 			});
 		},
   },
-  data() {
-    return {
-      gamePossible: false,
-      OV: undefined,
-			session: undefined,
-			mainStreamManager: undefined,
-			publisher: undefined,
-      subscribers: [],
-
-			// mySessionId: this.$route.params.code,
-			myUserName: this.$store.getters.nickName,
-      mySessionId: "25",
-			// myUserName: "gaeun",
-    }
-  },
-	computed: {
-		...mapGetters([
-			"userPrice",
-			"turnPrice",
-		])
-	}
 }
 </script>
 
