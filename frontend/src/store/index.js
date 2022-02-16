@@ -13,7 +13,9 @@ export default createStore({
 
     gamePossible: false,
     // turn마다
-    turnPrice: 0,
+    turnPrice: 2000,
+    userPrice: [0, 0, 0, 0, 0],
+    userNickName: ["", "", "", "", ""],
 
     // 결정여부
     conclusion: true,
@@ -48,6 +50,9 @@ export default createStore({
         value: 1,
       },
     },
+
+    broker: true
+
   },
   getters: {  // state 상태 가져오기
     userId: state => state.userId,
@@ -60,13 +65,16 @@ export default createStore({
     lastGenRoom: state => state.lastGenRoom,
     gamePossible: state => state.gamePossible,
     conclusion: state => state.conclusion,
+    broker: state => state.broker,
+    turnPrice: state => state.turnPrice,
+    userPrice: state => state.userPrice,
+    dealCondition: state => state.dealCondition,
+    dealStateCount: state => state.dealStateCount,
+    userNickName: state => state.userNickName,
 
     isLogined: function(state){
       return state.userId && state.email
     },
-
-    dealCondition: state => state.dealCondition,
-    dealStateCount: state => state.dealStateCount,
 
     isDealPossible(state) {
       return state.dealStateCount["선박"].value && state.dealStateCount["언변"].value &&
@@ -106,6 +114,20 @@ export default createStore({
     CHANGE_GAME_POSSIBLE(state, flag) {
       state.gamePossible = flag
     },
+    UPDATE_PRICE(state, pricedata) {
+      const value = pricedata["value"]
+      const index = pricedata["index"]
+
+      state.turnPrice += value
+      state.userPrice[index] -= value
+    },
+    SET_USER_NICKNAME(state, userdata) {
+      const NickName = userdata["NickName"]
+      const index = userdata["index"]
+
+      state.userNickName[index] = NickName
+      // console.log(state.userNickName)
+    }
   },
   actions: {  // mutations 호출, 비동기 가능
     setUser: function ({commit}, userdata) {
@@ -119,6 +141,12 @@ export default createStore({
     },
     changeGamePossible({commit}, flag) {
       commit("CHANGE_GAME_POSSIBLE", flag)
+    },
+    updatePrice({commit}, pricedata) {
+      commit("UPDATE_PRICE", pricedata)
+    },
+    setUserNickName({commit}, userdata) {
+      commit("SET_USER_NICKNAME", userdata)
     }
   },
   modules: {
