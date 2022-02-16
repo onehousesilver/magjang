@@ -185,10 +185,10 @@ export default {
             console.log("players : ", res.body);
             // player 받아서 push
             // res.body 초기화 해버리기!!!!!
-            // var str = JSON.parse(res.body)
-            const temPl = ['토리','연두', '쌀쫑', '보리']
-            
-            this.emitter.emit('hostNPlayers', temPl)
+            var str = JSON.parse(res.body)
+            // const temPl = ['토리','연두', '쌀쫑', '보리']
+            console.log(str)
+            this.emitter.emit('hostNPlayers', str)
           });
           // 누가 퇴장?
           this.stompClient.subscribe("/sub/chat/quit/" + this.roomId, (res) => {
