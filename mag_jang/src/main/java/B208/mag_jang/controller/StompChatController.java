@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/pub")
+@CrossOrigin
 public class StompChatController {
 
     private final SimpMessagingTemplate template;
@@ -62,6 +64,7 @@ public class StompChatController {
         
         // room에서 유저아이디 삭제 - ㅇ
         roomMap.removeNickname(message.getRoomId(), message.getWriter());
+        template.convertAndSend("/sub/chat/players/" + message.getRoomId(), roomMap.getNicknames(message.getRoomId()));
     }
 
 }
