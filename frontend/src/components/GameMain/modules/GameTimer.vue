@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       // 겉에 원형 색깔 줄어드는 초
-      timeLimit: 30,
+      timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
     }
@@ -63,6 +63,7 @@ export default {
       const minutes = Math.floor(timeLeft / 60)
       let seconds = timeLeft % 60
 			
+      // this.emitter.emit('timeLeft')
       if (seconds < 10) {
         seconds = `0${seconds}`
       } 
@@ -111,8 +112,8 @@ export default {
 /* Sets the containers height and width */
 .base-timer {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   margin: 0 auto;
 	
 /* Removes SVG styling that would hide the time label */
@@ -131,8 +132,8 @@ export default {
     position: absolute;    
     
     /* Size should match the parent container */    
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     
     /* Keep the label aligned to the top */    
     top: 0;
@@ -143,7 +144,7 @@ export default {
     justify-content: center;
     
     /* Sort of an arbitrary number; adjust to your liking */
-    font-size: 30px;
+    font-size: 40px;
   }
 
   &__path-remaining {

@@ -1,44 +1,63 @@
 <template>
   <div class="price-box">
-    <span>
-      <vue-number-input 
-        v-model="price" 
-        :min="100" 
-        :step="100" 
-        :inputtable="false"
-        inline 
-        controls
-        @click="btnCnt" />
-      <b>만원</b>
-    </span>
+    <vue-number-input
+      v-bind="selectedUser"
+      v-model="price"
+      :min="100"
+      :max="turnPrice == 0 ? price : 10000"
+      :step="100" 
+      :inputtable="false"
+      inline 
+      controls
+      @update:model-value="onUpdate" /> 
+    <span>만원</span>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() { 
     return {
       price: 100,
-      btncount: 1,
-      againClick: false,
-      preprice: 0
     };
   },
-  // props: {
-  //   selectedUser: false,
-  // },
-  methods: {
-    btnCnt() {
-      if (this.againClick) {
-        this.$store.state.turnPrice -= this.preprice
-      } else {
-        this.againClick=true
-      }
-      this.$store.state.turnPrice += this.price
-      this.preprice = this.price
-      console.log(this.$store.state.turnPrice)
+  props: {
+    selectedUser: Boolean,
+    index: {
+      type: Number,
+      default: -1
     }
+  },
+  methods: {
+    onUpdate(newValue, oldValue) {
+      if (newValue - oldValue > 0 || isNaN(oldValue)) {
+        this.updatePrice({"value": -100, "index": this.index})
+      } else {
+        this.updatePrice({"value": 100, "index": this.index})
+      }
+    },
+    isPlayer() {
+      if (this.player)
+        return this.totalPrice
+      return this.price
+    },
+    ...mapActions([
+      "updatePrice",
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      "turnPrice",
+      "userPrice",
+    ])
+  },
+  watch: {
+    
+  },
+  unmounted() {
+    this.updatePrice({"value": this.price, "index": this.index})
   }
 }
 </script>
@@ -57,9 +76,13 @@ export default {
     text-align:right;
 }
 */
-.price-box b {
+.price-box span {
+    position: absolute;
     font-size: 1.5rem; 
     color : white;
+    margin-left: 10px;
+    font-weight: 700;
+    margin-top: 3px;
 }
 /*
 input창에서 증감버튼 없애기 

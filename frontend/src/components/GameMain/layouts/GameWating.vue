@@ -4,10 +4,11 @@
     <button
       type="button"
       class="btn mj-btn"
-      disabled>
+      @click="copyCode">
       입장 코드 <hr />
-      {{ gameCode }}
+      {{ gameCode }} 
     </button>
+    <!-- player가 host일때  -->
     <button
       type="button"
       class="btn game-start-btn mj-btn"
@@ -15,7 +16,6 @@
       @click="gamePossible()">
       게임시작
     </button>
-    <!-- @click=" this.$router.push({ name: 'Home' })" -->
     <button
       type="button"
       class="btn mj-btn"
@@ -26,24 +26,34 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
-  emits: ['game-possible', 'go-to-main'],
+  emits: ['go-to-main'],
   data() {
     return {
-      gameStartFlag: false,
       gameCode: this.$route.params.code,
       userCount: 4,
     }
   },
   methods: {
+    copyCode() {
+      this.$copyText(this.gameCode)
+      alert(this.gameCode + '복사되었습니다!')
+    },
     gamePossible(){
-      this.$store.state.gamePossible = true
+      this.emitter.emit('gameStart')
+      this.changeGamePossible(true)
+
+      console.log('')
     },
     clickMain() {
       this.emitter.emit('chat_disconnect')
-    }
-  }
+    },
+    ...mapActions([
+      "changeGamePossible"
+    ])
+  },
 }
 
 </script>
@@ -65,7 +75,7 @@ export default {
   width: 200px;
   margin-top: 0;
   padding-top: 15px;
-  color: #198754;
+  /*color: #198754;*/
   border: 2px solid #198754;
   background-color: #198754;
   color: #fff;
@@ -74,5 +84,10 @@ export default {
 .game-start-btn:hover {
   background-color: rgb(223, 223, 223);
   color: #198754;
+}
+
+.sp {
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0);
 }
 </style>

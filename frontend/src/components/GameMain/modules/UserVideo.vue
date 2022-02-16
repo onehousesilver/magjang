@@ -5,8 +5,10 @@
     :key="streamManager.stream.connection.connectionId">
     <ov-video
       :stream-manager="streamManager" />
-    <div v-if="this.$store.state.gamePossible">
-      <UserAbility />
+    <div
+      v-if="this.$store.state.gamePossible"
+      class="user-ability">
+      <UserAbility :abilities-array="abilitiesArray" />
     </div>
     <p class="video-nickname">
       {{ clientData }}
@@ -15,8 +17,10 @@
 </template>
 
 <script>
-import OvVideo from './OvVideo';
-import UserAbility from './UserAbility.vue'
+import OvVideo from '@/components/GameMain/modules/OvVideo.vue';
+import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
+import { mapActions } from 'vuex'
+
 export default {
 	name: 'UserVideo',
 
@@ -31,14 +35,23 @@ export default {
       type: Object,
       default: null,
     },
-    // gamePossible : this.$store.state.gamePossible,
+    abilitiesArray: {
+      type: Array,
+      default: undefined,
+    },
+    index: {
+      type: Number,
+      default: -1
+    },
 	},
 
 	computed: {
 		clientData () {
 			const { clientData } = this.getConnectionData();
+      this.setUserNickName({"NickName": clientData, "index": this.index})
 			return clientData;
 		},
+
 	},
 
 	methods: {
@@ -46,11 +59,14 @@ export default {
 			const { connection } = this.streamManager.stream;
 			return JSON.parse(connection.data);
 		},
+    ...mapActions([
+      "setUserNickName",
+    ])
 	},
 };
 </script>
 
-<style>
+<style scoped>
 .ov-video-wrap {
   position: relative;
   height: 100%;
@@ -60,15 +76,22 @@ export default {
   transform: translate(-50%, -50%);
 }
 
+/* 이거 사실 이렇게 하면 안되긴 하는데 좀 더 손보기.. 이렇게 하면 다른 화면에 어그러질수도 */
 .ov-video-wrap p {
   background-color: black;
   color: #fff;
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 15px;
+  position: absolute;
+  top: 87%;
+  right: 2%;
+  font-size: 20px;
 }
 
 .ov-video-wrap:hover {
   cursor: pointer;
+}
+
+.user-ability {
+  display: flex;
+  justify-content: center;
 }
 </style>

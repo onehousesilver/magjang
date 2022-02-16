@@ -1,18 +1,25 @@
 <template>
   <div class="row">
-    <div class="col">
+    <div class="col-4 first-area">
       <div> 
-        <span class="badge badge-info">인원 조건</span>
-        <h2>브로커 {{ broker }} 제외 2명</h2>
-        <div>
-          <UserAbility />
+        <span class="badge bg-light">거래 조건</span> <br />
+        <span>브로커 포함 3명</span>
+        <div id="abilities">
+          <div
+            v-for="deal in dealCondition"
+            :key="deal.id">
+            <Abilities
+              class="table-ability"
+              :ability="deal"
+              :activate="!dealStateCount[deal].value" />
+          </div>
         </div>
       </div>
     </div>
 
     <!-- 거래 금액 -->
-    <div class="col total-money">
-      <span class="badge badge-info">거래 금액</span> <br />
+    <div class="col-3 total-money">
+      <span class="badge bg-light">거래 금액</span> <br />
       <img
         src="@/assets/money.png"
         alt="money.png" />
@@ -21,10 +28,17 @@
           
     <!-- 설명 -->
     <div
-      class="col">
+      class="col-5">
       <div class="row">
-        <div class="col">
+        <div
+          v-if="this.$store.state.conclusion === true"
+          class="col table-text-col">
           <GameText />
+        </div>
+        <div
+          v-else
+          class="col">
+          <SelectedUserBtn />
         </div>
         <div class="col">
           <GameTimer
@@ -38,21 +52,24 @@
 <script>
 import GameTimer from '@/components/GameMain/modules/GameTimer'
 import GameText from '@/components/GameMain/modules/GameText.vue'
-import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
+import SelectedUserBtn from '@/components/GameMain/layouts/SelectedUserBtn.vue'
+import Abilities from '@/components/GameMain/modules/Abilities.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     // GameTimer,
     GameText,
     GameTimer,
-    UserAbility,
+    SelectedUserBtn,
+    Abilities,
     // GameRoundInfo,
   },
   data() {
     return {
       // back에서 랜덤으로 주는 금액
       money : 2000,
-      timeLimit: 30,
+      timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
       // 브로커 받아온 값
@@ -66,20 +83,10 @@ export default {
       }
       return this.timeLimit - this.timePassed
     },
-    // formattedTimeLeft() {
-    //   const timeLeft = this.timeLeft
-			
-    //   const minutes = Math.floor(timeLeft / 60)
-			
-    //   let seconds = timeLeft % 60
-			
-    //   if (seconds < 10) {
-    //     seconds = `0${seconds}`
-    //   }
-			
-    //   // The output in MM:SS format
-    //   return `${minutes}:${seconds}`
-    // }
+    ...mapGetters([
+      'dealCondition',
+      'dealStateCount',
+    ])
   },
   methods: {
     // GameTimerMethods
@@ -87,7 +94,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     skipTimer() {
-      this.timeLimit = 10,
+      this.timeLimit = 180,
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
@@ -102,13 +109,30 @@ export default {
 
 <style scoped>
 .total-money img {
-  width: 150px;
+  width: 120px;
 }
 span {
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .badge {
-  background-color: #2778c4;
+  color: black;
 }
+
+#abilities {
+  display: flex;
+  float: left;
+  flex-wrap: wrap;
+  left: 22%;
+  position: absolute;
+}
+
+.first-area {
+  position: relative;
+}
+
+.table-text-col {
+  position: relative;
+}
+
 </style>

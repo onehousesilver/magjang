@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import GameHeader from '../../components/GameMain/layouts/GameHeader.vue';
-import GamePage from '../../components/GameMain/layouts/GamePage.vue';
+import GameHeader from '@/components/GameMain/layouts/GameHeader.vue';
+import GamePage from '@/components/GameMain/layouts/GamePage.vue';
 
 export default {
   components: {

@@ -5,9 +5,15 @@
     <div class="game-layout col-9">
       <!-- 위쪽 유저 -->
       <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
-        <JangSaKkun :stream-manager="publisher" />
-        <JangSaKkun :stream-manager="this.subscribers[3]" />
-        <JangSaKkun :stream-manager="this.subscribers[0]" />
+        <JangSaKkun
+          :stream-manager="publisher"
+          :player="true" />
+        <JangSaKkun 
+          :stream-manager="this.subscribers[3]"
+          :index="3" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[0]"
+          :index="0" />
       </div>
       
       <!-- 테이블 -->
@@ -16,17 +22,24 @@
           <GameStartInfo />
         </div>
         <div v-else>
-          <GameWatingBtns 
+          <GameWaiting 
             @go-to-main="leaveSession" />
-          <!-- @gamePossible="gamestart" -->
         </div>
+        <!-- @gamePossible="gamestart" -->
+        <!-- <GameLogicTest4Abilities /> -->
       </div>
 
       <!-- 아래쪽 유저 -->
       <div class="row h-30 user-video user-video-foot row-cols-3 g-2 g-lg-3">
-        <JangSaKkun :stream-manager="this.subscribers[1]" />
-        <JangSaKkun :stream-manager="this.subscribers[4]" />
-        <JangSaKkun :stream-manager="this.subscribers[2]" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[1]"
+          :index="1" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[4]"
+          :index="4" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[2]"
+          :index="2" />
       </div>
     </div>
 
@@ -47,14 +60,14 @@
 </template>
 
 <script>
-import GameWatingBtns from '@/components/GameMain/modules/GameWatingBtns.vue'
-import GameStartInfo from '@/components/GameMain/modules/GameStartInfo.vue'
-import JangSaKkun from '@/components/GameMain/modules/JangSaKkun'; 
-import GameChat from '@/components/GameMain/modules/GameChat'; 
-
+import GameWaiting from '@/components/GameMain/layouts/GameWaiting.vue'
+import GameStartInfo from '@/components/GameMain/layouts/GameStartInfo.vue'
+import JangSaKkun from '@/components/GameMain/modules/JangSaKkun.vue'; 
+import GameChat from '@/components/GameMain/layouts/GameChat.vue'; 
+// import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-
+import { mapGetters } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -64,10 +77,11 @@ const OPENVIDU_SERVER_SECRET = "ssafy";
 
 export default {
   components: {
-    GameWatingBtns,
+    GameWaiting,
     GameStartInfo,
     JangSaKkun,
-		GameChat
+		GameChat,
+		// GameLogicTest4Abilities,
   },
   // props: {
   //   publisher:{
@@ -230,10 +244,16 @@ export default {
 
 			// mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "20",
+      mySessionId: "25",
 			// myUserName: "gaeun",
     }
-  }
+  },
+	computed: {
+		...mapGetters([
+			"userPrice",
+			"turnPrice",
+		])
+	}
 }
 </script>
 
