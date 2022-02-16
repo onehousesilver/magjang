@@ -33,8 +33,8 @@ public class User {
     @Column(columnDefinition = "bigint(20)")
     private Long lastGenRoom;
 
-    public User(String email) {
-        this.email = email;
+    public User(String naverId) {
+        this.naverId = naverId;
     }
 
     public User() {
