@@ -50,6 +50,7 @@ export default {
       })
     },
     getAbilities(jobsList) {
+      console.log(this.$store.getters.nickName)
       console.log(jobsList)
       // const abilityList = ['창고','인맥','언변','정보','로비','선박',]
       // this.abilitiesArray = _.sampleSize(abilityList, 2)
@@ -58,6 +59,7 @@ export default {
   },
   mounted() {
   //  this.emitter.on('playerAbility', playerAbilities => this.getAbilities(playerAbilities))
+    // this.emitter.off('initJobs')
     this.emitter.on('initJobs', jobsList => this.getAbilities(jobsList))
   },
 }

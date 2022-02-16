@@ -98,7 +98,8 @@ export default {
   //stomp Chat system
   created() {
     // 여기서 connect()하면 페이지 접속 시 연결 - 사전에 사용자 id 저장 필요
-    this.connect();
+    // this.connect();
+    this.emitter.on('connect', this.connect)
     // 채팅 나갔을 때 끊어짐
     this.emitter.on('chat_disconnect', this.disconnect)
   },
@@ -122,7 +123,7 @@ export default {
         this.send();
         this.message = "";
       }},
-    // 전체 채팅 or 귓속말 전송
+    // 전체 채팅 or 귓속말 전송 
     send() {
       console.log("Send message:" + this.message);
       if (this.stompClient && this.stompClient.connected) {
@@ -181,7 +182,7 @@ export default {
 
           // !!!!!!!!!!!res.body로 변경해야함!!!!!!!!!!!!!!!//
           // 현재 플레이어들의 리스트(첫 번째 플레이어가 호스트)
-          this.stompClient.subscribe("/sub/chat/players/" + this.roomId, (res) => {
+          this.stompClient.subscribe("/sub/chat/players/" + this.roomId, (res) => {  
             console.log("players : ", res.body);
             // player 받아서 push
             // res.body 초기화 해버리기!!!!!
@@ -243,24 +244,7 @@ export default {
             // console.log("str[2].jobs: " + str[2].jobs);  // 선박, 로비
             // console.log("str[3].jobs[0]: " + str[3].jobs[0]);  // 인맥
 
-            this.emitter.emit('initJobs', str)
-
-            
-            // console.warn("각 타입 확인합니다");
-            // for(var p in res.body){
-            //   console.log("nickName: " + typeof(str[p].nickName));
-            //   console.log("jobs: " + typeof(str[p].jobs));
-            //   // console.log("nickName: " + str[p].nickName);
-            //   // console.log("jobs: " + str[p].jobs);
-            //   const jobTest = str[p].jobs;  
-            //   console.warn("jobTest 확인합니다");
-            //   console.log(Object.entries(jobTest));
-            //   // const test = [];
-            //   // test.push(str[p].nickName);
-            //   // console.log(test);  // test
-              
-            //   // this.emitter.emit('playerAbility',[str[p].nickName, str[p].job]);  // 이렇게 보내는게 아닌가...?
-            // }
+            this.emitter.emit('initJobs', str);
 
             // 2. 플레이어별 능력 컴포넌트??에 이를 반영
             // this.recvList.push(JSON.parse(res.body));
@@ -443,7 +427,7 @@ export default {
           // 처음 연결 시 접속 메세지 전송
           this.stompClient.send(
             "/pub/chat/enter",
-            JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
+            JSON.stringify({ roomId: this.roomId, writer: this.$store.getters.nickName }, {})
           );
         },
         (error) => {
