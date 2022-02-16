@@ -104,8 +104,8 @@ export default {
   //stomp Chat system
   created() {
     // 여기서 connect()하면 페이지 접속 시 연결 - 사전에 사용자 id 저장 필요
-    // this.connect();
-    this.emitter.on('connect', this.connect)
+    this.connect();
+    // this.emitter.on('connect', this.connect)
     // 채팅 나갔을 때 끊어짐
     this.emitter.on('chat_disconnect', this.disconnect)
   },
