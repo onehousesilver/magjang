@@ -32,12 +32,12 @@ public class UserService {
 
     public User findUserUsingEmail(String email){
         return userRepository.findByEmail(email)
-                .orElseGet(() -> JoinNewUserWithEmail(email));
+                .orElseGet(() -> JoinNewUserWithNaverId(naverId));
     }
 
     public User JoinNewUserWithEmail(String email){
         User user = new User();
-        user.setEmail(email);
+        user.setNaverId(naverId);
         return join(user);
     }
 

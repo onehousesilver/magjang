@@ -16,7 +16,7 @@ public class User {
     private String nickName;
 
     @Column(columnDefinition = "varchar(255)")
-    private String email;
+    private String naverId;
 
     @Column(columnDefinition = "bigint(20) default 0")
     private Long rankPoint;
@@ -57,12 +57,12 @@ public class User {
         this.nickName = nickName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNaverId() {
+        return naverId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNaverId(String naverId) {
+        this.naverId = naverId;
     }
 
     public Long getRankPoint() {
