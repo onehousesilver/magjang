@@ -29,9 +29,7 @@ public class ChatRoomDTO {
             System.out.println("ChatRoomDTO : " + nickname + "의 quit 요청, nicknames가 null 입니다.");
             return;
         }
-        System.out.println(nicknames);
         this.nicknames.remove(nickname);
-        System.out.println(nicknames);
     }
 //    public static ChatRoomDTO create(String name){
 //        ChatRoomDTO room = new ChatRoomDTO();

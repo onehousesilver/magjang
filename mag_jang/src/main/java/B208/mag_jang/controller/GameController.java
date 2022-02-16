@@ -29,6 +29,7 @@ public class GameController {
     // 프론트 : 메서드 만들어서 처리 "/sub/game/start/{roomId}"
     @MessageMapping(value = "/start")
     public void gameStart(ChatMessageDTO message) throws InterruptedException {
+
         if(gameService.gameStart(message.getWriter(), message.getRoomId())){
             // 1. 게임시작 메세지 전송
             System.out.println("gameStart : 게임을 시작합니다!");

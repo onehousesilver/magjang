@@ -58,8 +58,7 @@ public class StompChatController {
     // "pub/chat/quit"
     @MessageMapping(value = "/chat/quit")
     public void quit(ChatMessageDTO message){
-        message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/quit/" + message.getRoomId(), message);
         
         // room에서 유저아이디 삭제 - ㅇ
         roomMap.removeNickname(message.getRoomId(), message.getWriter());
