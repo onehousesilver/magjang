@@ -19,6 +19,8 @@
 <script>
 import OvVideo from '@/components/GameMain/modules/OvVideo.vue';
 import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
+import { mapActions } from 'vuex'
+
 export default {
 	name: 'UserVideo',
 
@@ -36,14 +38,20 @@ export default {
     abilitiesArray: {
       type: Array,
       default: undefined,
-    }
+    },
+    index: {
+      type: Number,
+      default: -1
+    },
 	},
 
 	computed: {
 		clientData () {
 			const { clientData } = this.getConnectionData();
+      this.setUserNickName({"NickName": clientData, "index": this.index})
 			return clientData;
 		},
+
 	},
 
 	methods: {
@@ -51,6 +59,9 @@ export default {
 			const { connection } = this.streamManager.stream;
 			return JSON.parse(connection.data);
 		},
+    ...mapActions([
+      "setUserNickName",
+    ])
 	},
 };
 </script>
