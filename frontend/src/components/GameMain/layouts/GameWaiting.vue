@@ -69,6 +69,7 @@ export default {
       if(this.host == this.nickname){ // this.host == this.nickname으로 바꾸기
         this.emitter.emit('IamHost','IamHost')
       }
+      this.changeGamePossible(true)
     },
     clickMain() {
       // check

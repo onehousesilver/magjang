@@ -3,57 +3,61 @@
     <vue-number-input
       v-bind="selectedUser"
       v-model="price"
-      :min="0" 
+      :min="100"
+      :max="turnPrice == 0 ? price : 10000"
       :step="100" 
       :inputtable="false"
       inline 
       controls
-      @click="sumPrice"
-      @focusout="pushSelectedDict" /> 
+      @update:model-value="onUpdate" /> 
     <span>만원</span>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() { 
     return {
-      // 바뀌기 전 price
-      preprice: 0,
-      // 현재 price
       price: 100,
-      // 두 번째 click event 발생 시 true로 변환(turn이 바뀔 때마다 reset)
-      againClick: false,
     };
   },
   props: {
-    selectedUser: Boolean
+    selectedUser: Boolean,
+    index: {
+      type: Number,
+      default: -1
+    }
   },
   methods: {
-    sumPrice() {
-      if (this.againClick) {
-        this.$store.state.turnPrice -= this.preprice
+    onUpdate(newValue, oldValue) {
+      if (newValue - oldValue > 0 || isNaN(oldValue)) {
+        this.updatePrice({"value": -100, "index": this.index})
       } else {
-        this.againClick=true
+        this.updatePrice({"value": 100, "index": this.index})
       }
-      this.$store.state.turnPrice += this.price
-      this.preprice = this.price
-      console.log(this.$store.state.turnPrice)
     },
-    pushSelectedDict(){
-      console.log('----함수실행---------')
-      if(this.selectedUser){
-        if (this.againClick) {
-          console.log('선택됐고 두번째이상 클릭')
-        }else{
-          this.againClick = true
-          console.log('선택됐고 첫번째 클릭')
-        }
-      }else{
-        console.log('선택 안됨')
-      }
-    }
+    isPlayer() {
+      if (this.player)
+        return this.totalPrice
+      return this.price
+    },
+    ...mapActions([
+      "updatePrice",
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      "turnPrice",
+      "userPrice",
+    ])
+  },
+  watch: {
+    
+  },
+  unmounted() {
+    this.updatePrice({"value": this.price, "index": this.index})
   }
 }
 </script>

@@ -185,10 +185,10 @@ export default {
             console.log("players : ", res.body);
             // player 받아서 push
             // res.body 초기화 해버리기!!!!!
-            // var str = JSON.parse(res.body)
-            const temPl = ['토리','연두', '쌀쫑', '보리']
-            
-            this.emitter.emit('hostNPlayers', temPl)
+            var str = JSON.parse(res.body)
+            // const temPl = ['토리','연두', '쌀쫑', '보리']
+            console.log(str)
+            this.emitter.emit('hostNPlayers', str)
           });
           // 누가 퇴장?
           this.stompClient.subscribe("/sub/chat/quit/" + this.roomId, (res) => {
@@ -215,7 +215,6 @@ export default {
               // this.emitter.emit('sendLog');//변수도 포함하여 전송
               //1. 게임로그에 메세지 띄우라고 emit
               //2. 게임 화면 구성하는 메서드를 실행해달라고 emit
-              this.emitter.emit('gameStarted')
             }else{
               console.log("인원이 부족하다고 알리기")
             }
@@ -242,25 +241,14 @@ export default {
             // console.log("str[1].nickName: " + str[1].nickName);  // null
             // console.log("str[2].jobs: " + str[2].jobs);  // 선박, 로비
             // console.log("str[3].jobs[0]: " + str[3].jobs[0]);  // 인맥
-
-            this.emitter.emit('initJobs', str)
-
-            
-            // console.warn("각 타입 확인합니다");
-            // for(var p in res.body){
-            //   console.log("nickName: " + typeof(str[p].nickName));
-            //   console.log("jobs: " + typeof(str[p].jobs));
-            //   // console.log("nickName: " + str[p].nickName);
-            //   // console.log("jobs: " + str[p].jobs);
-            //   const jobTest = str[p].jobs;  
-            //   console.warn("jobTest 확인합니다");
-            //   console.log(Object.entries(jobTest));
-            //   // const test = [];
-            //   // test.push(str[p].nickName);
-            //   // console.log(test);  // test
+            for(var p in res.body){
+              console.log("nickName: " + str[p].nickName);
+              console.log("jobs: " + str[p].jobs);
+              const test = [str[p].nickName, str[p].job];
+              console.log(test);  // test
               
-            //   // this.emitter.emit('playerAbility',[str[p].nickName, str[p].job]);  // 이렇게 보내는게 아닌가...?
-            // }
+              // this.emitter.emit('playerAbility',[str[p].nickName, str[p].job]);  // 이렇게 보내는게 아닌가...?
+            }
 
             // 2. 플레이어별 능력 컴포넌트??에 이를 반영
             // this.recvList.push(JSON.parse(res.body));
