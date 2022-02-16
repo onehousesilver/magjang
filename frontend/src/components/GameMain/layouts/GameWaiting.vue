@@ -8,13 +8,26 @@
       입장 코드 <hr />
       {{ gameCode }} 
     </button>
-    <!-- player가 host일때  -->
+    <!-- player가 host이고 4명 이상일 때 -->
     <button
+      v-if="(host == nickname)&& (userCount >= 4)"
       type="button"
       class="btn game-start-btn mj-btn"
-      :disabled="userCount < 4"
-      @click="gamePossible()">
+      @click="gameStart()">
       게임시작
+    </button>
+    <button
+      v-else-if="host == nickname"
+      type="button"
+      class="btn game-start-btn mj-btn disabled">
+      게임 인원이 <br />4명 이하입니다.
+    </button>
+    <!-- player가 host가 아닐때 -->
+    <button
+      v-else
+      type="button"
+      class="btn game-start-btn mj-btn disabled">
+      호스트가 게임을 <br />시작합니다.
     </button>
     <button
       type="button"
@@ -33,28 +46,45 @@ export default {
   data() {
     return {
       gameCode: this.$route.params.code,
-      userCount: 4,
+      // host: this.players[0],
+      host: null,
+      players: [],
+      // nickname: this.$store.state.nickname,
+      nickname: '토리',
+      // 유저 명수 받아오는거 //백에서 받아와야 함 
+      userCount: 0,
     }
   },
   methods: {
+    getPlayerList(playerList){
+      this.host = playerList[0]
+      this.players = playerList
+      this.userCount = Object.keys(playerList).length
+    },
     copyCode() {
       this.$copyText(this.gameCode)
       alert(this.gameCode + '복사되었습니다!')
     },
-    gamePossible(){
-      this.emitter.emit('gameStart')
+    gameStart(){
+      if(this.host == this.nickname){ // this.host == this.nickname으로 바꾸기
+        this.emitter.emit('IamHost','IamHost')
+      }
       this.changeGamePossible(true)
-
-      console.log('')
     },
     clickMain() {
+      // check
       this.emitter.emit('chat_disconnect')
     },
     ...mapActions([
       "changeGamePossible"
     ])
   },
+  mounted() {
+    this.emitter.on('hostNPlayers', playerlist => this.getPlayerList(playerlist))
+
+  },
 }
+
 
 </script>
 

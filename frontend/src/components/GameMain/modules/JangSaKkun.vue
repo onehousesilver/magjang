@@ -52,10 +52,13 @@ export default {
     getAbilities() {
       const abilityList = ['창고','인맥','언변','정보','로비','선박',]
       this.abilitiesArray = _.sampleSize(abilityList, 2)
+      // console.log("------------- playerAbilities 확인!-------------")
+      // console.log(playerAbilities)
     },
   },
   mounted() {
-    this.getAbilities();
+  //  this.emitter.on('playerAbility', playerAbilities => this.getAbilities(playerAbilities))
+  this.getAbilities();
   },
 }
 </script>

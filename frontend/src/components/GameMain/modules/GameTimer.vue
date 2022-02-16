@@ -63,6 +63,7 @@ export default {
       const minutes = Math.floor(timeLeft / 60)
       let seconds = timeLeft % 60
 			
+      // this.emitter.emit('timeLeft')
       if (seconds < 10) {
         seconds = `0${seconds}`
       } 

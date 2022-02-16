@@ -1,6 +1,6 @@
 <template>
   <div class="nav-top">
-    <GameRuleInfo />
+    <GameRule />
     <div v-if="this.$store.state.gamePossible">
       <UserPrice />
     </div>
@@ -9,12 +9,12 @@
 
 <script>
 // import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
-import GameRuleInfo from '@/components/GameMain/layouts/GameRuleInfo.vue'
+import GameRule from '@/components/GameMain/layouts/GameRule.vue'
 import UserPrice from '@/components/GameMain/modules/UserPrice.vue'
 
 export default {
   components: {
-    GameRuleInfo,
+    GameRule,
     UserPrice,
   },
 }

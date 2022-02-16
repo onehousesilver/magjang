@@ -65,12 +65,14 @@ export default {
   transform: translate(-50%, -50%);
 }
 
+/* 이거 사실 이렇게 하면 안되긴 하는데 좀 더 손보기.. 이렇게 하면 다른 화면에 어그러질수도 */
 .ov-video-wrap p {
   background-color: black;
   color: #fff;
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 15px;
+  position: absolute;
+  top: 87%;
+  right: 2%;
+  font-size: 20px;
 }
 
 .ov-video-wrap:hover {

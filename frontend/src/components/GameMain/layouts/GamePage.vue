@@ -16,7 +16,7 @@
           <GameStartInfo />
         </div>
         <div v-else>
-          <GameWating 
+          <GameWaiting 
             @go-to-main="leaveSession" />
         </div>
         <!-- @gamePossible="gamestart" -->
@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import GameWating from '@/components/GameMain/layouts/GameWating.vue'
+import GameWaiting from '@/components/GameMain/layouts/GameWaiting.vue'
 import GameStartInfo from '@/components/GameMain/layouts/GameStartInfo.vue'
-import JangSaKkun from '@/components/GameMain/modules/JangSaKkun'; 
-import GameChat from '@/components/GameMain/layouts/GameChat'; 
+import JangSaKkun from '@/components/GameMain/modules/JangSaKkun.vue'; 
+import GameChat from '@/components/GameMain/layouts/GameChat.vue'; 
 // import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
 
 import axios from 'axios';
@@ -66,7 +66,7 @@ const OPENVIDU_SERVER_SECRET = "ssafy";
 
 export default {
   components: {
-    GameWating,
+    GameWaiting,
     GameStartInfo,
     JangSaKkun,
 		GameChat,

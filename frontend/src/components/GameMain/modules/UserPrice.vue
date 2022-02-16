@@ -1,12 +1,12 @@
 <template>
   <div class="price-box">
-    <b>💰</b>
+    <span>💰</span>
     <span
       class="price"
       v-bind="price">
       {{ price }}
     </span>
-    <b> 만원 </b>
+    <span> 만원 </span>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     background-color: #1f1f1f;
     margin-left: 100px;
 }
-.price-box b {
+.price-box span {
     font-size: 2rem; 
     color : white;
 }

@@ -1,17 +1,18 @@
 <template>
   <div class="row">
-    <div class="col-4">
+    <div class="col-4 first-area">
       <div> 
         <span class="badge bg-light">거래 조건</span> <br />
-        <h2>브로커 포함 3명</h2>
-        <div
-          id="abilities"
-          v-for="deal in dealCondition"
-          :key="deal.id">
-          <Abilities
-            class="table-ability"
-            :ability="deal"
-            :activate="!dealStateCount[deal].value" />
+        <span>브로커 포함 3명</span>
+        <div id="abilities">
+          <div
+            v-for="deal in dealCondition"
+            :key="deal.id">
+            <Abilities
+              class="table-ability"
+              :ability="deal"
+              :activate="!dealStateCount[deal].value" />
+          </div>
         </div>
       </div>
     </div>
@@ -31,7 +32,7 @@
       <div class="row">
         <div
           v-if="this.$store.state.conclusion === true"
-          class="col">
+          class="col table-text-col">
           <GameText />
         </div>
         <div
@@ -93,7 +94,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     skipTimer() {
-      this.timeLimit = 30,
+      this.timeLimit = 180,
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
@@ -108,11 +109,11 @@ export default {
 
 <style scoped>
 .total-money img {
-  width: 150px;
+  width: 120px;
 }
 span {
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .badge {
   color: black;
@@ -122,8 +123,16 @@ span {
   display: flex;
   float: left;
   flex-wrap: wrap;
-  margin: 5px;
-  margin-top: 20px
+  left: 22%;
+  position: absolute;
+}
+
+.first-area {
+  position: relative;
+}
+
+.table-text-col {
+  position: relative;
 }
 
 </style>

@@ -50,5 +50,6 @@ export default {
 .badge {
   padding: 0.35em 0.8em;
   font-size: 30px;
+  margin: 2px;
 }
 </style>

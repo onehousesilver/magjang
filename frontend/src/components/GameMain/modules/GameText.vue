@@ -44,11 +44,16 @@ export default {
 .game_text {
   color: black;
   font-size: 18px;
+  position: absolute;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 
 .game_text .btn {
   width: 100px;
-  color: #198754;
+  /*color: #198754;*/
   border: 2px solid #198754;
   background-color: #198754;
   color: #fff;
