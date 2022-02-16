@@ -12,7 +12,6 @@
       <button
         type="button"
         class="btn mj-btn"
-        :class="{disabled: !isDealPossible}"
         @click="isConclusion">
         결정완료
       </button>
@@ -25,8 +24,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   data () {
     return {
@@ -39,11 +36,6 @@ export default {
     isConclusion () {
       this.$store.state.conclusion = false
     }
-  },
-  computed: {
-    ...mapGetters([
-      'isDealPossible',
-    ])
   }
 }
 </script>

@@ -5,15 +5,9 @@
     <div class="game-layout col-9">
       <!-- 위쪽 유저 -->
       <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
-        <JangSaKkun
-          :stream-manager="publisher"
-          :player="true" />
-        <JangSaKkun 
-          :stream-manager="this.subscribers[3]"
-          :index="3" />
-        <JangSaKkun
-          :stream-manager="this.subscribers[0]"
-          :index="0" />
+        <JangSaKkun :stream-manager="publisher" />
+        <JangSaKkun :stream-manager="this.subscribers[3]" />
+        <JangSaKkun :stream-manager="this.subscribers[0]" />
       </div>
       
       <!-- 테이블 -->
@@ -31,18 +25,11 @@
 
       <!-- 아래쪽 유저 -->
       <div class="row h-30 user-video user-video-foot row-cols-3 g-2 g-lg-3">
-        <JangSaKkun
-          :stream-manager="this.subscribers[1]"
-          :index="1" />
-        <JangSaKkun
-          :stream-manager="this.subscribers[4]"
-          :index="4" />
-        <JangSaKkun
-          :stream-manager="this.subscribers[2]"
-          :index="2" />
+        <JangSaKkun :stream-manager="this.subscribers[1]" />
+        <JangSaKkun :stream-manager="this.subscribers[4]" />
+        <JangSaKkun :stream-manager="this.subscribers[2]" />
       </div>
     </div>
-
 
     <div class="col-3">
       <div class="row">
@@ -65,9 +52,10 @@ import GameStartInfo from '@/components/GameMain/layouts/GameStartInfo.vue'
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun.vue'; 
 import GameChat from '@/components/GameMain/layouts/GameChat.vue'; 
 // import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
+
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -96,12 +84,17 @@ export default {
   // emits: ['go-to-main'],
   mounted() {
     this.joinSession();
+		this.emitter.on('gameStarted', this.setGamePossibleTrue)
   },
   methods: {
-    // gamestart() {
-    //   this.gamePossible=true
-    // },
-		// openVidu system
+		...mapActions([
+			"changeGamePossible"
+			]),
+		// store의 gamePossible을 true로 변경
+		setGamePossibleTrue() {
+			this.changeGamePossible(true)
+		},
+		// OpenVidu System 
     joinSession() {
       // --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -247,13 +240,7 @@ export default {
       mySessionId: "25",
 			// myUserName: "gaeun",
     }
-  },
-	computed: {
-		...mapGetters([
-			"userPrice",
-			"turnPrice",
-		])
-	}
+  }
 }
 </script>
 
