@@ -3,7 +3,7 @@
     <div class="col-4 first-area">
       <div> 
         <span class="badge bg-light">거래 조건</span> <br />
-        <span>브로커 포함 3명</span>
+        <span>브로커 포함 {{ dealLimitPeople }}명</span>
         <div id="abilities">
           <div
             v-for="deal in dealCondition"
@@ -11,7 +11,7 @@
             <Abilities
               class="table-ability"
               :ability="deal"
-              :activate="!dealStateCount[deal].value" />
+              :activate="!dealStateCount[deal]" />
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
       <img
         src="@/assets/money.png"
         alt="money.png" />
-      <div> {{ money }} 만원</div>
+      <div> {{ turnPrice }} 만원</div>
     </div>
           
     <!-- 설명 -->
@@ -68,7 +68,6 @@ export default {
   data() {
     return {
       // back에서 랜덤으로 주는 금액
-      money : 2000,
       timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
@@ -86,6 +85,8 @@ export default {
     ...mapGetters([
       'dealCondition',
       'dealStateCount',
+      "turnPrice",
+      "dealLimitPeople",
     ])
   },
   methods: {

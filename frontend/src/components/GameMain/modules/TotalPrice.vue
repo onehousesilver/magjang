@@ -1,6 +1,7 @@
 <template>
   <div class="price-box">
     <vue-number-input
+      :min="100"
       :model-value="turnPrice"
       :inputtable="false"
       inline 

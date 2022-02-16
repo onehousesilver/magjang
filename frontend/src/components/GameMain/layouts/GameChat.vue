@@ -121,6 +121,7 @@ export default {
   methods: {
     ...mapActions([
       "setPlayerJob",
+      "setDealConditions",
     ]),
     // 엔터를 눌러 메세지 전송
     sendMessage(e) {
@@ -245,10 +246,11 @@ export default {
           // ]
           this.stompClient.subscribe("/sub/game/jobs/" + this.roomId, (res) => {
             console.log("직업 분배 : ", res.body);
+
             // 1. res.body 확인 후 게임 로그에 "이번 라운드의 능력을 분배합니다" 등 출력
             console.log("================== 각 res.body 출력 =================")
             var playerJob = JSON.parse(res.body);
-            this.setPlayerJob(playerJob)
+            this.setPlayerJob(playerJob);
             // console.log("str: " + str);
             // console.log("str[0]: " + str[0]);  // object object
             // console.log("str[1].nickName: " + str[1].nickName);  // null
@@ -300,12 +302,13 @@ export default {
             // 1. res.body 확인 후 게임 로그와 테이블에 현재 거래 조건을 출력
             // 2. 일정 시간 후 or 바로 타이머를 작동시킴
             // 3. 사전에 브로커로 지정된 플레이어에게 클릭 권한...같은걸 주고 입력 받음
-            //제가 예시로 적어놓은 변수들만 필요할거예요!!!어께이이이
 
             var deal = JSON.parse(res.body);
-            console.log("거래 금액 : " + deal.dealMoney);
-            console.log("필요 인원수 : " + deal.playerCount);
-            console.log("필요 능력 : " + deal.chosenJobs);
+
+            // const turnPrice = deal.dealMoney;  // 거래 금액
+            // const dealLimitPeople = deal.playerCount;  // 필요 인원수
+            // const dealCondition = deal.chosenJobs;  // 필요 능력
+            this.setDealConditions(deal)
 
             this.recvList.push(JSON.parse(res.body));
           });

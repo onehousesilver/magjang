@@ -4,10 +4,11 @@
       v-bind="selectedUser"
       v-model="price"
       :min="100"
-      :max="turnPrice == 0 ? price : 10000"
+      :max="turnPrice == 100 ? price : 10000"
       :step="100" 
       :inputtable="false"
       inline 
+      center
       controls
       @update:model-value="onUpdate" /> 
     <span>만원</span>
