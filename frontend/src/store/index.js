@@ -5,7 +5,7 @@ export default createStore({
     userId: null,  // DB에서 유저 키값
     nickName: null,
     rankPoint: null,
-    email: null,
+    naverId: null,
     winAmount: null,
     gangAmount: null,
     proGangAmount: null,
@@ -58,7 +58,7 @@ export default createStore({
     userId: state => state.userId,
     nickName: state => state.nickName,
     rankPoint: state => state.rankPoint,
-    email: state => state.email,
+    naverId: state => state.naverId,
     winAmount: state => state.winAmount,
     gangAmount: state => state.gangAmount,
     proGangAmount: state => state.proGangAmount,
@@ -73,7 +73,7 @@ export default createStore({
     userNickName: state => state.userNickName,
 
     isLogined: function(state){
-      return state.userId && state.email
+      return state.userId && state.naverId
     },
 
     isDealPossible(state) {
@@ -88,7 +88,7 @@ export default createStore({
       state.userId = userdata["userId"]
       state.nickName = userdata["nickName"]
       state.rankPoint = userdata["rankPoint"]
-      state.email = userdata["email"]
+      state.naverId = userdata["naverId"]
       state.winAmount = userdata["winAmount"]
       state.gangAmount = userdata["gangAmount"]
       state.proGangAmount = userdata["proGangAmount"]

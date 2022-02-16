@@ -32,9 +32,7 @@ export default {
         }
       })
         .then(response => {
-          this.setUser({
-            ...response.data
-          })
+          this.setUser(response.data)
           // console.log(response.data);
           
           // console.log(this.$store.getters.userId); //Debug
