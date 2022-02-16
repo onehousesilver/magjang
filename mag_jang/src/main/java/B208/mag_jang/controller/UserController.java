@@ -37,8 +37,8 @@ public class UserController {
         if (res != null) {
             JSONObject jObj = new JSONObject(res);
             JSONObject response = jObj.getJSONObject("response");
-            String email = response.getString("email");
-            User user = userService.findUserUsingEmail(email);  // null이 아니라면 return, null이라면 하나 생성 후 return
+            String naverId = response.getString("id");
+            User user = userService.findUserUsingNaverId(naverId);  // null이 아니라면 return, null이라면 하나 생성 후 return
 //        deleteToken(access_token);  // 이거 왜 연동 끊어지는 코드지..?
             return ResponseEntity.ok()
                     .body(user);  // String 반환하면 해당하는 html 불러낸다.. 객체 만들어서 쓸것!
