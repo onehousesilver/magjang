@@ -5,24 +5,33 @@
       <UserVideo
         :stream-manager="streamManager"
         :abilities-array="abilitiesArray"
+        :index="index"
         @click="selectPriceShow" />
     </div>
-    <div v-show="selectedUser && this.$store.state.gamePossible">
+    <div
+      v-if="player && broker && gamePossible">
+      <TotalPrice />
+    </div>
+    <div
+      v-else-if="selectedUser && broker && gamePossible">
       <SelectPrice 
-        :selected-user="selectedUser" />
+        :selected-user="selectedUser"
+        :player="player" 
+        :index="index" />
     </div>
   </div>
 </template>
 
 <script>
 import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
+import TotalPrice from '@/components/GameMain/modules/TotalPrice.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
-import { mapActions } from 'vuex'
-// import _ from 'lodash'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: { 
     UserVideo,
+    TotalPrice,
     SelectPrice,
   },
   data() {
@@ -36,18 +45,32 @@ export default {
       type: Object,
       default: null,
     },
+    player: {
+      type: Boolean,
+      default: false
+    },
+    index: {
+      type: Number,
+      default: -1
+    }
 	},
   methods: {
     ...mapActions([
-      'userSelectEvent'
+      "userSelectEvent",
     ]),
     selectPriceShow(){
+      if (!this.player && this.broker && this.turnPrice >= 100) {
+        this.selectUser();
+      }
+    },
+    selectUser() {
+      // console.log("selectUser")
       this.selectedUser = !this.selectedUser;
-      this.userSelectEvent({
-        "first_ability": this.abilitiesArray[0],
-        "second_ability": this.abilitiesArray[1], 
-        "isUserSelected": this.selectedUser
-      })
+        this.userSelectEvent({
+          "first_ability": this.abilitiesArray[0],
+          "second_ability": this.abilitiesArray[1], 
+          "isUserSelected": this.selectedUser
+        })
     },
     getAbilities(jobsList) {
       console.log(this.$store.getters.nickName)
@@ -62,6 +85,21 @@ export default {
     // this.emitter.off('initJobs')
     this.emitter.on('initJobs', jobsList => this.getAbilities(jobsList))
   },
+  computed: {
+    ...mapGetters([
+      "broker",
+      "gamePossible",
+      "turnPrice",
+    ]),
+  },
+  watch: {
+    broker(isBroker) {
+      // console.log("broker is true")
+      if (isBroker && this.player) {
+        this.selectUser();
+      }
+    }
+  }
 }
 </script>
 

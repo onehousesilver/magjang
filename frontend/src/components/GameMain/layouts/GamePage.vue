@@ -5,9 +5,15 @@
     <div class="game-layout col-9">
       <!-- 위쪽 유저 -->
       <div class="row h-30 user-video user-video-head row-cols-3 g-2 g-lg-3">
-        <JangSaKkun :stream-manager="publisher" />
-        <JangSaKkun :stream-manager="this.subscribers[3]" />
-        <JangSaKkun :stream-manager="this.subscribers[0]" />
+        <JangSaKkun
+          :stream-manager="publisher"
+          :player="true" />
+        <JangSaKkun 
+          :stream-manager="this.subscribers[3]"
+          :index="3" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[0]"
+          :index="0" />
       </div>
       
       <!-- 테이블 -->
@@ -25,11 +31,18 @@
 
       <!-- 아래쪽 유저 -->
       <div class="row h-30 user-video user-video-foot row-cols-3 g-2 g-lg-3">
-        <JangSaKkun :stream-manager="this.subscribers[1]" />
-        <JangSaKkun :stream-manager="this.subscribers[4]" />
-        <JangSaKkun :stream-manager="this.subscribers[2]" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[1]"
+          :index="1" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[4]"
+          :index="4" />
+        <JangSaKkun
+          :stream-manager="this.subscribers[2]"
+          :index="2" />
       </div>
     </div>
+
 
     <div class="col-3">
       <div class="row">
@@ -57,7 +70,6 @@ import GameStartInfo from '@/components/GameMain/layouts/GameStartInfo.vue'
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun.vue'; 
 import GameChat from '@/components/GameMain/layouts/GameChat.vue'; 
 // import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
-
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import { mapActions } from 'vuex'
@@ -81,9 +93,9 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-			// mySessionId: this.$route.params.code,
+			mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "25",
+      // mySessionId: "25",
 			// myUserName: "gaeun",
     }
   },
