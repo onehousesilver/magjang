@@ -4,7 +4,7 @@
     <ov-video
       :stream-manager="streamManager" />
     <div
-      v-if="this.$store.state.gamePossible"
+      v-if="gamePossible"
       class="user-ability">
       <UserAbility :nick-name="nickName" />
     </div>
@@ -17,6 +17,7 @@
 <script>
 import OvVideo from '@/components/GameMain/modules/OvVideo.vue';
 import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
+import { mapGetters } from 'vuex'
 // import { mapActions } from 'vuex'
 
 export default {
@@ -53,7 +54,9 @@ export default {
     //   this.setUserNickName({"NickName": clientData, "index": this.index})
 		// 	return clientData;
 		// },
-
+    ...mapGetters([
+      "gamePossible",
+    ])
 	},
 
 	methods: {
