@@ -11,25 +11,24 @@ export default createStore({
     proGangAmount: null,
     lastGenRoom: null,
 
+    turnPrice: 0,  // 매 턴마다 주어지는 가격, 변동 없음
+
     gamePossible: false,
     // turn마다
-    turnPrice: 0,
     userPrice: [0, 0, 0, 0, 0],
     userNickName: ["", "", "", "", ""],
-
+    
     // 결정여부
     conclusion: true,
     
     // 가져와야하는 값
     host: null,
-
+    
     playerJobs: {},
-
+    
+    dealPrice: 0,  // 브로커가 가져갈 가격, 변동 심함
     dealLimitPeople: 0,
-
     dealCondition: [],
-
-    // mes 데이터를 이용하여 생성한 현 거래 조건 state
     dealStateCount: {},
 
     broker: true
@@ -49,6 +48,7 @@ export default createStore({
     broker: state => state.broker,
     turnPrice: state => state.turnPrice,
     userPrice: state => state.userPrice,
+    dealPrice: state => state.dealPrice,
     dealCondition: state => state.dealCondition,
     dealStateCount: state => state.dealStateCount,
     userNickName: state => state.userNickName,
@@ -106,7 +106,7 @@ export default createStore({
       const value = pricedata["value"]
       const index = pricedata["index"]
 
-      state.turnPrice += value
+      state.dealPrice += value
       state.userPrice[index] -= value
     },
     SET_USER_NICKNAME(state, userdata) {
@@ -121,11 +121,12 @@ export default createStore({
     },
     SET_DEAL_CONDITIONS(state, deal) {
       state.turnPrice = deal.turnPrice;  // 거래 금액
+      state.dealPrice = deal.turnPrice;
       state.dealLimitPeople = deal.dealLimitPeople;  // 필요 인원수
       state.dealCondition = deal.dealCondition;  // 필요 능력
       state.dealStateCount = deal.dealStateCount;
 
-      console.log("딜", state.turnPrice, state.dealLimitPeople, state.dealCondition, state.dealStateCount)
+      // console.log("딜", state.dealPrice, state.dealLimitPeople, state.dealCondition, state.dealStateCount)
     }
   },
   actions: {  // mutations 호출, 비동기 가능
@@ -174,7 +175,7 @@ export default createStore({
       dealCondition.forEach(element => {
         dealStateCount[element] = 0
       });
-      console.log(turnPrice, dealLimitPeople, dealCondition, dealStateCount)
+      // console.log(turnPrice, dealLimitPeople, dealCondition, dealStateCount)
       commit("SET_DEAL_CONDITIONS", {turnPrice, dealLimitPeople, dealCondition, dealStateCount})
     }
   },

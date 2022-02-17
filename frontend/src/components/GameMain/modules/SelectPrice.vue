@@ -4,7 +4,7 @@
       v-bind="selectedUser"
       v-model="price"
       :min="100"
-      :max="turnPrice == 100 ? price : 10000"
+      :max="dealPrice == 100 ? price : 10000"
       :step="100" 
       :inputtable="false"
       inline 
@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "turnPrice",
+      "dealPrice",
       "userPrice",
     ])
   },

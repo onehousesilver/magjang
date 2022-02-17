@@ -65,7 +65,7 @@ export default {
 			return JSON.parse(connection.data);
 		},
     selectPriceShow(){
-      if (!this.player && this.broker && this.turnPrice >= 200) {
+      if (!this.player && this.broker && (this.dealPrice >= 200) || this.selectedUser) {
         this.selectUser();
       }
     },
@@ -95,7 +95,7 @@ export default {
     ...mapGetters([
       "broker",
       "gamePossible",
-      "turnPrice",
+      "dealPrice",
       "findMyJob",
     ]),
     nickName () {
