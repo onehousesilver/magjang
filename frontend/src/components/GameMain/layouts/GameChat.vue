@@ -233,7 +233,7 @@ export default {
     },
     connect() {
       // 서버에 연결 요청 - StompWebSocketConfig 참조
-      const serverURL = "http://localhost:8080/stomp/chat";
+      const serverURL = "https://localhost:8080/stomp/chat";
       let socket = new SockJS(serverURL, null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
