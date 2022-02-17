@@ -7,7 +7,6 @@
   </div>
   {{ broker }}
 </template>
-
 <script>
 // import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameRule from '@/components/GameMain/layouts/GameRule.vue'

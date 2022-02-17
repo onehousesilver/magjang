@@ -48,11 +48,11 @@
       <div class="row">
         <div class="game-log">
           게임로그
-          <input 
+          <!--<input 
             type="text"
             v-model="nickName"
             @keyup.enter="setPlayerName" />
-          {{ nickName }}
+          {{ nickName }}-->
         </div>
       </div>
       <div class="row">

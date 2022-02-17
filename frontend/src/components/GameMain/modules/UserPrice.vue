@@ -2,21 +2,28 @@
   <div class="price-box">
     <span>💰</span>
     <span
-      class="price"
-      v-bind="price">
-      {{ price }}
+      class="price">
+      {{ myMoney }}
     </span>
     <span> 만원 </span>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
-      price : this.$store.getters.myMoney,
+      // price : this.myMoney,
     };
   },
+  mounted(){
+    // this.price = this.myMoney;
+  },
+  computed: {
+    ...mapGetters(["myMoney"])
+  }
 }
 </script>
 

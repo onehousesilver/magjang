@@ -35,6 +35,9 @@ export default createStore({
 
     broker: false,
     voter: false,
+
+    isVoteClicked: false,
+    isDealClicked: false,
   },
   getters: {
     // state 상태 가져오기
@@ -61,6 +64,8 @@ export default createStore({
     userNickName: state => state.userNickName,
     playerJobs: state => state.playerJobs,
     dealLimitPeople: state => state.dealLimitPeople,
+    isVoteClicked: state => state.isVoteClicked,
+    isDealClicked: state => state.isDealClicked,
 
     isLogined: function (state) {
       return state.userId && state.naverId;
@@ -125,9 +130,9 @@ export default createStore({
     SET_USER_NICKNAME(state, userdata) {
       const NickName = userdata["NickName"];
       const index = userdata["index"];
-
+      console.log(NickName +  " : " + index);
       state.userNickName[index] = NickName;
-      // console.log(state.userNickName)
+      console.log(state.userNickName);
     },
     SET_USER_ORDER(state, userOrder) {
       console.log(userOrder);
@@ -168,8 +173,17 @@ export default createStore({
       state.dealCondition = deal.dealCondition;  // 필요 능력
       state.dealStateCount = deal.dealStateCount;
 
+      state.isDealClicked = false;
+      state.isVoteClicked = false;
+
       // console.log("딜", state.dealPrice, state.dealLimitPeople, state.dealCondition, state.dealStateCount)
-    }
+    },
+    SET_IS_VOTE_CLICKED(state, isVoteClicked) {
+      state.isVoteClicked = isVoteClicked
+    },
+    SET_IS_DEAL_CLICKED(state, isDealClicked) {
+      state.isDealClicked = isDealClicked
+    },
   },
   actions: {
     // mutations 호출, 비동기 가능
@@ -235,7 +249,13 @@ export default createStore({
       });
       // console.log(turnPrice, dealLimitPeople, dealCondition, dealStateCount)
       commit("SET_DEAL_CONDITIONS", {turnPrice, dealLimitPeople, dealCondition, dealStateCount})
-    }
+    },
+    setIsVoteClicked({commit}, flag) {
+      commit("SET_IS_VOTE_CLICKED", flag)
+    },
+    setIsDealClicked({commit}, flag) {
+      commit("SET_IS_DEAL_CLICKED", flag)
+    },
   },
   modules: {},
 });

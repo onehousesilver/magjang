@@ -57,8 +57,8 @@ export default {
       this.host = playerList[0]
       // this.host = "김주호"
       this.players = playerList
-      // this.userCount = Object.keys(playerList).length
-      this.userCount = 4
+      this.userCount = Object.keys(playerList).length
+      // this.userCount = 4
     },
     copyCode() {
       this.$copyText(this.gameCode)

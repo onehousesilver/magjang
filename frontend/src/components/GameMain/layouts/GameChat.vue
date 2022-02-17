@@ -122,7 +122,7 @@ export default {
       this.setMyMoney(mymoney);
     },
     sendVote(vote){
-      if (vote && this.stompClient && this.stompClient.connected) {
+      if (this.stompClient && this.stompClient.connected) {
         const msg = {
           writer: this.writer,
           message: vote,
@@ -140,9 +140,11 @@ export default {
       //store의 플레이어별 닉네임과 결정금액을 이중 배열로 만들어 send
       if(isSuccess){
         var playerDealAmount = [];
+        console.log(this.$store.getters.userNickName);
         var userNickNames = this.$store.getters.userNickName;
         var userPrices = this.$store.getters.userPrice;
         var n = userNickNames.length;
+        console.log(userNickNames);
         //본인제외 닉네임과 거래금액 넣기
         for(var i=0; i < n; i++){
           if(userPrices[i] != 0){
@@ -179,13 +181,14 @@ export default {
       }
       
     },
-    setConclusion(conclusion){
+    setConclusions(conclusion){
       this.setConclusion(conclusion);
     },
     setOrder(order) {
       this.setUserOrder(order);
     },
     setBrokers(isBroker){
+      console.log("setBrokers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isBroker)
       this.setBroker(isBroker);
     },
     setVoters(isVoter){
@@ -295,8 +298,9 @@ export default {
             if (res.body != null) {
               // console.log("resbody가 GameDTO")
               this.emitter.emit("gameStarted");
-            console.log("초기 자금 : " + str['playerList'][0]['money']);
+              console.log("초기 자금 : " + str['playerList'][0]['money']);
               this.setMyMoneys(str['playerList'][0]['money']);
+              // this.setMyMoneys(2000);
               
               //1. 게임로그에 메세지 띄우라고 emit
               //2. 게임 화면 구성하는 메서드를 실행해달라고 emit
@@ -421,28 +425,32 @@ export default {
             //"roundMoney":[200,300,400],
             //"voteOK":true,"dealOk":false,"dealSuccess":false}
             var deal = JSON.parse(res.body);
-            if (deal.message.length == 0) {
+            console.log("deal.dealAmount", deal.dealAmount);
+            
+            console.log("플레이어 최종 선택 deal : " + deal["dealAmount"])
+            if(deal == undefined || deal["dealAmount"] == undefined || deal["dealAmount"].length == 0) {
               console.log("제안 실패 : " + deal);
               this.emitter.emit('initFinalChoice', deal.writer + "님이 거래 제안에 실패하셨습니다. 다음 거래로 넘어갑니다.");
+              this.setBrokers(false);
             } else {
               console.log("제안한 금액 : " + deal.dealAmount); // 요건 map처럼 되어 있어서
               var dealLogString = "이번 거래에 ";//{"1":300,"2":200}
-              for(var i ; i<deal.dealAmount.length ;i++){
-                var currKey = Object.keys(deal.dealAmount)[i];
 
-                if(currKey == this.$store.getters.nickName){
+              for(var nickName in deal.dealAmount){
+                // console.log(deal.dealAmount[key]);
+                if(nickName == this.$store.getters.nickName){
+                  console.log(nickName + " " + this.$store.getters.nickName);
                   this.setVoter(true);
                 }
                 
-                dealLogString += currKey + "(이)가 "              
-                dealLogString += deal.dealAmount[currKey] + "만원";
-                if(i != deal.dealAmount.length-1){
-                  dealLogString += ", ";
-                }
-              }              
+                dealLogString += nickName + "(이)가 "              
+                dealLogString += deal.dealAmount[nickName] + "만원 ";
+              }  
+
               dealLogString += "으로 참여합니다."
+              console.log(dealLogString);
               this.emitter.emit('initFinalChoice', dealLogString);
-              this.emitter.emit('startTimer', 15);
+              this.emitter.emit('startTimer', 15);//여기까진 확인
             }
           });
 
@@ -466,54 +474,56 @@ export default {
             // finalvote가 수행되면 다음턴으로 넘어갑니다
 
             var deal = JSON.parse(res.body);
-            console.log("실제 받을 금액 : " + deal.dealAmount); // 요건 map처럼 되어 있어서 밑에처럼 쓰면 됩니당
-            console.log("실제 받을 금액 1 : " + deal.dealAmount["1"]);
-            console.log("실제 받을 금액 2 : " + deal.dealAmount["2"]);
+
             if (deal.dealSuccess) {
               console.log("거래 체결 : " + deal.dealSuccess);
             } else {
               console.log("거래 결렬 : " + deal.dealSuccess);
             }
+
+            var dealLogString2 = "이번 거래로 ";//{"1":300,"2":200}
+
+            for(var nickName in deal.dealAmount){
+                // console.log(deal.dealAmount[key]);
+                if(nickName == this.$store.getters.nickName){
+                  console.log(nickName + " " + this.$store.getters.nickName);
+                  this.setVoter(true);
+                  this.setMyMoneys(deal.dealAmount[nickName]);
+                }
+                
+                dealLogString2 += nickName + "(이)가 "              
+                dealLogString2 += deal.dealAmount[nickName] + "만원 ";
+              }  
+              
+              dealLogString2 += "챙겨갑니다!"
+
+
             //emit 로그
 
-            var getMoneyString = "이번 거래로 ";
-            for(var i=0;i < deal.dealAmount.length;i++){
-              var currKey = Object.keys(deal.dealAmount)[i];
-
-              getMoneyString += currKey + "(이)가 ";              
-              getMoneyString += deal.dealAmount[currKey] + "만원";
-              if(i != deal.dealAmount.length-1){
-                getMoneyString += ", ";
-              }
-
-              if(deal.dealAmount[currKey] == this.$store.getters.nickName){
-                this.setMyMoneys(deal.dealAmount[currKey]);
-              }
-            }
-            getMoneyString += " 챙겨갑니다!"
-            this.emitter.emit('initGetMoney',getMoneyString);
+            console.log(dealLogString2);
+            this.emitter.emit('initGetMoney',dealLogString2);
             //store의 보유금액 동기화
 
             //자신의 브로커 boolean을 false로 만듬
             this.setBrokers(false);
             //투표가 종료되며 voter자격을 false로 만듬
             this.setVoter(false);
-            this.setConclusion(true);
+            this.setConclusions(true);
             this.recvList.push(JSON.parse(res.body));
           });
 
           // 해당 라운드의 순위 반환
           this.stompClient.subscribe("/sub/game/rank/" + this.roomId, (res) => {
-            console.log("라운드 순위 반환 : ", res.body);
             //
 
             var rank = JSON.parse(res.body);
+            console.log("라운드 순위 반환 : ", rank);
             console.log("현재 1등! : " + rank[0]);
             for (var i = 0; i < rank.length; i++) {
               console.log(rank[i]);
             }
 
-            this.recvList.push(JSON.parse(res.body));
+            this.recvList.push(rank);
           });
 
           // 최종 순위 반환

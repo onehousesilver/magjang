@@ -31,7 +31,7 @@
       class="col-5">
       <div class="row">
         <div
-          v-if="this.$store.state.conclusion === true"
+          v-if="broker && !isDealClicked"
           class="col table-text-col">
           <GameText />
         </div>
@@ -71,14 +71,20 @@ export default {
       timeLimit: 180,
       timePassed: 0,
       timerInterval: null,
-      // 브로커 받아온 값
-      broker: null,
     };
   },
   computed: {
     timeLeft() {
-      if (this.timeLimit - this.timePassed <= 0) {
-        this.skipTimer();        
+      if (this.timeLimit - this.timePassed < 0) {
+        this.skipTimer();
+        if(this.broker && !this.isDealClicked){
+          // emit(pub해줘 -> 시간 초과돼서 거래 제안을 못했다고)
+          this.emitter.emit('sendConclusion', false);
+        }else if(this.voter && !this.isVoteClicked){
+          // emit(pub해줘 -> 시간 초과돼서 투표 거절됐다고)
+          this.emitter.emit('sendVoteSuccess', true);
+        }
+        console.log("0초됨");
       }
       return this.timeLimit - this.timePassed
     },
@@ -87,11 +93,17 @@ export default {
       'dealStateCount',
       "turnPrice",
       "dealLimitPeople",
+      "isDealClicked",
+      "isVoteClicked",
+      "conclusion",
+      "broker",
+      "voter",
     ]),
   },
   methods: {
     // GameTimerMethods
     startTimer(start) {
+      this.skipTimer();
       this.timeLimit=start;
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
@@ -104,13 +116,7 @@ export default {
       //턴넘기기
 
       
-      if(this.$store.getters.broker){
-        // emit(pub해줘 -> 시간 초과돼서 거래 제안을 못했다고)
-        this.emitter.emit('sendConclusion', false);
-      }else if(this.$store.getters.voter){
-        // emit(pub해줘 -> 시간 초과돼서 투표 거절됐다고)
-        this.emitter.emit('sendVoteSuccess', true);
-      }
+      
 
 
 

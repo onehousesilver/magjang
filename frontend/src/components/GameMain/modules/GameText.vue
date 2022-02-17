@@ -37,11 +37,15 @@ export default {
   methods: {
     sendConclusion () {
       this.setConclusion(false);
+      this.setIsDealClicked(true);
+      // this.setBroker(false);
       this.emitter.emit('sendConclusion', true);//거래를 성공적으로 제안했는지 : true
       
     },
     ...mapActions([
       "setConclusion",
+      "setIsDealClicked",
+      "setBroker",
     ])
   },
   computed: {

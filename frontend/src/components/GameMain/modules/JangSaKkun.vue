@@ -10,7 +10,6 @@
         :index="index"
         :nick-name="nickName"
         @click="selectPriceShow" />
-      {{ selectedUser }}
     </div>
     <div
       v-if="player && broker && gamePossible">
@@ -60,8 +59,12 @@ export default {
   methods: {
     ...mapActions([
       "userSelectEvent",
+      "setUserNickName",
     ]),
     getConnectionData () {
+      setTimeout(() => {
+        
+      }, 1);
 			const { connection } = this.streamManager.stream;
 			return JSON.parse(connection.data);
 		},
@@ -102,7 +105,7 @@ export default {
     ]),
     nickName () {
 			const { clientData } = this.getConnectionData();
-      // this.setUserNickName({"NickName": clientData, "index": this.index})
+      this.setUserNickName({"NickName": clientData, "index": this.index})
 			return clientData;
 		},
     abilitiesArray() {
@@ -110,13 +113,19 @@ export default {
     },
   },
   watch: {
+    broker(nowValue) {
+      console.log("broker 변화 탐지!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:", nowValue)
+      if (!nowValue){
+        this.selectUser();
+        console.log("브로커 해제, 자신 선택 해제")
+      }
+    },
     turnPrice(nowValue) {
       // console.log("broker is true")
       if (this.player && this.broker) {
         nowValue;
         this.selectUser();
-      } else {
-        this.selectedUser = false;
+        console.log("브로커 배당, 자신 선택")
       }
     }
   }
