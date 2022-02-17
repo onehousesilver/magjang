@@ -116,13 +116,11 @@ export default {
       this.timerInterval = null;
       // this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
       //턴넘기기
-
-      
-      
-
-
-
     },
+    stopTimer(time){
+      this.skipTimer();
+      time;
+    }
   },
   // watch: {
   //   turnPrice() {
@@ -131,6 +129,7 @@ export default {
   // },
   mounted() {
     this.emitter.on('startTimer', time => this.startTimer(time))
+    this.emitter.on('stopTimer', time => this.stopTimer(time))
     // this.startTimer();
   },
 }

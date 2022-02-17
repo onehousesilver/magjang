@@ -515,7 +515,7 @@ export default {
           });
 
           // 해당 라운드의 순위 반환
-          this.stompClient.subscribe("/sub/game/rank/" + this.roomId, (res) => {
+          this.stompClient.subscribe("/sub/game/rank/" + this.roomId, (res) => {  // 여기에서 타이머 일시정지
             console.log("라운드 순위 반환 : ", res.body);
 
             // 게임 로그에 현재 순위 반환
@@ -528,9 +528,10 @@ export default {
             // 위에서 1등 정의, 나머지 순서 게임 로그에 반환
             for (var i = 1; i < rank.length; i++) {
               console.log(rank[i]);
-              this.emitter.emit('logRoundRank', '현재 '+ i +'번째 갑부는' + rank[i] + '입니다.')
+              this.emitter.emit('logRoundRank', '현재 '+ (i + 1) +'번째 갑부는' + rank[i] + '입니다.')
             }
 
+            this.emitter.emit('stopTimer', 100);
             // this.recvList.push(rank);
           });
 
@@ -559,9 +560,9 @@ export default {
             if (log.length == 3) {
               // 3차원 배열로 게임 히스토리 출력
               console.log("로그 3차원 배열 : ");
-              for (var round = 0; i < log.length; i++) {
-                for (var turn = 0; i < log.length; i++) {
-                  for (var playerIndex = 0; i < log.length; i++) {
+              for (var round = 0; round < log.length; round++) {
+                for (var turn = 0; turn < log[0].length; turn++) {
+                  for (var playerIndex = 0; playerIndex < log[0][0].length; playerIndex++) {
                     console.log(
                       round +
                         "라운드 " +
