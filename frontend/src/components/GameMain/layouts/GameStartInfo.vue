@@ -79,7 +79,7 @@ export default {
   computed: {
     timeLeft() {
       if (this.timeLimit - this.timePassed == 0) {
-        this.skipTimer();
+        this.skipTimer();        
       }
       return this.timeLimit - this.timePassed
     },
@@ -90,19 +90,34 @@ export default {
   },
   methods: {
     // GameTimerMethods
-    startTimer() {
+    startTimer(start) {
+      this.timeLimit=start;
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     skipTimer() {
-      this.timeLimit = 180,
+      // this.timeLimit = 180,
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
-      this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
+      // this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
+      //턴넘기기
+
+      
+      if(this.$store.getters.broker){
+        // emit(pub해줘 -> 시간 초과돼서 거래 제안을 못했다고)
+        this.emitter.emit('dealFailed');
+      }else if(this.$store.getters.voter){
+        // emit(pub해줘 -> 시간 초과돼서 투표 거절됐다고)
+        this.emitter.emit('voteFailed');
+      }
+
+
+
     },
   },
   mounted() {
-    this.startTimer();
+    this.emitter.on('startTimer', time => this.startTimer(time))
+    // this.startTimer();
   },
 }
 </script>

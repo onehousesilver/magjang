@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      price : 5000,
+      price : this.$store.getters.myMoney,
     };
   },
 }

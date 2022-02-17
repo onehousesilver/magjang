@@ -1,7 +1,7 @@
 <template>
   <div class="game_text">
     <div
-      v-if="player==broker"> 
+      v-if="broker"> 
       <span>플레이어 화면을 <br /> 클릭하면, <br /> 금액창이 나타납니다.<br /></span>
       <span>조건에 맞춰 금액을 <br /> 배분해주세요!</span>
       <!-- 게임 인원수, 능력, 돈 체크 해서 결정완료 버튼 활성화  -->
@@ -13,7 +13,7 @@
         type="button"
         class="btn mj-btn"
         :class="{disabled: !isDealPossible}"
-        @click="isConclusion">
+        @click="sendConclusion">
         결정완료
       </button>
     </div>
@@ -31,20 +31,22 @@ export default {
   data () {
     return {
       player: this.$store.state.nickName,
-      //broker: this.$store.stat.broker,
-      broker: null,
+      broker: this.$store.state.broker,
     }
   },
   methods: {
-    isConclusion () {
-      this.$store.state.conclusion = false
-    }
+    sendConclusion () {
+      this.$store.state.conclusion = false;
+      this.emitter.emit('sendConclusion', true);//거래를 성공적으로 제안했는지 : true
+      
+    },
+    
   },
   computed: {
     ...mapGetters([
-      'isDealPossible',
+      'isDealPossible'
     ])
-  }
+  },
 }
 </script>
 
