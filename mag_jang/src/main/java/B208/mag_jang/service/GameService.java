@@ -193,6 +193,10 @@ public class GameService {
             tempList.remove(tempList.get(index));
         }
 
+        if(n==2 && retList.contains(broker.getJobs()[0]) && retList.contains(broker.getJobs()[1])){
+            return choiceJobs(broker, n, currJobs);
+        }
+
         return retList;
     }
 

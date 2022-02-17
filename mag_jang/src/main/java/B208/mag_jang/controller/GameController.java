@@ -95,7 +95,9 @@ public class GameController {
 
     public void sendCurrBroker(String roomId){
         //브로커 주기
-        template.convertAndSend("/sub/game/broker/" + roomId, gameService.getCurrBroker(roomId));
+        Player player = gameService.getCurrBroker(roomId);
+        Player player2 = new Player("김주호");
+        template.convertAndSend("/sub/game/broker/" + roomId, player2);
     }
 
     // 거래 조건 생성
@@ -133,10 +135,13 @@ public class GameController {
 
     @MessageMapping(value = "/finalchoice")
     public void dealMemberChoiceComplete(ChatMessageDTO message) throws InterruptedException {
-        if(message.getMessage().equals("")){
+        System.out.println(message.getMessage());
+        if(message.getMessage().equals("") || message.getMessage() == null){
             // 최종 멤버 결정 실패 시 투표를 건너뛰고 다음 턴으로 진행(마지막 턴이라면 라운드 +1)
             System.out.println("결정 실패");
-            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), (Object) null); // {멤버 : 돈} 전송
+            message.setMessage(new ArrayList<>());
+            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), message); // {멤버 : 돈} 전송
+//            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), (Object) ""); // {멤버 : 돈} 전송
             //컨트롤러 메서드 만들기
             startNext(message.getRoomId());
         }else{
