@@ -10,6 +10,7 @@
       <!-- 그리고 해당되는 사람들에게만 체결하기/거부하기 띄어주기 -->
       <!-- v-if="game_condition_player == click_player" -->
       <button
+        v-if="dealStateCount"
         type="button"
         class="btn mj-btn"
         :class="{disabled: !isDealPossible}"
@@ -25,26 +26,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
     return {
-      player: this.$store.state.nickName,
-      broker: this.$store.state.broker,
+      
     }
   },
   methods: {
     sendConclusion () {
-      this.$store.state.conclusion = false;
+      this.setConclusion(false);
       this.emitter.emit('sendConclusion', true);//거래를 성공적으로 제안했는지 : true
       
     },
-    
+    ...mapActions([
+      "setConclusion",
+    ])
   },
   computed: {
     ...mapGetters([
-      'isDealPossible'
+      'isDealPossible',
+      "nickName",
+      "broker",
+      "conclusion",
+      "dealStateCount",
     ])
   },
 }

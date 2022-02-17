@@ -15,7 +15,7 @@ export default createStore({
 
     gamePossible: false,
     // turn마다
-    turnPrice: 2000,
+    turnPrice: 0,  // 매 턴마다 주어지는 가격, 변동 없음
     userPrice: [0, 0, 0, 0, 0], // [300, 500, 0, 0, 200]
     userNickName: ["", "", "", "", ""],
     userOrder: [],
@@ -25,33 +25,13 @@ export default createStore({
 
     // 가져와야하는 값
     host: null,
-
-    setPlayerJobs: null,
-
-    // Stomp에서 전송한 조건 리스트, or마다 하나의 row로, table show용이자 ar 생성용(어떻게 제대로 굴릴 것인지는 Stomp 연동되면 수정할 것)
-    dealCondition: ["선박", "언변", "창고"],
-
-    // mes 데이터를 이용하여 생성한 현 거래 조건 state
-    dealStateCount: {
-      선박: {
-        value: 0,
-      },
-      언변: {
-        value: 0,
-      },
-      창고: {
-        value: 0,
-      },
-      인맥: {
-        value: 1,
-      },
-      정보: {
-        value: 1,
-      },
-      로비: {
-        value: 1,
-      },
-    },
+    
+    playerJobs: {},
+    
+    dealPrice: 0,  // 브로커가 가져갈 가격, 변동 심함
+    dealLimitPeople: 0,
+    dealCondition: [],
+    dealStateCount: {},
 
     broker: false,
     voter: false,
@@ -70,34 +50,36 @@ export default createStore({
     conclusion: (state) => state.conclusion,
     broker: (state) => state.broker,
     voter: (state) => state.voter,
-    turnPrice: (state) => state.turnPrice,
-    userPrice: (state) => state.userPrice,
-    dealCondition: (state) => state.dealCondition,
-    dealStateCount: (state) => state.dealStateCount,
-    userNickName: (state) => state.userNickName,
     userOrder: (state) => state.userOrder,
     myMoney: (state) => state.myMoney,
+
+    turnPrice: state => state.turnPrice,
+    userPrice: state => state.userPrice,
+    dealPrice: state => state.dealPrice,
+    dealCondition: state => state.dealCondition,
+    dealStateCount: state => state.dealStateCount,
+    userNickName: state => state.userNickName,
+    playerJobs: state => state.playerJobs,
+    dealLimitPeople: state => state.dealLimitPeople,
 
     isLogined: function (state) {
       return state.userId && state.naverId;
     },
 
-    isDealPossible(state) {
+    isDealPossible(state) { // 여기에 현재 선택된 인원 제한도 걸어두기
       return (
-        state.dealStateCount["선박"].value &&
-        state.dealStateCount["언변"].value &&
-        state.dealStateCount["창고"].value &&
-        state.dealStateCount["인맥"].value &&
-        state.dealStateCount["정보"].value &&
-        state.dealStateCount["로비"].value
+        state.dealStateCount["선박"] &&
+        state.dealStateCount["언변"] &&
+        state.dealStateCount["창고"] &&
+        state.dealStateCount["인맥"] &&
+        state.dealStateCount["정보"] &&
+        state.dealStateCount["로비"]
       );
     },
 
-    
-
-    // findMyJob(NickName) {
-
-    // },
+    findMyJob: state => nickName => {
+      return state.playerJobs[nickName]
+    },
   },
   mutations: {
     // state 상태 변경, 동기적이어야 함
@@ -121,12 +103,14 @@ export default createStore({
       const isUserSelected = selectdata["isUserSelected"];
 
       if (isUserSelected) {
-        state.dealStateCount[first_ability].value += 1;
-        state.dealStateCount[second_ability].value += 1;
-      } else {
-        state.dealStateCount[first_ability].value -= 1;
-        state.dealStateCount[second_ability].value -= 1;
+        state.dealStateCount[first_ability] += 1
+        state.dealStateCount[second_ability] += 1
       }
+      else {
+        state.dealStateCount[first_ability] -= 1
+        state.dealStateCount[second_ability] -= 1
+      }
+      // console.log("SELECTED_EVENT", isUserSelected, state.dealStateCount)
     },
     CHANGE_GAME_POSSIBLE(state, flag) {
       state.gamePossible = flag;
@@ -135,8 +119,8 @@ export default createStore({
       const value = pricedata["value"];
       const index = pricedata["index"];
 
-      state.turnPrice += value;
-      state.userPrice[index] -= value;
+      state.dealPrice += value
+      state.userPrice[index] -= value
     },
     SET_USER_NICKNAME(state, userdata) {
       const NickName = userdata["NickName"];
@@ -174,6 +158,18 @@ export default createStore({
     //   state.userNickName[index] = NickName
     //   // console.log(state.userNickName)
     // }
+    SET_PLAYER_JOB(state, jobObject) {
+      state.playerJobs = jobObject
+    },
+    SET_DEAL_CONDITIONS(state, deal) {
+      state.turnPrice = deal.turnPrice;  // 거래 금액
+      state.dealPrice = deal.turnPrice;
+      state.dealLimitPeople = deal.dealLimitPeople;  // 필요 인원수
+      state.dealCondition = deal.dealCondition;  // 필요 능력
+      state.dealStateCount = deal.dealStateCount;
+
+      // console.log("딜", state.dealPrice, state.dealLimitPeople, state.dealCondition, state.dealStateCount)
+    }
   },
   actions: {
     // mutations 호출, 비동기 가능
@@ -196,14 +192,7 @@ export default createStore({
       commit("SET_USER_NICKNAME", userdata);
     },
     setUserOrder({ commit }, userdata) {
-      commit("SET_User_Order", userdata);
-    },
-    setPlayerJob({ commit }, jsonJob) {
-      for (var idx in jsonJob) {
-        console.log(jsonJob[idx]);
-      }
-      // commit("SET_PLAYER_JOB", jsonJob)
-      console.log(commit);
+      commit("SET_USER_ORDER", userdata);
     },
     setBroker({ commit }, broker) {
       commit("SET_BROKER", broker);
@@ -217,6 +206,36 @@ export default createStore({
     setMyMoney({ commit }, mymoney) {
       commit("SET_MY_MONEY", mymoney);
     },
+    setPlayerJob({commit}, jsonJob) {
+      const jobObject = {}
+      jsonJob.forEach(data => {
+        const nickName = data.nickName
+        const jobs = data.jobs
+
+        jobObject[nickName] = jobs
+      })
+      commit("SET_PLAYER_JOB", jobObject)
+    },
+    setDealConditions({commit}, deal) {
+      const turnPrice = deal.dealMoney;  // 거래 금액
+      const dealLimitPeople = deal.playerCount;  // 필요 인원수
+      const dealCondition = deal.chosenJobs;  // 필요 능력
+
+      const dealStateCount = {
+        "선박": 1,
+        "언변": 1,
+        "창고": 1,
+        "인맥": 1,
+        "정보": 1,
+        "로비": 1,
+      };
+      
+      dealCondition.forEach(element => {
+        dealStateCount[element] = 0
+      });
+      // console.log(turnPrice, dealLimitPeople, dealCondition, dealStateCount)
+      commit("SET_DEAL_CONDITIONS", {turnPrice, dealLimitPeople, dealCondition, dealStateCount})
+    }
   },
   modules: {},
 });

@@ -1,17 +1,15 @@
 <template>
   <div
-    class="ov-video-wrap"
-    v-if="streamManager"
-    :key="streamManager.stream.connection.connectionId">
+    class="ov-video-wrap">
     <ov-video
       :stream-manager="streamManager" />
     <div
-      v-if="this.$store.state.gamePossible"
+      v-if="gamePossible"
       class="user-ability">
-      <UserAbility :abilities-array="abilitiesArray" />
+      <UserAbility :nick-name="nickName" />
     </div>
     <p class="video-nickname">
-      {{ clientData }}
+      {{ nickName }}
     </p>
   </div>
 </template>
@@ -19,7 +17,8 @@
 <script>
 import OvVideo from '@/components/GameMain/modules/OvVideo.vue';
 import UserAbility from '@/components/GameMain/modules/UserAbility.vue'
-import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
+// import { mapActions } from 'vuex'
 
 export default {
 	name: 'UserVideo',
@@ -43,25 +42,31 @@ export default {
       type: Number,
       default: -1
     },
+    nickName: {
+      type: String,
+      default: "MagJang"
+    },
 	},
 
 	computed: {
-		clientData () {
-			const { clientData } = this.getConnectionData();
-      this.setUserNickName({"NickName": clientData, "index": this.index})
-			return clientData;
-		},
-
+		// clientData () {
+		// 	const { clientData } = this.getConnectionData();
+    //   this.setUserNickName({"NickName": clientData, "index": this.index})
+		// 	return clientData;
+		// },
+    ...mapGetters([
+      "gamePossible",
+    ])
 	},
 
 	methods: {
-		getConnectionData () {
-			const { connection } = this.streamManager.stream;
-			return JSON.parse(connection.data);
-		},
-    ...mapActions([
-      "setUserNickName",
-    ])
+		// getConnectionData () {
+		// 	const { connection } = this.streamManager.stream;
+		// 	return JSON.parse(connection.data);
+		// },
+    // ...mapActions([
+    //   "setUserNickName",
+    // ])
 	},
 };
 </script>

@@ -1,12 +1,16 @@
 <template>
   <div>
     <div
-      class="col">
+      class="col"
+      v-if="streamManager"
+      :key="streamManager.stream.connection.connectionId">
       <UserVideo
         :stream-manager="streamManager"
         :abilities-array="abilitiesArray"
         :index="index"
+        :nick-name="nickName"
         @click="selectPriceShow" />
+      {{ selectedUser }}
     </div>
     <div
       v-if="player && broker && gamePossible">
@@ -34,10 +38,9 @@ export default {
     TotalPrice,
     SelectPrice,
   },
-  data() {
+  data() {  
     return{
       selectedUser: false,
-      abilitiesArray: [],
     }
   },
   props: {
@@ -58,8 +61,12 @@ export default {
     ...mapActions([
       "userSelectEvent",
     ]),
+    getConnectionData () {
+			const { connection } = this.streamManager.stream;
+			return JSON.parse(connection.data);
+		},
     selectPriceShow(){
-      if (!this.player && this.broker && this.turnPrice >= 100) {
+      if (!this.player && this.broker && (this.dealPrice >= 200 || this.selectedUser)) {
         this.selectUser();
       }
     },
@@ -89,14 +96,27 @@ export default {
     ...mapGetters([
       "broker",
       "gamePossible",
+      "dealPrice",
+      "findMyJob",
       "turnPrice",
     ]),
+    nickName () {
+			const { clientData } = this.getConnectionData();
+      // this.setUserNickName({"NickName": clientData, "index": this.index})
+			return clientData;
+		},
+    abilitiesArray() {
+      return this.findMyJob(this.nickName)
+    },
   },
   watch: {
-    broker(isBroker) {
+    turnPrice(nowValue) {
       // console.log("broker is true")
-      if (isBroker && this.player) {
+      if (this.player && this.broker) {
+        nowValue;
         this.selectUser();
+      } else {
+        this.selectedUser = false;
       }
     }
   }

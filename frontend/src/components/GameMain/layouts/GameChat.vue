@@ -1,14 +1,26 @@
 <template>
   <div class="game-chat-write">
     <!-- 실제 채팅이 보여지는 창 -->
-    <div class="game-chat-log" ref="recvList">
-      <div v-for="(item, idx) in recvList" :key="idx">
+    <div
+      class="game-chat-log"
+      ref="recvList">
+      <div
+        v-for="(item, idx) in recvList"
+        :key="idx">
         <!-- 귓속말 할 때 발신자와 수신자에게 보이는 메세지 -->
-        <div v-if="item.reader == 'i208'">{{ item.writer }} 님이 모두에게 :</div>
+        <div v-if="item.reader == 'i208'">
+          {{ item.writer }} 님이 모두에게 :
+        </div>
         <!-- player가 입장/퇴장할 때 보이는 알림 -->
-        <div v-else-if="item.reader == null" style="color: #ffc107">📢 장사꾼 입/퇴장 알림</div>
+        <div
+          v-else-if="item.reader == null"
+          style="color: #ffc107">
+          📢 장사꾼 입/퇴장 알림
+        </div>
         <!-- 전체채팅 할 때 모두에게 보이는 메세지 -->
-        <div v-else>{{ item.writer }} 님이 {{ item.reader }} 님에게 :</div>
+        <div v-else>
+          {{ item.writer }} 님이 {{ item.reader }} 님에게 :
+        </div>
         <!-- 입력한 메세지 내용 -->
         <span> {{ item.message }} </span>
       </div>
@@ -17,10 +29,22 @@
     <!-- 귓속말을 보낼 유저를 선택하는 select 창 -->
     <section class="not-game-chat-log">
       <span>귓속말을 보낼 장사꾼을 선택하세요.</span>
-      <select class="form-select mb-3 mt-2" v-model="reader" aria-label="Default select example">
-        <option selected disabled>귓속말을 보낼 장사꾼을 선택하세요.</option>
-        <option :value="'i208'">모두에게</option>
-        <option v-for="gameplayer in whisperPeople" :key="gameplayer" :value="gameplayer">
+      <select
+        class="form-select mb-3 mt-2"
+        v-model="reader"
+        aria-label="Default select example">
+        <option
+          selected
+          disabled>
+          귓속말을 보낼 장사꾼을 선택하세요.
+        </option>
+        <option :value="'i208'">
+          모두에게
+        </option>
+        <option
+          v-for="gameplayer in whisperPeople"
+          :key="gameplayer"
+          :value="gameplayer">
           {{ gameplayer }}
         </option>
       </select>
@@ -33,9 +57,12 @@
           aria-label="default input example"
           v-model="message"
           type="text"
-          @keyup="sendMessage"/>
+          @keyup="sendMessage" />
         <!-- 채팅 전송하는 버튼 -->
-        <button type="button" class="btn btn-outline-warning chat-send-btn" @click="sendMessage">
+        <button
+          type="button"
+          class="btn btn-outline-warning chat-send-btn"
+          @click="sendMessage">
           전송
         </button>
       </div>
@@ -82,8 +109,7 @@ export default {
     this.emitter.on("IamHost", this.gameStart);
     this.emitter.on('sendConclusion', isSuccess => this.sendConclusion(isSuccess));
     this.emitter.on('vote', vote => this.sendVote(vote));
-    this.emitter.on('dealFailed', this.sendVote(false));
-    this.emitter.on('voteFailed', this.sendVote(false));
+    this.emitter.on('sendVoteSuccess', isVoted => this.sendVote(isVoted));
   },
   updated() {
     // 새로운 채팅이 입력되면 스크롤 하단으로 update
@@ -91,12 +117,12 @@ export default {
     objDiv.scrollTo({ top: objDiv.scrollHeight, behavior: "smooth" });
   },
   methods: {
-    ...mapActions(["setPlayerJob", "setUserOrder","setBroker","setVoter","setConclusion","setMyMoney"]),
+    ...mapActions(["setPlayerJob", "setUserOrder","setBroker","setVoter","setConclusion","setMyMoney", "setDealConditions",]),
     setMyMoneys(mymoney){
       this.setMyMoney(mymoney);
     },
     sendVote(vote){
-      if (this.stompClient && this.stompClient.connected) {
+      if (vote && this.stompClient && this.stompClient.connected) {
         const msg = {
           writer: this.writer,
           message: vote,
@@ -105,9 +131,9 @@ export default {
           player: this.player,
         };
         console.log("Send Vote:" + this.msg);
-        this.stompClient.send("/pub/game/vote", JSON.stringify(msg), {});
+        this.stompClient.send("/game/vote", JSON.stringify(msg), {});
       }
-      this.setVoter(false);
+      this.setVoters(false);
     },    
     sendConclusion(isSuccess) {
       console.log("Send Conclusion");
@@ -117,12 +143,16 @@ export default {
         var userNickNames = this.$store.getters.userNickName;
         var userPrices = this.$store.getters.userPrice;
         var n = userNickNames.length;
+        //본인제외 닉네임과 거래금액 넣기
         for(var i=0; i < n; i++){
           if(userPrices[i] != 0){
             var tmp = [userNickNames[i],userPrices[i]];
             playerDealAmount.push(tmp);
           }
         }
+        //본인 닉네임과 거래금액 넣기
+        var myDeal = [this.$store.getters.nickName, this.$store.getters.dealPrice];
+        playerDealAmount.push(myDeal);
         if (this.stompClient && this.stompClient.connected) {
           const msg = {
             writer: this.writer,
@@ -132,7 +162,7 @@ export default {
             player: this.player,
           };
           // 전체 채팅 전송
-          this.stompClient.send("/pub/chat/finalchoice", JSON.stringify(msg), {});
+          this.stompClient.send("/game/finalchoice", JSON.stringify(msg), {});
         }
       }else{
         if (this.stompClient && this.stompClient.connected) {
@@ -144,7 +174,7 @@ export default {
             player: this.player,
           };
           // 전체 채팅 전송
-          this.stompClient.send("/pub/chat/finalchoice", JSON.stringify(msg), {});
+          this.stompClient.send("/game/finalchoice", JSON.stringify(msg), {});
         }
       }
       
@@ -155,10 +185,10 @@ export default {
     setOrder(order) {
       this.setUserOrder(order);
     },
-    setBroker(isBroker){
+    setBrokers(isBroker){
       this.setBroker(isBroker);
     },
-    setVoter(isVoter){
+    setVoters(isVoter){
       this.setVoter(isVoter);
     },
     // 엔터를 눌러 메세지 전송
@@ -261,9 +291,13 @@ export default {
             // 1. res.body 확인 후 GameDTO가 잘 왔다면 채팅창 or 게임 로그에 "게임을 시작합니다" 출력
 
             console.log("resbody : " + res.body);
+            var str = JSON.parse(res.body)
             if (res.body != null) {
               // console.log("resbody가 GameDTO")
               this.emitter.emit("gameStarted");
+            console.log("초기 자금 : " + str['playerList'][0]['money']);
+              this.setMyMoneys(str['playerList'][0]['money']);
+              
               //1. 게임로그에 메세지 띄우라고 emit
               //2. 게임 화면 구성하는 메서드를 실행해달라고 emit
             } else {
@@ -284,6 +318,7 @@ export default {
           // ]
           this.stompClient.subscribe("/sub/game/jobs/" + this.roomId, (res) => {
             console.log("직업 분배 : ", res.body);
+
             // 1. res.body 확인 후 게임 로그에 "이번 라운드의 능력을 분배합니다" 등 출력
             console.log("================== 각 res.body 출력 =================");
             var playerJob = JSON.parse(res.body);
@@ -322,23 +357,20 @@ export default {
             this.setOrder(order);
             
             this.emitter.emit('initOrder', orderString); //로그 쪽에서 emitter.on으로 받기
-            
-            this.recvList.push(JSON.parse(res.body));
           });
 
           // 현재 턴의 브로커 닉네임을 반환
           this.stompClient.subscribe("/sub/game/broker/" + this.roomId, (res) => {
-            console.log("브로커 전달 : ", res.body.nickName);
             // 1. 백엔드에서 매 턴 Player형 객체로 브로커를 보내줍니다
             // 2. res.body 확인 후 게임 로그에 "이번 턴의 브로커는 {nickname}입니다" 등 출력
-            var broker = res.body.nickName; //res.body['nickName'
+            var broker = JSON.parse(res.body)['nickName']; //res.body['nickName']
+            console.log("브로커 전달 : ", broker);
             var brokerString = "이번 턴의 브로커는 " + broker + "님입니다."
 
             this.emitter.emit('initBroker', brokerString);
-            if(this.$store.getters.nickName == res.body.nickName){
-              this.setBroker(true);
+            if(this.$store.getters.nickName == broker){
+              this.setBrokers(true);
             }
-            this.recvList.push(JSON.parse(res.body));
           });
 
           // 현재 턴의 거래 조건을 반환
@@ -352,14 +384,14 @@ export default {
             // 1. res.body 확인 후 게임 로그와 테이블에 현재 거래 조건을 출력
             // 2. 일정 시간 후 or 바로 타이머를 작동시킴
             // 3. 사전에 브로커로 지정된 플레이어에게 클릭 권한...같은걸 주고 입력 받음
-            //제가 예시로 적어놓은 변수들만 필요할거예요!!!어께이이이
 
             var deal = JSON.parse(res.body);
-            console.log("거래 금액 : " + deal.dealMoney);
-            console.log("필요 인원수 : " + deal.playerCount);
-            console.log("필요 능력 : " + deal.chosenJobs);
+            // console.log("거래 금액 : " + deal.dealMoney);
+            // console.log("필요 인원수 : " + deal.playerCount);
+            // console.log("필요 능력 : " + deal.chosenJobs);
             
             this.emitter.emit('startTimer', 45);
+            this.setDealConditions(deal)
             this.recvList.push(JSON.parse(res.body));
           });
 
@@ -389,13 +421,11 @@ export default {
             //"roundMoney":[200,300,400],
             //"voteOK":true,"dealOk":false,"dealSuccess":false}
             var deal = JSON.parse(res.body);
-            if (deal == null) {
+            if (deal.message.length == 0) {
               console.log("제안 실패 : " + deal);
               this.emitter.emit('initFinalChoice', deal.writer + "님이 거래 제안에 실패하셨습니다. 다음 거래로 넘어갑니다.");
             } else {
               console.log("제안한 금액 : " + deal.dealAmount); // 요건 map처럼 되어 있어서
-              console.log("제안한 금액 1 : " + deal.dealAmount["1"]); // 요렇게 쓰면 됩니당
-              console.log("제안한 금액 2 : " + deal.dealAmount["1"]);
               var dealLogString = "이번 거래에 ";//{"1":300,"2":200}
               for(var i ; i<deal.dealAmount.length ;i++){
                 var currKey = Object.keys(deal.dealAmount)[i];
@@ -403,8 +433,6 @@ export default {
                 if(currKey == this.$store.getters.nickName){
                   this.setVoter(true);
                 }
-
-                
                 
                 dealLogString += currKey + "(이)가 "              
                 dealLogString += deal.dealAmount[currKey] + "만원";
@@ -414,9 +442,8 @@ export default {
               }              
               dealLogString += "으로 참여합니다."
               this.emitter.emit('initFinalChoice', dealLogString);
+              this.emitter.emit('startTimer', 15);
             }
-            this.emitter.emit('startTimer', 15);
-            this.recvList.push(JSON.parse(res.body));
           });
 
           // 투표창이 뜬 플레이어는 거래 찬성 or 거래 반대를 투표함
@@ -468,7 +495,7 @@ export default {
             //store의 보유금액 동기화
 
             //자신의 브로커 boolean을 false로 만듬
-            this.setBroker(false);
+            this.setBrokers(false);
             //투표가 종료되며 voter자격을 false로 만듬
             this.setVoter(false);
             this.setConclusion(true);
