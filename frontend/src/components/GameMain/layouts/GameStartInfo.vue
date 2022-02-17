@@ -87,7 +87,7 @@ export default {
       'dealStateCount',
       "turnPrice",
       "dealLimitPeople",
-    ])
+    ]),
   },
   methods: {
     // GameTimerMethods
@@ -99,11 +99,16 @@ export default {
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
-      this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
+      // this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
     },
   },
+  watch: {
+    turnPrice() {
+      this.startTimer();
+    }
+  },
   mounted() {
-    this.startTimer();
+    // this.startTimer();
   },
 }
 </script>

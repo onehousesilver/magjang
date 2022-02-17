@@ -309,7 +309,6 @@ export default {
             // const dealLimitPeople = deal.playerCount;  // 필요 인원수
             // const dealCondition = deal.chosenJobs;  // 필요 능력
             this.setDealConditions(deal)
-            // 타이머 추가 필요
             // 브로커 클릭 권한은 자동화로 위쪽에서 브로커 지정해주면 될듯
 
             this.recvList.push(JSON.parse(res.body));
