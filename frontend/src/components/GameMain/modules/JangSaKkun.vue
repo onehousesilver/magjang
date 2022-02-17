@@ -1,11 +1,14 @@
 <template>
   <div>
     <div
-      class="col">
+      class="col"
+      v-if="streamManager"
+      :key="streamManager.stream.connection.connectionId">
       <UserVideo
         :stream-manager="streamManager"
         :abilities-array="abilitiesArray"
         :index="index"
+        :nick-name="nickName"
         @click="selectPriceShow" />
     </div>
     <div
@@ -34,10 +37,9 @@ export default {
     TotalPrice,
     SelectPrice,
   },
-  data() {
+  data() {  
     return{
       selectedUser: false,
-      abilitiesArray: [],
     }
   },
   props: {
@@ -57,9 +59,17 @@ export default {
   methods: {
     ...mapActions([
       "userSelectEvent",
+      "setUserNickName",
     ]),
+    getConnectionData () {
+      setTimeout(() => {
+        
+      }, 1);
+			const { connection } = this.streamManager.stream;
+			return JSON.parse(connection.data);
+		},
     selectPriceShow(){
-      if (!this.player && this.broker && this.turnPrice >= 100) {
+      if (!this.player && this.broker && (this.dealPrice >= 200 || this.selectedUser)) {
         this.selectUser();
       }
     },
@@ -89,14 +99,33 @@ export default {
     ...mapGetters([
       "broker",
       "gamePossible",
+      "dealPrice",
+      "findMyJob",
       "turnPrice",
     ]),
+    nickName () {
+			const { clientData } = this.getConnectionData();
+      this.setUserNickName({"NickName": clientData, "index": this.index})
+			return clientData;
+		},
+    abilitiesArray() {
+      return this.findMyJob(this.nickName)
+    },
   },
   watch: {
-    broker(isBroker) {
-      // console.log("broker is true")
-      if (isBroker && this.player) {
+    broker(nowValue) {
+      console.log("broker 변화 탐지!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:", nowValue)
+      if (!nowValue){
         this.selectUser();
+        console.log("브로커 해제, 자신 선택 해제")
+      }
+    },
+    turnPrice(nowValue) {
+      // console.log("broker is true")
+      if (this.player && this.broker) {
+        nowValue;
+        this.selectUser();
+        console.log("브로커 배당, 자신 선택")
       }
     }
   }

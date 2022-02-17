@@ -1,11 +1,17 @@
 <template>
-  <div class="ability">
+  <div
+    class="ability"
+    v-if="abilitiesArray">
     <Abilities 
       class="badge"
-      v-if="abilitiesArray" />
+      v-if="abilitiesArray"
+      :ability="abilitiesArray[0]"
+      :activate="!dealStateCount[abilitiesArray[0]]" />
     <Abilities
       class="badge"
-      v-if="abilitiesArray" />
+      v-if="abilitiesArray"
+      :ability="abilitiesArray[1]"
+      :activate="!dealStateCount[abilitiesArray[1]]" />
   </div>
 </template>
 
@@ -19,14 +25,14 @@ export default {
   },
   data() {
     return {
-      
+
     }
   },
   props: {
-    abilitiesArray: {
-      type: Array,
-      default: undefined,
-    }
+    nickName: {
+      type: String,
+      default: "MagJang"
+    },
 	},
   methods: {
     
@@ -34,7 +40,12 @@ export default {
   computed: {
     ...mapGetters([
       'dealStateCount',
-    ])
+      "findMyJob",
+    ]),
+    abilitiesArray() {
+      // console.log(this.findMyJob(this.nickName))
+      return this.findMyJob(this.nickName)
+    }
   }
 }
 </script>
