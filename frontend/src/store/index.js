@@ -59,7 +59,7 @@ export default createStore({
       return state.userId && state.naverId
     },
 
-    isDealPossible(state) {
+    isDealPossible(state) {  // 여기에 현재 선택된 인원 제한도 걸어두기
       return state.dealStateCount["선박"].value && state.dealStateCount["언변"].value &&
       state.dealStateCount["창고"].value && state.dealStateCount["인맥"].value &&
       state.dealStateCount["정보"].value && state.dealStateCount["로비"].value

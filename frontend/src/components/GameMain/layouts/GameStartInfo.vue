@@ -3,7 +3,7 @@
     <div class="col-4 first-area">
       <div> 
         <span class="badge bg-light">거래 조건</span> <br />
-        <span>브로커 포함 {{ dealLimitPeople }}명</span>
+        <span>브로커 포함 {{ dealLimitPeople }}명 이상</span>
         <div id="abilities">
           <div
             v-for="deal in dealCondition"
@@ -99,7 +99,7 @@ export default {
       this.timePassed = 0,
       clearInterval(this.timerInterval);
       this.timerInterval = null;
-      // this.startTimer(); // 타이머 무한 반복하고 싶지 않을 때 주석하기
+      // SelectedUserBtn에서 emit event로 가결안이 온다면 skipTimer 돌리고 stomp로 전송
     },
   },
   watch: {

@@ -5,20 +5,20 @@
   <div v-else>
     <NaverLogInBtn />
   </div>
-  <testButton />
+  <!-- <testButton /> -->
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
 import NaverLogInBtn from '@/components/Main/modules/NaverLogInBtn.vue'
 import IsNickname from '@/components/Main/layouts/IsNickname.vue'
-import testButton from '@/components/Main/modules/testButton.vue'
+// import testButton from '@/components/Main/modules/testButton.vue'
 
 export default {
   components: {
     NaverLogInBtn,
     IsNickname,
-    testButton,
+    // testButton,
   },
   computed: {
     ...mapGetters([
