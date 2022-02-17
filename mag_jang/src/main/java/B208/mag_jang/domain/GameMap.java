@@ -12,7 +12,7 @@ public class GameMap {
     private Map<String, GameDTO> games = new HashMap<>();
 
     public void addPlayer(String roomId, String nickname) {
-        if(games.get(roomId)==null) games.put(roomId, new GameDTO(roomId));
+        games.put(roomId, new GameDTO(roomId));
         games.get(roomId).addPlayer(nickname);
     }
 
