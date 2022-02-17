@@ -51,9 +51,6 @@ export default {
   font-size: 30px;
   border-radius: 20px;
   align-items: center;
-  overflow: hidden;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
 }
 .game-layout .game-table-el::-webkit-scrollbar {
   display: none;
@@ -80,7 +77,7 @@ export default {
 .game-log {
   width: 100%;
   height: 45vh;
-  border: solid rgb(67,66,47) 2px;
+  /* border: solid rgb(67,66,47) 2px; */
   color: white;
   font-size: 30px;
   border-radius: 20px;

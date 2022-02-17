@@ -1,11 +1,14 @@
 <template>
   <div>
     <div
-      class="col">
+      class="col"
+      v-if="streamManager"
+      :key="streamManager.stream.connection.connectionId">
       <UserVideo
         :stream-manager="streamManager"
         :abilities-array="abilitiesArray"
         :index="index"
+        :nick-name="nickName"
         @click="selectPriceShow" />
     </div>
     <div
@@ -27,7 +30,6 @@ import UserVideo from '@/components/GameMain/modules/UserVideo.vue'
 import TotalPrice from '@/components/GameMain/modules/TotalPrice.vue'
 import SelectPrice from '@/components/GameMain/modules/SelectPrice.vue'
 import { mapActions, mapGetters } from 'vuex'
-import _ from 'lodash'
 
 export default {
   components: { 
@@ -35,10 +37,9 @@ export default {
     TotalPrice,
     SelectPrice,
   },
-  data() {
+  data() {  
     return{
       selectedUser: false,
-      abilitiesArray: [],
     }
   },
   props: {
@@ -58,10 +59,21 @@ export default {
   methods: {
     ...mapActions([
       "userSelectEvent",
+      "setUserNickName",
     ]),
+    getConnectionData () {
+      setTimeout(() => {
+        
+      }, 1);
+			const { connection } = this.streamManager.stream;
+			return JSON.parse(connection.data);
+		},
     selectPriceShow(){
-      if (!this.player && this.broker && this.turnPrice >= 100) {
+      if (!this.player && this.broker && (this.dealPrice >= 200 || this.selectedUser)) {
         this.selectUser();
+      }
+      else {
+        console.log(this.player, this.broker, this.dealPrice, this.selectedUser)
       }
     },
     selectUser() {
@@ -73,29 +85,51 @@ export default {
           "isUserSelected": this.selectedUser
         })
     },
-    getAbilities() {
-      const abilityList = ['창고','인맥','언변','정보','로비','선박',]
-      this.abilitiesArray = _.sampleSize(abilityList, 2)
-      // console.log("------------- playerAbilities 확인!-------------")
-      // console.log(playerAbilities)
+    getAbilities(jobsList) {
+      console.log(this.$store.getters.nickName)
+      console.log(jobsList)
+      // const abilityList = ['창고','인맥','언변','정보','로비','선박',]
+      // this.abilitiesArray = _.sampleSize(abilityList, 2)
+
     },
   },
   mounted() {
   //  this.emitter.on('playerAbility', playerAbilities => this.getAbilities(playerAbilities))
-  this.getAbilities();
+    // this.emitter.off('initJobs')
+    this.emitter.on('initJobs', jobsList => this.getAbilities(jobsList))
   },
   computed: {
     ...mapGetters([
       "broker",
       "gamePossible",
+      "dealPrice",
+      "findMyJob",
       "turnPrice",
     ]),
+    nickName () {
+			const { clientData } = this.getConnectionData();
+      this.setUserNickName({"NickName": clientData, "index": this.index})
+			return clientData;
+		},
+    abilitiesArray() {
+      return this.findMyJob(this.nickName)
+    },
   },
   watch: {
-    broker(isBroker) {
+    broker(nowValue) {
+      console.log("broker 변화 탐지!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:", nowValue)
+      if (!nowValue){
+        // this.selectUser();
+        this.selectedUser = false
+        console.log("브로커 해제, 자신 선택 해제")
+      }
+    },
+    turnPrice(nowValue) {
       // console.log("broker is true")
-      if (isBroker && this.player) {
+      if (this.player && this.broker) {
+        nowValue;
         this.selectUser();
+        console.log("브로커 배당, 자신 선택")
       }
     }
   }

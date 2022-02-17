@@ -1,7 +1,8 @@
 <template>
   <div class="price-box">
     <vue-number-input
-      :model-value="turnPrice"
+      :min="100"
+      :model-value="dealPrice"
       :inputtable="false"
       inline 
       controls
@@ -23,7 +24,7 @@ export default {
 	// },
   computed: {
     ...mapGetters([
-      "turnPrice"
+      "dealPrice"
     ])
   }
 }
