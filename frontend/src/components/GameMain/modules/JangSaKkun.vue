@@ -11,7 +11,6 @@
         :nick-name="nickName"
         @click="selectPriceShow" />
     </div>
-    {{ broker }}
     <div
       v-if="player && broker && gamePossible">
       <TotalPrice />
