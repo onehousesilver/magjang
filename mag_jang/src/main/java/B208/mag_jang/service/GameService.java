@@ -26,6 +26,8 @@ public class GameService {
         if(roomMap.getNicknames(roomId).size() < 4){
             return false;
         }
+        System.out.println(roomMap.getNicknames(roomId));
+        gameMap.setNewGame(roomId);
         for(String player : roomMap.getNicknames(roomId)){
             gameMap.addPlayer(roomId, player);
         }
@@ -85,7 +87,7 @@ public class GameService {
     public GameDTO getGame(String roomId) {
         return gameMap.getGame(roomId);
     }
-    
+
     // 첫 라운드 첫 턴에만 랜덤으로 Player 리스트를 반환
     // 이후에는 플레이어 돈의 내림차순으로 반환
     // -> 순위 발표 및 다음 라운드 순서 결정 시 활용
@@ -245,7 +247,7 @@ public class GameService {
 
         for(int i = 0; i < game.getPlayerListSize(); i++){
             Player player = game.getPlayerList().get(i);
-            if(game.getDealAmount().containsKey(player.getNickName())){
+            if(game.getDealAmount().containsKey(player.getNickName()) && game.getRound() < 4){
                 game.getGameLog()[game.getRound()-1][game.getTurn()-1][i] = game.getDealAmount().get(player.getNickName());
             }
         }

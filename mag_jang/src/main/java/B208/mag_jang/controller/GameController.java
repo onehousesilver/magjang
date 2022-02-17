@@ -96,8 +96,8 @@ public class GameController {
     public void sendCurrBroker(String roomId){
         //브로커 주기
         Player player = gameService.getCurrBroker(roomId);
-        Player player2 = new Player("김주호");
-        template.convertAndSend("/sub/game/broker/" + roomId, player2);
+//        Player player2 = new Player("김주호");
+        template.convertAndSend("/sub/game/broker/" + roomId, player);
     }
 
     // 거래 조건 생성
@@ -205,22 +205,22 @@ public class GameController {
         template.convertAndSend("/sub/game/log/" + roomId, gameService.getNicknames(roomId)); // List<String> 형의 플레이어 리스트 전송
         template.convertAndSend("/sub/game/log/" + roomId, gameService.getLog(roomId)); // int[round][turn][playerIndex] 형의 3차원 배열로 전송
 
-        List<String> proGangPlayerList = gameService.getProGangPlayer(roomId);
-        template.convertAndSend("/sub/game/winner/" + roomId, gameService.getWinners(roomId)); // 우승자 리스트 전송
-        template.convertAndSend("/sub/game/progang/" + roomId, proGangPlayerList); // 프로깽판러 리스트 전송
+//        List<String> proGangPlayerList = gameService.getProGangPlayer(roomId);
+//        template.convertAndSend("/sub/game/winner/" + roomId, gameService.getWinners(roomId)); // 우승자 리스트 전송
+//        template.convertAndSend("/sub/game/progang/" + roomId, proGangPlayerList); // 프로깽판러 리스트 전송
         
         // 각 플레이어별 승점 5500 -> 550, 1등 5
-        for(Player player : playerList){
-            userService.setRankPoint(player.getNickName(), player.getMoney()/10);
-        }
-        // 우승 플레이어 가산점
-        for(Player player : gameService.getWinners(roomId)){
-            userService.setRankPoint(player.getNickName(), (int) (player.getMoney()/100));
-        }
-        // 프로깽판러
-        for(String nickname : proGangPlayerList){
-            userService.setProGangAmount(nickname);
-        }
+//        for(Player player : playerList){
+//            userService.setRankPoint(player.getNickName(), player.getMoney()/10);
+//        }
+//        // 우승 플레이어 가산점
+//        for(Player player : gameService.getWinners(roomId)){
+//            userService.setRankPoint(player.getNickName(), (int) (player.getMoney()/100));
+//        }
+//        // 프로깽판러
+//        for(String nickname : proGangPlayerList){
+//            userService.setProGangAmount(nickname);
+//        }
 
 
     }

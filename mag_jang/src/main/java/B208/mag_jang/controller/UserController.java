@@ -75,12 +75,12 @@ public class UserController {
         String res = requestToServer(apiURL);
     }
 
-    @GetMapping("/rank")
-    public ResponseEntity<List<User>> getRank() throws IOException {
-        List<User> user = userService.getRank();
-        System.out.println(user);
-        return ResponseEntity.ok().body(user);
-    }
+//    @GetMapping("/rank")
+//    public ResponseEntity<List<User>> getRank() throws IOException {
+//        List<User> user = userService.getRank();
+//        System.out.println(user);
+//        return ResponseEntity.ok().body(user);
+//    }
     /**
      * 서버 통신 메소드
      * @param apiURL
