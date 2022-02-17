@@ -15,7 +15,6 @@
           :stream-manager="this.subscribers[0]"
           :index="0" />
       </div>
-      
       <!-- 테이블 -->
       <div class="row h-30 game-table-el">
         <div v-if="this.$store.state.gamePossible">
@@ -47,12 +46,7 @@
     <div class="col-3">
       <div class="row">
         <div class="game-log">
-          게임로그
-          <input 
-            type="text"
-            v-model="nickName"
-            @keyup.enter="setPlayerName" />
-          {{ nickName }}
+          <GameLog />
         </div>
       </div>
       <div class="row">
@@ -69,11 +63,11 @@ import GameWaiting from '@/components/GameMain/layouts/GameWaiting.vue'
 import GameStartInfo from '@/components/GameMain/layouts/GameStartInfo.vue'
 import JangSaKkun from '@/components/GameMain/modules/JangSaKkun.vue'; 
 import GameChat from '@/components/GameMain/layouts/GameChat.vue'; 
+import GameLog from '@/components/GameMain/layouts/GameLog.vue'; 
 // import GameLogicTest4Abilities from '@/components/GameMain/modules/GameLogicTest4Abilities';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import { mapActions } from 'vuex'
-
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 //const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
@@ -93,10 +87,8 @@ export default {
 			publisher: undefined,
       subscribers: [],
 
-			// mySessionId: this.$route.params.code,
+			mySessionId: this.$route.params.code,
 			myUserName: this.$store.getters.nickName,
-      mySessionId: "25",
-			// myUserName: "gaeun",
     }
   },
   components: {
@@ -104,21 +96,12 @@ export default {
     GameStartInfo,
     JangSaKkun,
 		GameChat,
-		// GameLogicTest4Abilities,
+		GameLog,
   },
-  // props: {
-  //   publisher:{
-  //     type: undefined,
-  //     default: undefined,
-  //   },
-  //   subscribers:{
-  //     type: undefined,
-  //     default: undefined,
-  //   }
-  // },
-  // emits: ['go-to-main'],
+	
   mounted() {
     this.joinSession();
+		this.emitter.on('gameStarted', this.setGamePossibleTrue)
   },
   methods: {
 	setPlayerName(){

@@ -2,14 +2,10 @@
   <div class="ability">
     <Abilities 
       class="badge"
-      v-if="abilitiesArray"
-      :ability="abilitiesArray[0]"
-      :activate="!dealStateCount[abilitiesArray[0]].value" />
+      v-if="abilitiesArray" />
     <Abilities
       class="badge"
-      v-if="abilitiesArray"
-      :ability="abilitiesArray[1]"
-      :activate="!dealStateCount[abilitiesArray[1]].value" />
+      v-if="abilitiesArray" />
   </div>
 </template>
 

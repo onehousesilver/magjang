@@ -8,12 +8,14 @@
     <div class="btns">
       <button
         type="button"
-        class="btn btn-ok btn-success">
+        class="btn btn-ok btn-success"
+        @click="voteTrue">
         체결
       </button>
       <button
         type="button"
-        class="btn btn-nope btn-danger">
+        class="btn btn-nope btn-danger"
+        @click="voteFalse">
         미체결
       </button>
     </div>
@@ -22,7 +24,46 @@
 
 <script>
 export default {
+  data() {
+    return{
 
+    }
+  },
+  mounted() {
+    this.emitter.on('voteTrue', this.VoteTrue)
+    this.emitter.on('voteFalse', this.VoteFalse)
+  },
+  methods: {
+    voteTrue() {
+      console.log("voteTrue");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = {
+          writer: this.writer,
+          message: true,
+          roomId: this.roomId,
+          reader: this.reader,
+        };
+        console.log(msg.message);
+        this.emitter.emit("voteTrue", msg)
+        // 게임 시작 메세지 전송
+        this.stompClient.send("/game/vote", JSON.stringify(msg), {});
+      }
+    },
+    voteFalse() {
+      console.log("voteFalse");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = {
+          writer: this.writer,
+          message: false,
+          roomId: this.roomId,
+          reader: this.reader,
+        };
+        console.log(msg.message);
+        // 게임 시작 메세지 전송
+        this.stompClient.send("/game/vote", JSON.stringify(msg), {});
+      }
+    },
+  }
 }
 </script>
 

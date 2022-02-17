@@ -10,14 +10,14 @@
     </button>
     <!-- player가 host이고 4명 이상일 때 -->
     <button
-      v-if="(host == nickname)&& (userCount >= 4)"
+      v-if="(host == nickName)&&(userCount >= 4)"
       type="button"
       class="btn game-start-btn mj-btn"
       @click="gameStart()">
       게임시작
     </button>
     <button
-      v-else-if="host == nickname"
+      v-else-if="host == nickName"
       type="button"
       class="btn game-start-btn mj-btn disabled">
       게임 인원이 <br />4명 이하입니다.
@@ -46,17 +46,15 @@ export default {
   data() {
     return {
       gameCode: this.$route.params.code,
-      // host: this.players[0],
       host: null,
       players: [],
-      // nickname: this.$store.state.nickname,
-      nickname: '토리',
-      // 유저 명수 받아오는거 //백에서 받아와야 함 
+      nickName: this.$store.state.nickName,
       userCount: 0,
     }
   },
   methods: {
     getPlayerList(playerList){
+      // this.host = playerList[0]
       this.host = playerList[0]
       this.players = playerList
       this.userCount = Object.keys(playerList).length
@@ -66,7 +64,7 @@ export default {
       alert(this.gameCode + '복사되었습니다!')
     },
     gameStart(){
-      if(this.host == this.nickname){ // this.host == this.nickname으로 바꾸기
+      if(this.host == this.nickName){ // this.host == this.nickname으로 바꾸기
         this.emitter.emit('IamHost','IamHost')
       }
       this.changeGamePossible(true)

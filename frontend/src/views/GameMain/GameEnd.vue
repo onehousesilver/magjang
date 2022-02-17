@@ -11,6 +11,12 @@
         type="button"
         class="btn mj-btn-reverse"
         @click=" this.$router.push({ name: 'Home' })">
+        게임로그
+      </button>
+      <button
+        type="button"
+        class="btn mj-btn-reverse"
+        @click=" this.$router.push({ name: 'Home' })">
         메인화면으로
       </button>
       <button

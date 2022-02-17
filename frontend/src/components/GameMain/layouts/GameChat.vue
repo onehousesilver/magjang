@@ -9,7 +9,7 @@
         v-for="(item, idx) in recvList"
         :key="idx">
         <!-- 귓속말 할 때 발신자와 수신자에게 보이는 메세지 -->
-        <div v-if="item.reader == '모두에게'">
+        <div v-if="item.reader == 'i208'">
           {{ item.writer }} 님이 모두에게 :
         </div>
         <!-- player가 입장/퇴장할 때 보이는 알림 -->
@@ -39,9 +39,14 @@
           disabled>
           귓속말을 보낼 장사꾼을 선택하세요.
         </option>
+        <option 
+          :value="'i208'">
+          모두에게
+        </option>
         <option
           v-for="gameplayer in whisperPeople"
-          :key="gameplayer">
+          :key="gameplayer"
+          :value="gameplayer">
           {{ gameplayer }}
         </option>
       </select>
@@ -72,20 +77,24 @@
 <script>
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import { mapActions } from 'vuex'
 
 export default {
   data() {
     return {
       writer: this.$store.getters.nickName,
-      reader: '모두에게',
+      reader: 'i208',
       message: "",
       recvList: [],
       selected: null,
       // 여기에 플레이어 이름을 받아오기
       players: [],
-      roomId: "room1",
+      roomId: this.$route.params.code,
       player: this.player,
-      host: '',   
+      host: '',  
+      
+      // 게임 체결여부 반환 
+      playerResult: '',
     };
   },
   computed: {
@@ -105,7 +114,7 @@ export default {
   },
   mounted() {
     this.emitter.on('IamHost', this.gameStart)
-    
+
   },
   updated() {
     // 새로운 채팅이 입력되면 스크롤 하단으로 update
@@ -113,6 +122,9 @@ export default {
     objDiv.scrollTo({ top: objDiv.scrollHeight, behavior:'smooth'});
   },
   methods: {
+    ...mapActions([
+      "setPlayerJob",
+    ]),
     // 엔터를 눌러 메세지 전송
     sendMessage(e) {
       if (e.keyCode === 13 && this.message !== "" ) {
@@ -135,12 +147,13 @@ export default {
           player: this.player
         };
         // 전체 채팅 전송
-        if (this.reader == '모두에게') {
+        if (this.reader == 'i208') {
           this.stompClient.send("/pub/chat/message", JSON.stringify(msg), {}) }
         // 귓속말 전송
         else { 
           this.player = this.reader
           this.stompClient.send("/pub/chat/whisper", JSON.stringify(msg), {});
+          this.recvList.push(msg);
         }
       }
     },
@@ -172,22 +185,23 @@ export default {
           });
 
           // 누가 입장?
+          // <<< {"roomId":"room1","writer":"sooyong","reader":null,"message":null}
           this.stompClient.subscribe("/sub/chat/enter/" + this.roomId, (res) => {
             var str = JSON.parse(res.body);
-            str['message'] = "입장 하였습니다";
-            str['writer'] = "더미 사용자";
             console.log("enter : ", str);
-            this.recvList.push(str.writer + "가 입장하였습니다");
+            console.log("enter : ", str['writer']);
+            str['message'] = str['writer'] + "님이 입장하셨습니다.";
+            this.recvList.push(str);
           });
 
-          // !!!!!!!!!!!res.body로 변경해야함!!!!!!!!!!!!!!!//
           // 현재 플레이어들의 리스트(첫 번째 플레이어가 호스트)
           this.stompClient.subscribe("/sub/chat/players/" + this.roomId, (res) => {  
             console.log("players : ", res.body);
             // player 받아서 push
             // res.body 초기화 해버리기!!!!!
+            
             var str = JSON.parse(res.body)
-            // const temPl = ['토리','연두', '쌀쫑', '보리']
+            this.players = str
             console.log(str)
             this.emitter.emit('hostNPlayers', str)
           });
@@ -195,9 +209,8 @@ export default {
           this.stompClient.subscribe("/sub/chat/quit/" + this.roomId, (res) => {
             console.log("quit : ", res.body);
             var str = JSON.parse(res.body);
-            str['message'] = "입장 하였습니다";
-            str['writer'] = "더미 사용자";
-            this.recvList.push(str.writer + "가 퇴장하였습니다");
+            str['message'] = str['writer'] + "님이 퇴장하셨습니다.";
+            this.recvList.push(str);
           });
 
 
@@ -207,43 +220,40 @@ export default {
           // 백에서 현재 인원수가 4보다 적다면 null을 반환
           // 다음 메세지로 sub/game/round/{players}를 받음
           this.stompClient.subscribe("/sub/game/start/" + this.roomId, (res) => {
-            console.log("게임 시작 : ", res.body);
+            // console.log("게임 시작 : ", res.body);
             // 1. res.body 확인 후 GameDTO가 잘 왔다면 채팅창 or 게임 로그에 "게임을 시작합니다" 출력
             
             console.log("resbody : " + res.body)
             if(res.body != null){
-              console.log("resbody가 GameDTO")
-              // this.emitter.emit('sendLog');//변수도 포함하여 전송
+              // console.log("resbody가 GameDTO")
+              
               //1. 게임로그에 메세지 띄우라고 emit
+              this.emitter.emit('logGameStart','게임이 시작되었습니다 :) 1등을 향해')
               //2. 게임 화면 구성하는 메서드를 실행해달라고 emit
-            }else{
-              console.log("인원이 부족하다고 알리기")
+              this.emitter.emit('gameStarted');
             }
+            // 안해도 돼
             // 2. null이 왔다면 인원이 부족하다는 알림 출력
             // this.recvList.push(JSON.parse(res.body));
           });
 
 
           // 현재 라운드의 플레이어별 능력을 반환
-          /*
-          res.body : 
-          [{"nickName":"1","money":0,"jobs":["창고","인맥"],"gangAmount":0}
-          ,{"nickName":"2","money":0,"jobs":["정보","로비"],"gangAmount":0}
-          ,{"nickName":"3","money":0,"jobs":["정보","인맥"],"gangAmount":0}
-          ,{"nickName":"4","money":0,"jobs":["정보","창고"],"gangAmount":0}]
-          */
           this.stompClient.subscribe("/sub/game/jobs/" + this.roomId, (res) => {
             console.log("직업 분배 : ", res.body);
             // 1. res.body 확인 후 게임 로그에 "이번 라운드의 능력을 분배합니다" 등 출력
+            this.emitter.emit("logAbilityShow", "플레이어들의 능력을 분배하겠습니다!")
+
             console.log("================== 각 res.body 출력 =================")
-            var str = JSON.parse(res.body);
+            var playerJob = JSON.parse(res.body);
+            this.setPlayerJob(playerJob)
             // console.log("str: " + str);
             // console.log("str[0]: " + str[0]);  // object object
             // console.log("str[1].nickName: " + str[1].nickName);  // null
             // console.log("str[2].jobs: " + str[2].jobs);  // 선박, 로비
             // console.log("str[3].jobs[0]: " + str[3].jobs[0]);  // 인맥
 
-            this.emitter.emit('initJobs', str);
+            this.emitter.emit('initJobs', playerJob);
 
             // 2. 플레이어별 능력 컴포넌트??에 이를 반영
             // this.recvList.push(JSON.parse(res.body));
@@ -253,14 +263,15 @@ export default {
           // 현재 라운드의 순서를 반환. 1라운드 : 랜덤, 2~3라운드 : 소지 금액 순
           this.stompClient.subscribe("/sub/game/order/" + this.roomId, (res) => {
             console.log("순서 결정 : ", res.body);
-            // 1. res.body 확인 후 게임 로그에 "{round} 라운드의 순서입니다. ~~" 등 출력
-            // 2. 백엔드에서 매 턴 Player형객체로 브로커를 보내줍니다 
-            // 형식 : ["3","4","2","1"]
 
             var order = JSON.parse(res.body);
             console.log("첫째 순번 : " + order[0]);
             for (var i = 0; i < order.length; i++) {
               console.log(order[i]);
+              // 1. res.body 확인 후 게임 로그에 "{round} 라운드의 순서입니다. ~~" 등 출력
+              // 2. 백엔드에서 매 턴 Player형객체로 브로커를 보내줍니다 
+              // 형식 : ["3","4","2","1"]
+              this.emitter.emit('logRoundBrokerOrder', i+'번째 브로커는'+order[i]+'님입니다.')
             }
 
             this.recvList.push(JSON.parse(res.body));
@@ -272,7 +283,8 @@ export default {
             console.log("브로커 전달 : ", res.body.nickName);
             // 1. 백엔드에서 매 턴 Player형 객체로 브로커를 보내줍니다 
             // 2. res.body 확인 후 게임 로그에 "이번 턴의 브로커는 {nickname}입니다" 등 출력
-
+            this.emitter.emit('logRoundBroker', '이번 턴의 브로커는 ' + res.body.nickName +'님입니다.')
+            // 이번 라운드 순서는 ~입니다.
             this.recvList.push(JSON.parse(res.body));
           });
 
@@ -296,6 +308,7 @@ export default {
             console.log("필요 능력 : " + deal.chosenJobs);
 
             this.recvList.push(JSON.parse(res.body));
+            // 게임 조건입니다.
           });
 
 
@@ -333,10 +346,12 @@ export default {
           // 플레이어 별 투표현황은 서버에서 집계되고 모든 플레이어가 투표완료시 다음 턴으로 진행
           this.stompClient.subscribe("/sub/game/vote/" + this.roomId, (res) => {
             console.log("한 플레이어 투표 : ", res.body);
-            // 1. res.body에 투표를 완료한 플레이어를 전송 --> 어떤 선택을 했는지는 비밀
-            
+
             var player = JSON.parse(res.body);
             console.log("제안한 금액 : " + player[0]); // 투표한 플레이어 닉네임
+
+            // 1. res.body에 투표를 완료한 플레이어를 전송 --> 어떤 선택을 했는지는 비밀
+            this.emitter.emit('logVoteState', player[0] + '님께서 거래 성사 여부를 결정했습니다.')
 
             this.recvList.push(JSON.parse(res.body));
           });
@@ -347,7 +362,7 @@ export default {
           this.stompClient.subscribe("/sub/game/finalvote/" + this.roomId, (res) => {
             console.log("플레이어 투표 최종 완료 : ", res.body);
             // 투표가 전원완료되면 res.body에 플레이어 별 분배금액을 담아보냄
-            //분배금액은 프론트에서 (본인금액+res.body의 분배금액) 하여 계산된 본인의 가격을 보여주시면됩니다.
+            // 분배금액은 프론트에서 (본인금액+res.body의 분배금액) 하여 계산된 본인의 가격을 보여주시면됩니다.
             // finalvote가 수행되면 다음턴으로 넘어갑니다
 
             var deal = JSON.parse(res.body);
@@ -359,24 +374,37 @@ export default {
             } else {
               console.log("거래 결렬 : " + deal.dealSuccess);
             }
-
+            
+            if (deal.deal.dealSuccess == true){
+              this.playerResult = "체결";
+            } else {
+              this.playerResult = "결렬";
+            }
+            // 게임 로그에 거래 체결 여부 반환
+            this.emitter.emit('logFinalVote', '이번 거래는 '+ this.playerResult +'되었습니다.')
             this.recvList.push(JSON.parse(res.body));
           });
           
           // 해당 라운드의 순위 반환
           this.stompClient.subscribe("/sub/game/rank/" + this.roomId, (res) => {
             console.log("라운드 순위 반환 : ", res.body);
-            //
 
+            // 게임 로그에 현재 순위 반환
             var rank = JSON.parse(res.body);
             console.log("현재 1등! : " + rank[0]);
-            for (var i = 0; i < rank.length; i++) {
+            this.emitter.emit('logRoundWin', '현재 가장 갑부는' + rank[0]+ '입니다.')
+            
+            // 위에서 1등 정의, 나머지 순서 게임 로그에 반환
+            for (var i = 1; i < rank.length; i++) {
               console.log(rank[i]);
+              this.emitter.emit('logRoundRank', '현재 '+ i +'번째 갑부는' + rank[i] + '입니다.')
             }
 
             this.recvList.push(JSON.parse(res.body));
           });
 
+
+          // !!!!!! GameEndPage에 나타낼 것 !!!!!!!! //
           // 최종 순위 반환
           this.stompClient.subscribe("/sub/game/finalrank/" + this.roomId, (res) => {
             console.log("최종 순위 반환 : ", res.body);
@@ -387,11 +415,12 @@ export default {
               console.log(i + 1 + "등의 닉네임 : " + finalrank[i].nickName);
               console.log(i + 1 + "등의 최종 금액 : " + finalrank[i].money);
             }
-
+            this.emitter.emit('logFinalRank', res.body)
             this.recvList.push(JSON.parse(res.body));
           });
 
           // 게임 로그 반환
+          // 부트스트랩 으로 테이블 보여주기
           this.stompClient.subscribe("/sub/game/log/" + this.roomId, (res) => {
             console.log("최종 로그 반환 : ", res.body);
             
@@ -413,11 +442,15 @@ export default {
                   }
                 }
               }
+              // 3차원 로그 리스트 담아줌
+              this.emitter.emit('FinalGameLog', log);
             } else if (log.length > 3) { // 플레이어 리스트 출력
               console.log("플레이어 리스트를 순서대로 반환 : " + log);
               for (var i = 0; i < log.length; i++) {
                 console.log(i + 1 + "번째 플레이어 닉네임 : " + log[i]);
               }
+              // 플레이어 담아줌
+              this.emitter.emit('FinalGamePlayers', log);
             }
 
             this.recvList.push(JSON.parse(res.body));
