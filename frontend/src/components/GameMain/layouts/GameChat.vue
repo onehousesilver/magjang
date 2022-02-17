@@ -13,7 +13,7 @@
         </div>
         <!-- player가 입장/퇴장할 때 보이는 알림 -->
         <div
-          v-else-if="item.reader == null"
+          v-else-if="item.reader == 'enter208'"
           style="color: #ffc107">
           📢 장사꾼 입/퇴장 알림
         </div>
@@ -190,10 +190,10 @@ export default {
     setOrder(order) {
       this.setUserOrder(order);
     },
-    setBrokers(isBroker){
-      console.log("setBrokers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isBroker)
-      this.setBroker(isBroker);
-    },
+    // setBrokers(isBroker){
+    //   console.log("setBrokers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isBroker)
+    //   this.setBroker(isBroker);
+    // },
     setVoters(isVoter){
       this.setVoter(isVoter);
     },
@@ -266,6 +266,7 @@ export default {
             console.log("enter : ", str["writer"]);
             str["message"] = str["writer"] + "님이 입장하셨습니다.";
             this.recvList.push(str);
+            this.reader = 'i208';
           });
 
           // 현재 플레이어들의 리스트(첫 번째 플레이어가 호스트)
@@ -345,12 +346,13 @@ export default {
             var orderString = "";
             console.log("첫째 순번 : " + order[0]);
             orderString += "현재 라운드의 순서는 ";
+            var imoji = ["1️⃣","2️⃣","3️⃣","4️⃣"];
             for (var i = 0; i < order.length; i++) {
               console.log(order[i]);
               // 1. res.body 확인 후 게임 로그에 "{round} 라운드의 순서입니다. ~~" 등 출력
               // 2. 백엔드에서 매 턴 Player형객체로 브로커를 보내줍니다 
               // 형식 : ["3","4","2","1"]
-              this.emitter.emit('logRoundBrokerOrder', i+'번째 브로커는'+order[i]+'님입니다.')
+              this.emitter.emit('logRoundBrokerOrder', imoji[i] + '번째 브로커는 '+order[i]+'님입니다.')
               orderString += order[i];
               if(i!=order.length-1){
                 orderString += " - "
@@ -368,10 +370,10 @@ export default {
             // 2. res.body 확인 후 게임 로그에 "이번 턴의 브로커는 {nickname}입니다" 등 출력
             var broker = JSON.parse(res.body)['nickName']; //res.body['nickName']
             // console.log("브로커 전달 : ", broker);
-            var brokerString = "이번 턴의 브로커는 " + broker + "님입니다.";
+            var brokerString = "💡이번 턴의 브로커는 " + broker + "님입니다.💡";
             this.emitter.emit('logRoundBroker', brokerString);
             if(this.$store.getters.nickName == broker){
-              this.setBrokers(true);
+              this.setBroker(true);
             }
           });
 
@@ -394,7 +396,7 @@ export default {
             
             this.emitter.emit('startTimer', 45);
             this.setDealConditions(deal)
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
             // 게임 조건입니다.
           });
 
@@ -409,7 +411,7 @@ export default {
 
             
 
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
           });
 
           // 브로커의 최종 선택 --> 거래를 원하는 플레이어를 모두 선택후 결정하는 버튼에 연결
@@ -429,11 +431,11 @@ export default {
             console.log("플레이어 최종 선택 deal : " + deal["dealAmount"])
             if(deal == undefined || deal["dealAmount"] == undefined || deal["dealAmount"].length == 0) {
               console.log("제안 실패 : " + deal);
+              this.setBroker(false);
               this.emitter.emit('initFinalChoice', deal.writer + "님이 거래 제안에 실패하셨습니다. 다음 거래로 넘어갑니다.");
-              this.setBrokers(false);
             } else {
               console.log("제안한 금액 : " + deal.dealAmount); // 요건 map처럼 되어 있어서
-              var dealLogString = "이번 거래에 ";//{"1":300,"2":200}
+              var dealLogString = "💸💸💸 이번 거래에 ";//{"1":300,"2":200}
 
               for(var nickName in deal.dealAmount){
                 // console.log(deal.dealAmount[key]);
@@ -446,9 +448,9 @@ export default {
                 dealLogString += deal.dealAmount[nickName] + "만원 ";
               }  
 
-              dealLogString += "으로 참여합니다."
+              dealLogString += "으로 참여합니다.💸💸💸"
               console.log(dealLogString);
-              this.emitter.emit('initFinalChoice', dealLogString);
+              this.emitter.emit('logDealState', dealLogString);
               this.emitter.emit('startTimer', 15);//여기까진 확인
             }
           });
@@ -464,7 +466,7 @@ export default {
             // 1. res.body에 투표를 완료한 플레이어를 전송 --> 어떤 선택을 했는지는 비밀
             this.emitter.emit('logVoteState', player[0] + '님께서 거래 성사 여부를 결정했습니다.')
 
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
           });
 
           // 투표인원이 거래인원과 같아지면 백에서 자동으로 투표를 완료시킵니다.
@@ -482,7 +484,7 @@ export default {
               console.log("거래 결렬 : " + deal.dealSuccess);
             }
 
-            var dealLogString2 = "이번 거래로 ";//{"1":300,"2":200}
+            var dealLogString2 = "❗❗❗ 이번 거래로 ";//{"1":300,"2":200}
 
             for(var nickName in deal.dealAmount){
                 // console.log(deal.dealAmount[key]);
@@ -496,17 +498,20 @@ export default {
                 dealLogString2 += deal.dealAmount[nickName] + "만원 ";
               }  
               
-              dealLogString2 += "챙겨갑니다!"
-
-            this.emitter.emit('logFinalVote',dealLogString2);
+              dealLogString2 += "챙겨갑니다 ❗❗❗"
+            if(deal.dealSuccess == true) {
+              this.emitter.emit('logFinalVote',dealLogString2);
+            } else {
+              this.emitter.emit('logFinalVote',"❌❌ 이번 거래는 체결되지 않았습니다. ❌❌");
+            }
             //store의 보유금액 동기화
 
             //자신의 브로커 boolean을 false로 만듬
-            this.setBrokers(false);
+            this.setBroker(false);
             //투표가 종료되며 voter자격을 false로 만듬
             this.setVoter(false);
             this.setConclusions(true);
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
           });
 
           // 해당 라운드의 순위 반환
@@ -519,13 +524,14 @@ export default {
             console.log("현재 1등! : " + rank[0]);
             this.emitter.emit('logRoundWin', '현재 가장 갑부는' + rank[0]+ '입니다.')
             
+            
             // 위에서 1등 정의, 나머지 순서 게임 로그에 반환
             for (var i = 1; i < rank.length; i++) {
               console.log(rank[i]);
               this.emitter.emit('logRoundRank', '현재 '+ i +'번째 갑부는' + rank[i] + '입니다.')
             }
 
-            this.recvList.push(rank);
+            // this.recvList.push(rank);
           });
 
 
@@ -541,7 +547,7 @@ export default {
               console.log(i + 1 + "등의 최종 금액 : " + finalrank[i].money);
             }
             this.emitter.emit('logFinalRank', res.body)
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
           });
 
           // 게임 로그 반환
@@ -579,13 +585,13 @@ export default {
               this.emitter.emit('FinalGamePlayers', log);
             }
 
-            this.recvList.push(JSON.parse(res.body));
+            // this.recvList.push(JSON.parse(res.body));
           });
 
           // 처음 연결 시 접속 메세지 전송
           this.stompClient.send(
             "/pub/chat/enter",
-            JSON.stringify({ roomId: this.roomId, writer: this.$store.getters.nickName }, {})
+            JSON.stringify({ roomId: this.roomId, writer: this.$store.getters.nickName,reader:'enter208'}, {})
           );
         },
         (error) => {
@@ -617,7 +623,7 @@ export default {
         // player 나가면 빼주기
         this.stompClient.send(
           "/pub/chat/quit",
-          JSON.stringify({ roomId: this.roomId, writer: this.writer }, {})
+          JSON.stringify({ roomId: this.roomId, writer: this.writer, reader: 'enter208'}, {})
         );
         // this.players = this.players.filter(this.player => player != this.writer)
         this.players.splice(this.players.indexOf(this.writer), 1);

@@ -174,7 +174,7 @@ export default createStore({
       const value = pricedata["value"]
       const index = pricedata["index"]
 
-      state.turnPrice += value
+      state.dealPrice += value
       state.userPrice[index] -= value
     },
     SET_USER_NICKNAME(state, userdata) {

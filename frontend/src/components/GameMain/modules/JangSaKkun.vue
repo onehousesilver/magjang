@@ -11,6 +11,7 @@
         :nick-name="nickName"
         @click="selectPriceShow" />
     </div>
+    {{ broker }}
     <div
       v-if="player && broker && gamePossible">
       <TotalPrice />
@@ -72,6 +73,9 @@ export default {
       if (!this.player && this.broker && (this.dealPrice >= 200 || this.selectedUser)) {
         this.selectUser();
       }
+      else {
+        console.log(this.player, this.broker, this.dealPrice, this.selectedUser)
+      }
     },
     selectUser() {
       // console.log("selectUser")
@@ -116,7 +120,8 @@ export default {
     broker(nowValue) {
       console.log("broker 변화 탐지!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:", nowValue)
       if (!nowValue){
-        this.selectUser();
+        // this.selectUser();
+        this.selectedUser = false
         console.log("브로커 해제, 자신 선택 해제")
       }
     },

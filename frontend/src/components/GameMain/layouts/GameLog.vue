@@ -4,6 +4,7 @@
     ref="proList">
     <span class="game-log-title"> 📢게임로그 </span>
     <div
+      class="log-item"
       v-for="(item, idx) in proList"
       :key="idx">
       {{ item }}
@@ -41,6 +42,10 @@ export default {
     // 해당 턴의 브로커 제시하는 로그
     // 이번 턴의 브로커는 '가은'님 입니다.
     this.emitter.on('logRoundBroker', msg => this.pushup(msg))
+
+    //  브로커가 선택한 플레이어
+    //  '이번 거래는 '+ this.playerResult +' 가 참여합니다.'
+    this.emitter.on('logDealState', msg => this.pushup(msg))
 
     // 브로커가 선택한 플레이어의 투표 현황
     // '채은'님께서 거래 성사 여부를 결정했습니다.
@@ -90,6 +95,12 @@ export default {
 
 .game-log-title {
   font-size: 30px;
+  display: block;
+}
+
+.log-item {
+  display: inline-block;
+  margin-top: 10px;
 }
 
 </style>

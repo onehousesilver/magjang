@@ -5,13 +5,12 @@
       <UserPrice />
     </div>
   </div>
-  {{ broker }}
 </template>
 <script>
 // import InputPrice from '@/components/GameMain/modules/InputPrice.vue'
 import GameRule from '@/components/GameMain/layouts/GameRule.vue'
 import UserPrice from '@/components/GameMain/modules/UserPrice.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -23,6 +22,14 @@ export default {
       "gamePossible",
       "broker",
     ])
+  },
+  methods: {
+    ...mapActions([
+      "setBroker",
+    ]),
+    setBrokers() {
+      this.setBroker(!this.broker);
+    }
   }
 }
 </script>

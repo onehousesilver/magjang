@@ -79,9 +79,11 @@ export default {
         this.skipTimer();
         if(this.broker && !this.isDealClicked){
           // emit(pub해줘 -> 시간 초과돼서 거래 제안을 못했다고)
+          console.log("시간 초과, 거래 제안")
           this.emitter.emit('sendConclusion', false);
-        }else if(this.voter && !this.isVoteClicked){
+        }else if(!this.isVoteClicked){
           // emit(pub해줘 -> 시간 초과돼서 투표 거절됐다고)
+          console.log("시간 초과, 투표 거절")
           this.emitter.emit('sendVoteSuccess', true);
         }
         console.log("0초됨");
