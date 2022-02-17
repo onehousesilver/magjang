@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 //@Controller
 @RestController
@@ -36,8 +37,8 @@ public class UserController {
         if (res != null) {
             JSONObject jObj = new JSONObject(res);
             JSONObject response = jObj.getJSONObject("response");
-            String email = response.getString("email");
-            User user = userService.findUserUsingEmail(email);  // null이 아니라면 return, null이라면 하나 생성 후 return
+            String naverId = response.getString("id");
+            User user = userService.findUserUsingNaverId(naverId);  // null이 아니라면 return, null이라면 하나 생성 후 return
 //        deleteToken(access_token);  // 이거 왜 연동 끊어지는 코드지..?
             return ResponseEntity.ok()
                     .body(user);  // String 반환하면 해당하는 html 불러낸다.. 객체 만들어서 쓸것!
@@ -46,11 +47,6 @@ public class UserController {
                     .body(new User());
         }
     }
-
-//    @GetMapping("/test")
-//    public void test(String nickName) throws IOException {
-//        System.out.println(nickName);
-//    }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Map<String, String> requestData) throws IOException {
@@ -79,11 +75,12 @@ public class UserController {
         String res = requestToServer(apiURL);
     }
 
-//    @GetMapping("/account")
-//    public List<User> all() {
-//        return userService.findAll();
+//    @GetMapping("/rank")
+//    public ResponseEntity<List<User>> getRank() throws IOException {
+//        List<User> user = userService.getRank();
+//        System.out.println(user);
+//        return ResponseEntity.ok().body(user);
 //    }
-
     /**
      * 서버 통신 메소드
      * @param apiURL

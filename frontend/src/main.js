@@ -17,5 +17,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import mitt from './mitt/mitt.js'
 
 import VueNumberInput from '@chenfengyuan/vue-number-input';
+// click copy
+import VueClipboard from 'vue-clipboard2'
 
-createApp(App).use(store).use(router).use(BootstrapVue3).use(VueSweetalert2).use(mitt).component(VueNumberInput.name, VueNumberInput).mount('#app')
+createApp(App).use(store).use(router).use(BootstrapVue3).use(VueSweetalert2).use(mitt).use(VueClipboard).component(VueNumberInput.name, VueNumberInput).mount('#app')

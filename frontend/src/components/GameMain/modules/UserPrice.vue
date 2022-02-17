@@ -1,39 +1,41 @@
 <template>
-  <span class="price-box">
-    <b>￦</b>
-    <input
-      class="price"
-      type="text"
-      dir="rtl"
-      placeholder="Price"
-      v-model="price"
-      readonly />
-    <b> 만원</b>
-  </span>
+  <div class="price-box">
+    <span>💰</span>
+    <span
+      class="price">
+      {{ myMoney }}
+    </span>
+    <span> 만원 </span>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
-      price : 5000,
+      // price : this.myMoney,
     };
   },
+  mounted(){
+    // this.price = this.myMoney;
+  },
+  computed: {
+    ...mapGetters(["myMoney"])
+  }
 }
 </script>
 
 <style scoped>
-.price-box {
-    /* border: 1px solid black;*/
-    width: 200px;
-}
 .price-box .price {
     font-size: 2rem;
     color : white;
     border : none;
     background-color: #1f1f1f;
+    margin-left: 100px;
 }
-.price-box b {
+.price-box span {
     font-size: 2rem; 
     color : white;
 }

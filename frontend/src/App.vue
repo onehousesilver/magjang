@@ -11,4 +11,7 @@
   background-color: #1f1f1f;
   font-family: 'Nanum Gothic', sans-serif;
 }
+.modal-backdrop.show {
+    z-index: -1;
+}
 </style>
