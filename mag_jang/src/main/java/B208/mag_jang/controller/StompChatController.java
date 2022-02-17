@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/pub")
+@CrossOrigin
 public class StompChatController {
 
     private final SimpMessagingTemplate template;
@@ -31,15 +33,12 @@ public class StompChatController {
     // "/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
-        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
-        System.out.println(message.getWriter()+ "님이 채팅방에 참여하였습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-        
         // room에 유저아이디를 넣음
         roomMap.addNickname(message.getRoomId(), message.getWriter());
+        template.convertAndSend("/sub/chat/enter/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/players/" + message.getRoomId(), roomMap.getNicknames(message.getRoomId()));
+
     }
-
-
 
 
     @MessageMapping(value = "/chat/message")
@@ -61,11 +60,11 @@ public class StompChatController {
     // "pub/chat/quit"
     @MessageMapping(value = "/chat/quit")
     public void quit(ChatMessageDTO message){
-        message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/quit/" + message.getRoomId(), message);
         
         // room에서 유저아이디 삭제 - ㅇ
         roomMap.removeNickname(message.getRoomId(), message.getWriter());
+        template.convertAndSend("/sub/chat/players/" + message.getRoomId(), roomMap.getNicknames(message.getRoomId()));
     }
 
 }

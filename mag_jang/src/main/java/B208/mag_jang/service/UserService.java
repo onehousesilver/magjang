@@ -4,6 +4,7 @@ import B208.mag_jang.domain.User;
 import B208.mag_jang.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 //@Service
@@ -29,14 +30,14 @@ public class UserService {
                 });
     }
 
-    public User findUserUsingEmail(String email){
-        return userRepository.findByEmail(email)
-                .orElseGet(() -> JoinNewUserWithEmail(email));
+    public User findUserUsingNaverId(String naverId){
+        return userRepository.findByNaverId(naverId)
+                .orElseGet(() -> JoinNewUserWithNaverId(naverId));
     }
 
-    public User JoinNewUserWithEmail(String email){
+    public User JoinNewUserWithNaverId(String naverId){
         User user = new User();
-        user.setEmail(email);
+        user.setNaverId(naverId);
         return join(user);
     }
 
@@ -54,4 +55,26 @@ public class UserService {
         }
     }
 
+    public Optional<User> getUser(String nickname){
+        return userRepository.findByNickName(nickname);
+    }
+
+    public void setRankPoint(String nickname, int value){
+        Optional<User> user = userRepository.findByNickName(nickname);
+        user.ifPresent(u -> u.setRankPoint(u.getRankPoint()+value));
+    }
+
+    public void setWinAmount(String nickname){
+        Optional<User> user = userRepository.findByNickName(nickname);
+        user.ifPresent(u -> u.setWinAmount(u.getWinAmount()+1));
+    }
+
+    public void setProGangAmount(String nickname){
+        Optional<User> user = userRepository.findByNickName(nickname);
+        user.ifPresent(u -> u.setProGangAmount(u.getProGangAmount()+1));
+    }
+
+    public List<User> getRank() {
+        return userRepository.findTop10ByOrderByRankPointDesc();
+    }
 }

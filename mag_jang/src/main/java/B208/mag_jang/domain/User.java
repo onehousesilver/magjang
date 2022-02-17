@@ -1,8 +1,13 @@
 package B208.mag_jang.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -11,7 +16,7 @@ public class User {
     private String nickName;
 
     @Column(columnDefinition = "varchar(255)")
-    private String email;
+    private String naverId;
 
     @Column(columnDefinition = "bigint(20) default 0")
     private Long rankPoint;
@@ -28,8 +33,8 @@ public class User {
     @Column(columnDefinition = "bigint(20)")
     private Long lastGenRoom;
 
-    public User(String email) {
-        this.email = email;
+    public User(String naverId) {
+        this.naverId = naverId;
     }
 
     public User() {
@@ -52,12 +57,12 @@ public class User {
         this.nickName = nickName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNaverId() {
+        return naverId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNaverId(String naverId) {
+        this.naverId = naverId;
     }
 
     public Long getRankPoint() {
@@ -98,5 +103,16 @@ public class User {
 
     public void setLastGenRoom(Long lastGenRoom) {
         this.lastGenRoom = lastGenRoom;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "userId=" + userId +
+                ", nickName='" + nickName + '\'' +
+                ", rankPoint=" + rankPoint +
+                ", winAmount=" + winAmount +
+                ", proGangAmount=" + proGangAmount +
+                '}';
     }
 }

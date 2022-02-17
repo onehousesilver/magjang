@@ -6,6 +6,7 @@ import B208.mag_jang.domain.GameDTO;
 import B208.mag_jang.domain.Player;
 import B208.mag_jang.service.AsyncService;
 import B208.mag_jang.service.GameService;
+import B208.mag_jang.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,31 +22,38 @@ import java.util.List;
 public class GameController {
     private final SimpMessagingTemplate template;
     private final GameService gameService;
+    private final UserService userService;
     private final AsyncService asyncService;
 
     // game시작 시에 room에 있는 유저아이디를 game으로 넘겨주며 roommap 삭제 - ㅇ
     // 프론트 : 메서드 만들어서 처리 "/sub/game/start/{roomId}"
     @MessageMapping(value = "/start")
     public void gameStart(ChatMessageDTO message) throws InterruptedException {
-        gameService.gameStart(message.getWriter(), message.getRoomId());
-        
-        // 1. 게임시작 메세지 전송
-        System.out.println("gameStart : 게임을 시작합니다!");
-        template.convertAndSend("/sub/game/start/" + message.getRoomId(), gameService.getGame(message.getRoomId())); // GameDTO 전송
+
+        if(gameService.gameStart(message.getWriter(), message.getRoomId())){
+            // 1. 게임시작 메세지 전송
+            System.out.println("gameStart : 게임을 시작합니다!");
+            template.convertAndSend("/sub/game/start/" + message.getRoomId(), gameService.getGame(message.getRoomId())); // GameDTO 전송
 
 
-        // 2. 3초 후 능력 생성
-        // AsyncService의 @Async 메서드 호출, callback 등록을 통해 능력 생성
-        asyncService.sleep(message.getRoomId(), 3000).addCallback((result) -> {
-            System.out.println("callback returns : " + result);
-            try {
-                initJobs(result);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }, (e) -> {
-            System.out.println("error");
-        });
+            // 2. 3초 후 능력 생성
+            // AsyncService의 @Async 메서드 호출, callback 등록을 통해 능력 생성
+            asyncService.sleep(message.getRoomId(), 3000).addCallback((result) -> {
+                System.out.println("callback returns : " + result);
+                try {
+                    initJobs(result);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, (e) -> {
+                System.out.println("error");
+            });
+        }else{//게임 인원 부족
+            System.out.println("gameStart Failed : 게임 인원이 부족합니다");
+            template.convertAndSend("/sub/game/start/" + message.getRoomId(), (Object) null);
+        }
+
+
     }
 
     // 플레이어 능력 생성 후 반환
@@ -75,20 +83,42 @@ public class GameController {
         // @Async 메서드 호출, callback 등록을 통해 처리
         asyncService.sleep(roomId, 3000).addCallback((result) -> {
             System.out.println("callback!! : " + result);
-            initDeal(result);
+            try {
+                initDeal(result);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }, (e) -> {
             System.out.println("error");
         });
     }
 
+    public void sendCurrBroker(String roomId){
+        //브로커 주기
+        Player player = gameService.getCurrBroker(roomId);
+//        Player player2 = new Player("김주호");
+        template.convertAndSend("/sub/game/broker/" + roomId, player);
+    }
+
     // 거래 조건 생성
-    public void initDeal(String roomId){
-        System.out.println("initDeal : "+roomId);
-        DealDTO deal = new DealDTO();
-        deal = gameService.initDeal(roomId);
-        System.out.println(deal);
-        System.out.println("/sub/game/dealdeal/" + roomId);
-        template.convertAndSend("/sub/game/dealdeal/" + roomId, deal);
+    public void initDeal(String roomId) throws InterruptedException {
+        sendCurrBroker(roomId);
+
+
+        // @Async 메서드 호출, callback 등록을 통해 처리
+        asyncService.sleep(roomId, 3000).addCallback((result) -> {
+            System.out.println("callback!! : " + result);
+            //3초 기다렸다가 딜 생성
+            System.out.println("initDeal : "+roomId);
+            DealDTO deal = new DealDTO();
+            deal = gameService.initDeal(roomId);
+            System.out.println(deal);
+            System.out.println("/sub/game/deal/" + roomId);
+            template.convertAndSend("/sub/game/deal/" + roomId, deal);
+        }, (e) -> {
+            System.out.println("error");
+        });
+
     }
     
     // 함께 거래할 멤버 리스트를 받아 모두에게 전송 - 금액을 함께 적어서 전송할지 논의 필요
@@ -105,9 +135,13 @@ public class GameController {
 
     @MessageMapping(value = "/finalchoice")
     public void dealMemberChoiceComplete(ChatMessageDTO message) throws InterruptedException {
-        if(message.getMessage().equals("")){
+        System.out.println(message.getMessage());
+        if(message.getMessage().equals("") || message.getMessage() == null){
             // 최종 멤버 결정 실패 시 투표를 건너뛰고 다음 턴으로 진행(마지막 턴이라면 라운드 +1)
             System.out.println("결정 실패");
+            message.setMessage(new ArrayList<>());
+            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), message); // {멤버 : 돈} 전송
+//            template.convertAndSend("/sub/game/finalchoice/" + message.getRoomId(), (Object) ""); // {멤버 : 돈} 전송
             //컨트롤러 메서드 만들기
             startNext(message.getRoomId());
         }else{
@@ -124,6 +158,16 @@ public class GameController {
         System.out.println(message.getWriter() + " 투표 : " + (boolean)message.getMessage());
         DealDTO deal = gameService.getGame(message.getRoomId()).getDeal();
         deal.addVote(message.getWriter(), (boolean)message.getMessage());
+
+        //깽판 횟수 ++
+        if(!(boolean)message.getMessage()){
+            for(Player player : gameService.getGame(message.getRoomId()).getPlayerList()){
+                if(player.getNickName().equals(message.getWriter())){
+                    player.setGangAmount(player.getGangAmount()+1);
+                }
+            }
+        }
+
         List<String> player = new ArrayList<>();
         player.add(message.getWriter());
         template.convertAndSend("/sub/game/vote/" + message.getRoomId(), player); // 이 사람이 투표 완료했어요! - ㅇ
@@ -149,14 +193,37 @@ public class GameController {
                 initDeal(roomId);
             }
         }else{
-            // 최종 순위와 로그 전송(로그 파싱 쉬우면 그냥 로그만 전송)
-            System.out.println("game finished!!!!");
-            template.convertAndSend("/sub/game/finalrank/" + roomId, gameService.initOrderWithMoney(roomId)); // List<Player> 형의 순위 전송
-            template.convertAndSend("/sub/game/log/" + roomId, gameService.getNicknames(roomId)); // List<String> 형의 플레이어 리스트 전송
-            template.convertAndSend("/sub/game/log/" + roomId, gameService.getLog(roomId)); // int[round][turn][playerIndex] 형의 3차원 배열로 전송
+            finishGame(roomId);
         }
     }
 
+    public void finishGame(String roomId){
+        System.out.println("game finished!!!!");
+        // 최종 순위와 로그 전송(로그 파싱 쉬우면 그냥 로그만 전송)
+        List<Player> playerList = gameService.initOrderWithMoney(roomId);
+        template.convertAndSend("/sub/game/finalrank/" + roomId, playerList); // List<Player> 형의 순위 전송
+        template.convertAndSend("/sub/game/log/" + roomId, gameService.getNicknames(roomId)); // List<String> 형의 플레이어 리스트 전송
+        template.convertAndSend("/sub/game/log/" + roomId, gameService.getLog(roomId)); // int[round][turn][playerIndex] 형의 3차원 배열로 전송
+
+//        List<String> proGangPlayerList = gameService.getProGangPlayer(roomId);
+//        template.convertAndSend("/sub/game/winner/" + roomId, gameService.getWinners(roomId)); // 우승자 리스트 전송
+//        template.convertAndSend("/sub/game/progang/" + roomId, proGangPlayerList); // 프로깽판러 리스트 전송
+        
+        // 각 플레이어별 승점 5500 -> 550, 1등 5
+//        for(Player player : playerList){
+//            userService.setRankPoint(player.getNickName(), player.getMoney()/10);
+//        }
+//        // 우승 플레이어 가산점
+//        for(Player player : gameService.getWinners(roomId)){
+//            userService.setRankPoint(player.getNickName(), (int) (player.getMoney()/100));
+//        }
+//        // 프로깽판러
+//        for(String nickname : proGangPlayerList){
+//            userService.setProGangAmount(nickname);
+//        }
+
+
+    }
     // 게임 시작 : 게임 기본 정보를 반환 -initGame을 해서 반환 but 딱히 init할 일이 없다    - ㅇ
     // 3초 뒤, 플레이어 능력을 반환 -initJobs, 세 라운드 동안 출력해야 함              - ㅇ
     // 3초 뒤, 순서를 반환(프론트에서는 채팅창에 이를 출력)                             - ㅇ
@@ -168,11 +235,18 @@ public class GameController {
     // 각 플레이어의 프론트에서 출력, 투표 UI 및 타이머 시작 -> 백에서는 투표 결과를 동기로 기다림 - ㅇ
     // 모든 플레이어가 투표를 완료하거나 시간이 초과되면 요청 - ㅇ
     // 시간이 초과되면 투표 거절로 인식하여 최종 결과를 전송 - ㅇ
-    // 턴++
-    // 턴이 사람 수 만큼 진행된다면 라운드 ++ 및 턴 = 1, 순위 반환
-    // 이후부터는 2번째 줄부터 다시 진행
+    // 턴++ - ㅇ
+    // 턴이 사람 수 만큼 진행된다면 라운드 ++ 및 턴 = 1, 순위 반환 - ㅇ
+    // 이후부터는 2번째 줄부터 다시 진행 - ㅇ
     // ...
-    // 마지막 라운드의 마지막 턴이 끝나면 최종 순위 반환
+    // 마지막 라운드의 마지막 턴이 끝나면 최종 순위 반환 - ㅇ
     // 이때 각 플레이어별 점수, 업적 등의 정보를 DB에서 최신화하여 전송
+    
+    
+    // + 네이버 로그인 합치기
+    // + 게임 종료 or 다시 시작 -> 게임 종료 시 gameMap에서 gameDTO 삭제, roomMap에 room 생성(게임 준비 상태로)
 
+    // 상위 랭킹 확인, 유저 정보 반환 부분
+//        System.out.println(userService.getRank());
+//        System.out.println(userService.getUser("김주호"));
 }

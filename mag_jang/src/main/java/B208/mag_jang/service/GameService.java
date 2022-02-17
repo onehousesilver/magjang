@@ -22,7 +22,12 @@ public class GameService {
 
     // GameDTO 생성 후 GameMap<String roomId, GameDTO gameDTO>에 연결 - ㅇ
     // roomMap의 key 삭제 - ㅇ
-    public void gameStart(String writer, String roomId) {
+    public boolean gameStart(String writer, String roomId) {
+        if(roomMap.getNicknames(roomId).size() < 4){
+            return false;
+        }
+        System.out.println(roomMap.getNicknames(roomId));
+        gameMap.setNewGame(roomId);
         for(String player : roomMap.getNicknames(roomId)){
             gameMap.addPlayer(roomId, player);
         }
@@ -32,6 +37,7 @@ public class GameService {
         if(gameMap.getGame(roomId) != null){
             roomMap.removeChatRoomDTO(roomId);
         }
+        return true;
     }
     public List<Player> getNextJobs(String roomId){
         String[][] jobs = new String[gameMap.getGame(roomId).getPlayerListSize()][2];
@@ -81,7 +87,7 @@ public class GameService {
     public GameDTO getGame(String roomId) {
         return gameMap.getGame(roomId);
     }
-    
+
     // 첫 라운드 첫 턴에만 랜덤으로 Player 리스트를 반환
     // 이후에는 플레이어 돈의 내림차순으로 반환
     // -> 순위 발표 및 다음 라운드 순서 결정 시 활용
@@ -189,6 +195,10 @@ public class GameService {
             tempList.remove(tempList.get(index));
         }
 
+        if(n==2 && retList.contains(broker.getJobs()[0]) && retList.contains(broker.getJobs()[1])){
+            return choiceJobs(broker, n, currJobs);
+        }
+
         return retList;
     }
 
@@ -237,10 +247,47 @@ public class GameService {
 
         for(int i = 0; i < game.getPlayerListSize(); i++){
             Player player = game.getPlayerList().get(i);
-            if(game.getDealAmount().containsKey(player.getNickName())){
+            if(game.getDealAmount().containsKey(player.getNickName()) && game.getRound() < 4){
                 game.getGameLog()[game.getRound()-1][game.getTurn()-1][i] = game.getDealAmount().get(player.getNickName());
             }
         }
 
+    }
+
+    public List<String> getProGangPlayer(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        int max = 0;
+        List<String> proGangList = new ArrayList<>();
+        for(Player player : game.getPlayerList()){
+            if(player.getGangAmount() == max && max > 0){
+                proGangList.add(player.getNickName());
+            }else if(player.getGangAmount() > max){
+                max = player.getGangAmount();
+                proGangList.clear();
+                proGangList.add(player.getNickName());
+            }
+        }
+        return proGangList;
+    }
+
+    public List<Player> getWinners(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        List<Player> winnerList = new ArrayList<>();
+        int max = 0;
+        for(Player player : game.getPlayerList()){
+            if(player.getMoney() == max && max > 0){
+                winnerList.add(player);
+            }else if(player.getMoney() > max){
+                max = player.getMoney();
+                winnerList.clear();
+                winnerList.add(player);
+            }
+        }
+        return winnerList;
+    }
+
+    public Player getCurrBroker(String roomId) {
+        GameDTO game = gameMap.getGame(roomId);
+        return new Player(game.getOrder().get(game.getTurn()-1).getNickName());
     }
 }

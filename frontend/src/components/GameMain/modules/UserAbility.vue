@@ -1,29 +1,50 @@
 <template>
   <div
     class="ability"
-    v-bind="getAbilities()">
-    <span class="badge bg-secondary">
-      {{ abilities[0] }}
-    </span>
-    <span class="badge bg-secondary">
-      {{ abilities[1] }}
-    </span>
+    v-if="abilitiesArray">
+    <Abilities 
+      class="badge"
+      v-if="abilitiesArray"
+      :ability="abilitiesArray[0]"
+      :activate="!dealStateCount[abilitiesArray[0]]" />
+    <Abilities
+      class="badge"
+      v-if="abilitiesArray"
+      :ability="abilitiesArray[1]"
+      :activate="!dealStateCount[abilitiesArray[1]]" />
   </div>
 </template>
 
 <script>
-import _ from 'lodash'
+import Abilities from '@/components/GameMain/modules/Abilities.vue'
+import {mapGetters} from 'vuex'
 
 export default {
-  data: function() {
+  components: {
+    Abilities,
+  },
+  data() {
     return {
-      abilities: [],
+
     }
   },
+  props: {
+    nickName: {
+      type: String,
+      default: "MagJang"
+    },
+	},
   methods: {
-    getAbilities: function() {
-      const abilityList = ['창고','인맥','언변','정보','로비','선박',]
-      this.abilities = _.sampleSize(abilityList, 2)
+    
+  },
+  computed: {
+    ...mapGetters([
+      'dealStateCount',
+      "findMyJob",
+    ]),
+    abilitiesArray() {
+      // console.log(this.findMyJob(this.nickName))
+      return this.findMyJob(this.nickName)
     }
   }
 }
@@ -32,17 +53,6 @@ export default {
 <style scoped>
 .ability {
   display : flex;
-  text-align: center;
-  bottom: -3rem;
-  width: 100%;
 }
 
-.ability .badge {
-  margin: 0.5rem;
-  top: 30px;
-  justify-content: center;
-  display: inline-block;
-  width: 45%;
-  font-size: 30px;
-}
 </style> 
