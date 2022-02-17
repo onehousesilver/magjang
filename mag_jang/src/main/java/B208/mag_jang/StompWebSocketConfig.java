@@ -13,7 +13,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // WebSocket 또는 SockJS Client가 웹소켓 핸드셰이크 커넥션을 생성할 경로 지정
-        registry.addEndpoint("/stomp/chat").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/stomp/chat").setAllowedOriginPatterns("*").withSockJS();
 //        registry.addEndpoint("/").setAllowedOrigins("*").withSockJS();
     }
 
