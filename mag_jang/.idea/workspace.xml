@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="baa82347-3eca-4163-9b7c-a89d22a24f35" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +133,7 @@
       <workItem from="1644372823438" duration="539000" />
       <workItem from="1644556012591" duration="988000" />
       <workItem from="1644749839771" duration="2673000" />
+      <workItem from="1645152079206" duration="174000" />
     </task>
     <servers />
   </component>
