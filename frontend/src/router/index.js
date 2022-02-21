@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "@/views/Main/Home.vue";
 import NaverCallback from "@/views/Main/NaverCallback.vue";
+import KakaoCallback from "@/views/Main/KakaoCallback.vue";
 import GameView from "@/views/GameMain/GameView.vue";
 import GameEnd from "@/views/GameMain/GameEnd.vue";
 import NotFound from '@/views/Main/NotFound.vue';
@@ -15,6 +16,12 @@ const routes = [
     path: '/navercallback',
     name: 'NaverCallback',
     component: NaverCallback
+  },
+  {
+    path: '/kakaocallback/',
+    name: 'kakaoCallback',
+    component: KakaoCallback,
+    props: true,
   },
   {
     path: '/game',

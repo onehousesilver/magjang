@@ -5,7 +5,8 @@ export default createStore({
     userId: null, // DB에서 유저 키값
     nickName: null,
     rankPoint: null,
-    naverId: null,
+    // naverId: null,
+    kakaoId: null,
     winAmount: null,
     gangAmount: null,
     proGangAmount: null,
@@ -68,7 +69,7 @@ export default createStore({
     isDealClicked: state => state.isDealClicked,
 
     isLogined: function (state) {
-      return state.userId && state.naverId;
+      return state.userId && state.kakaoId;
     },
 
     isDealPossible(state) { // 여기에 현재 선택된 인원 제한도 걸어두기
@@ -92,7 +93,8 @@ export default createStore({
       state.userId = userdata["userId"];
       state.nickName = userdata["nickName"];
       state.rankPoint = userdata["rankPoint"];
-      state.naverId = userdata["naverId"];
+      // state.naverId = userdata["naverId"];
+      state.kakaoId = userdata["kakaoId"];
       state.winAmount = userdata["winAmount"];
       state.gangAmount = userdata["gangAmount"];
       state.proGangAmount = userdata["proGangAmount"];

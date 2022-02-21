@@ -3,22 +3,25 @@
     <IsNickname />
   </div>
   <div v-else>
-    <NaverLogInBtn />
+    <!-- <NaverLogInBtn /> -->
+    <KakaoLoginBtn />
   </div>
   <!-- <testButton /> -->
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
-import NaverLogInBtn from '@/components/Main/modules/NaverLogInBtn.vue'
+// import NaverLogInBtn from '@/components/Main/modules/NaverLogInBtn.vue'
+import KakaoLoginBtn from '@/components/Main/modules/KakaoLoginBtn.vue'
 import IsNickname from '@/components/Main/layouts/IsNickname.vue'
 // import testButton from '@/components/Main/modules/testButton.vue'
 
 export default {
   components: {
-    NaverLogInBtn,
+    // NaverLogInBtn,
     IsNickname,
     // testButton,
+    KakaoLoginBtn,
   },
   computed: {
     ...mapGetters([

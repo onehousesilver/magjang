@@ -6,7 +6,7 @@ module.exports = {
     // contentBase: path.join(__dirname, ''), // 설정하면 url(/src/assets") 경로 사용 가능 
     
     // Vue3 관련 설정 파일
-    https: true,
+    https: false,
     port: 443,
     open: true,
     proxy: {
