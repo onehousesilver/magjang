@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="baa82347-3eca-4163-9b7c-a89d22a24f35" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Main/layouts/IsLogined.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Main/layouts/IsLogined.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/B208/mag_jang/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/B208/mag_jang/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/B208/mag_jang/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/B208/mag_jang/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/B208/mag_jang/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/B208/mag_jang/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/B208/mag_jang/repository/SpringDataJpaUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/B208/mag_jang/repository/SpringDataJpaUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/B208/mag_jang/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/B208/mag_jang/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/B208/mag_jang/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/B208/mag_jang/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,12 +81,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="MTConfigurable" />
   </component>
-  <component name="RunManager" selected="Gradle.mag_jang [bootJar]">
+  <component name="RunManager" selected="Spring Boot.MagJangApplication">
     <configuration name="mag_jang [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -115,6 +133,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="MagJangApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="mag_jang.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="B208.mag_jang.MagJangApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.mag_jang [bootJar]" />
@@ -134,6 +159,7 @@
       <workItem from="1644556012591" duration="988000" />
       <workItem from="1644749839771" duration="2673000" />
       <workItem from="1645152079206" duration="174000" />
+      <workItem from="1645454310554" duration="7216000" />
     </task>
     <servers />
   </component>

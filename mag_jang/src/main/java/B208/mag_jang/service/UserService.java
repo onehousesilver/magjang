@@ -30,14 +30,25 @@ public class UserService {
                 });
     }
 
-    public User findUserUsingNaverId(String naverId){
-        return userRepository.findByNaverId(naverId)
-                .orElseGet(() -> JoinNewUserWithNaverId(naverId));
+//    public User findUserUsingNaverId(String naverId){
+//        return userRepository.findByNaverId(naverId)
+//                .orElseGet(() -> JoinNewUserWithNaverId(naverId));
+//    }
+
+    public User findUserUsingKakaoId(Integer kakaoId){
+        return userRepository.findByKakaoId(kakaoId)
+                .orElseGet(() -> JoinNewUserWithKakaoId(kakaoId));
     }
 
-    public User JoinNewUserWithNaverId(String naverId){
+//    public User JoinNewUserWithNaverId(String naverId){
+//        User user = new User();
+//        user.setNaverId(naverId);
+//        return join(user);
+//    }
+
+    public User JoinNewUserWithKakaoId(Integer kakaoId){
         User user = new User();
-        user.setNaverId(naverId);
+        user.setKakaoId(kakaoId);
         return join(user);
     }
 

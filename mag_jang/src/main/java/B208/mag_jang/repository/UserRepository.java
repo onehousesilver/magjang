@@ -9,6 +9,7 @@ public interface UserRepository {
     User save(User user);
     Optional<User> findById(Long id);
     Optional<User> findByNickName(String NickName);
-    Optional<User> findByNaverId(String naverId);
+//    Optional<User> findByNaverId(String naverId);
+    Optional<User> findByKakaoId(Integer kakaoId);
     List<User> findTop10ByOrderByRankPointDesc();
 }

@@ -18,6 +18,9 @@ public class User {
     @Column(columnDefinition = "varchar(255)")
     private String naverId;
 
+    @Column(columnDefinition = "varchar(255)")
+    private Integer kakaoId;
+
     @Column(columnDefinition = "bigint(20) default 0")
     private Long rankPoint;
 
@@ -103,6 +106,14 @@ public class User {
 
     public void setLastGenRoom(Long lastGenRoom) {
         this.lastGenRoom = lastGenRoom;
+    }
+
+    public Integer getKakaoId() {
+        return kakaoId;
+    }
+
+    public void setKakaoId(Integer kakaoId) {
+        this.kakaoId = kakaoId;
     }
 
     @Override

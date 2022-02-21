@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface SpringDataJpaUserRepository extends JpaRepository<User, Long>, UserRepository {
     @Override
     Optional<User> findByNickName(String NickName);
-    Optional<User> findByNaverId(String naverId);
+//    Optional<User> findByNaverId(String naverId);
+    Optional<User> findByKakaoId(Integer kakaoId);
     List<User> findTop10ByOrderByRankPointDesc();
 }
