@@ -19,13 +19,15 @@
 
 실제 보드게임을 기반으로 비대면 환경에 맞는 게임을 제작하여 서비스하고자 함
 
->  게임 규칙 - [~~초기 룰북~~](README.assets/막나가는_장사꾼_룰북.md), [최종 룰북]()
+>  게임 규칙 - [~~초기 룰북~~](막나가는_장사꾼_룰북.md)
+>
+>  ![최종 룰북](README.assets\최종_룰북.jpg)
 
 
 
 ### 기술 스택
 
-![서비스_아키텍처.png](README.assets/서비스_아키텍처.png)
+![서비스_아키텍처.png](C:\SSAFY\workspace\2학기\01_공통_프로젝트\clone\막장-프로젝트\README\김수용\img\서비스_아키텍처.png)
 
 - SpringBoot
   - 자바 기반 웹 어플리케이션을 위한 프레임워크 Spring을 자동화
@@ -58,21 +60,23 @@
 ### 프로젝트 구조(백엔드)
 
 - 서버
+
   - Controller - 프론트로부터 요청을 받는 웹 MVC의 컨트롤러
     - UserController, StompChatController, GameController
   - Service - 핵심 비즈니스 로직을 실제 수행
-  
+
     - UserService, GameService, AsyncService
   - Repository - DB, DTO 등에 직접 접근하며 데이터 작업을 수행
-  
+
     - UserRepository, RoomMap, GameMap
   - Domain, DTO - 서비스 관련 데이터를 담고 전달되는 객체
-  
+
     - User, Player, ChatMessageDTO, ChatRoomDTO, GameDTO, DealDTO
+
   
-  
-  
+
 - DB
+
   - 프로젝트 특성 등을 고려해 DB에 저장할 정보는 User 테이블 하나로 설계
   - User 테이블
     - userId : 회원번호
@@ -87,7 +91,7 @@
 
 ### 깃 브랜치 전략
 
->  ![01_깃_컨벤션.jpg](README.assets/01_깃_컨벤션.jpg)
+>  ![01_깃_컨벤션.jpg](C:\SSAFY\workspace\2학기\01_공통_프로젝트\clone\막장-프로젝트\README\김수용\img\01_깃_컨벤션.jpg)
 
 - develop > release > master로 이어지는 병합 요청은 항상 책임자와 함께 처리
 - front-end와 back-end 브랜치 각각 기능별로 새 브랜치를 체크아웃하여 분업하는 방식 활용
@@ -119,7 +123,7 @@
 
 ### 고찰
 
-설계/코드/소감
+[세부사항](../README/김수용/막나가는_장사꾼_백엔드_최종정리_고찰.md)
 
 - 설계
   - 프로젝트 기간 예측 실패
