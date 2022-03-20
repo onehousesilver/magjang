@@ -27,7 +27,7 @@
 
 ### 기술 스택
 
-![서비스_아키텍처.png](C:\SSAFY\workspace\2학기\01_공통_프로젝트\clone\막장-프로젝트\README\김수용\img\서비스_아키텍처.png)
+![서비스_아키텍처.png](README.assets/서비스_아키텍처.png)
 
 - SpringBoot
   - 자바 기반 웹 어플리케이션을 위한 프레임워크 Spring을 자동화
@@ -91,7 +91,7 @@
 
 ### 깃 브랜치 전략
 
->  ![01_깃_컨벤션.jpg](C:\SSAFY\workspace\2학기\01_공통_프로젝트\clone\막장-프로젝트\README\김수용\img\01_깃_컨벤션.jpg)
+>  ![01_깃_컨벤션.jpg](README.assets/01_깃_컨벤션.jpg)
 
 - develop > release > master로 이어지는 병합 요청은 항상 책임자와 함께 처리
 - front-end와 back-end 브랜치 각각 기능별로 새 브랜치를 체크아웃하여 분업하는 방식 활용
