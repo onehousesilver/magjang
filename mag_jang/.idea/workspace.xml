@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="baa82347-3eca-4163-9b7c-a89d22a24f35" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/GameMain/layouts/GameStartInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.assets/image-20220217215747705.png" beforeDir="false" afterPath="$PROJECT_DIR$/../README.assets/image-20220217215747705.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README/김수용/막나가는_장사꾼_룰북.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README/김수용/막나가는_장사꾼_룰북.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
